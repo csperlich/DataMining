@@ -13,7 +13,7 @@ public class BinaryDTree {
 		dTree.buildTree();
 		System.out.println(dTree.trainingError());
 		System.out.println(dTree.checkForDuplicateRecords());
-		reader.writeData("out1", dTree.getRecords());
+		reader.writeData("output/out1", dTree.getRecords());
 		// dTree.printData();
 		// dTree.printTree();
 
