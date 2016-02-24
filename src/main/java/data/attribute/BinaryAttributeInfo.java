@@ -8,7 +8,7 @@ public class BinaryAttributeInfo extends AttributeInfo<String> {
 
 	public BinaryAttributeInfo(AttributeType attributeType, int columnNumber, List<Object> discreteValues,
 			FeatureStrategy featureStrategy) {
-		super(attributeType, columnNumber, discreteValues, featureStrategy);
+		super(attributeType, columnNumber, "" + columnNumber, discreteValues, featureStrategy);
 	}
 
 	@Override

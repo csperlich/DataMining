@@ -14,41 +14,18 @@ public abstract class AttributeInfo<T> {
 	private List<Object> discreteValues;
 	protected FeatureStrategy featureStrategy;
 
-	public AttributeInfo(AttributeType attributeType, int columnNumber, List<Object> discreteValues,
+	public AttributeInfo(AttributeType attributeType, int columnNumber, String columnName, List<Object> discreteValues,
 			FeatureStrategy featureStrategy) {
 		this.attributeType = attributeType;
 		this.columnNumber = columnNumber;
-		this.columnName = "" + columnNumber;
+		this.columnName = columnName;
 		this.discreteValues = discreteValues;
 		this.features = new ArrayList<>();
 		this.featureStrategy = featureStrategy;
 		this.addNonContinuousFeatures();
 	}
 
-	protected abstract void addNonContinuousFeatures();/*
-														 * {
-														 *
-														 * switch
-														 * (this.attributeType)
-														 * { case BINARY:
-														 * this.features.addAll(
-														 * this.featureStrategy.
-														 * getBinaryFeatures(
-														 * this)); break; case
-														 * NOMINAL:
-														 * this.features.addAll(
-														 * this.featureStrategy.
-														 * getNominalFeatures(
-														 * this)); break; case
-														 * ORDINAL:
-														 * this.features.addAll(
-														 * this.featureStrategy.
-														 * getOrdinalFeatures(
-														 * this)); break;
-														 * default: break; }
-														 *
-														 * }
-														 */
+	protected abstract void addNonContinuousFeatures();
 
 	public String getColumnName() {
 		return this.columnName;

@@ -26,7 +26,11 @@ public class Feature<T> {
 		this.predicates = predicates;
 		this.attributeInfo = attributeInfo;
 		this.representation = representation;
-		;
+
+	}
+
+	public AttributeInfo<T> getAttributeInfo() {
+		return this.attributeInfo;
 	}
 
 	private String getRepresentation() {
@@ -44,6 +48,9 @@ public class Feature<T> {
 		List<List<Record>> newPartitioning = new ArrayList<>();
 
 		for (Predicate<T> predicate : this.predicates) {
+			if (records.isEmpty()) {
+				break;
+			}
 			Map<Boolean, List<Record>> partitions = records.parallelStream().collect(Collectors.partitioningBy(
 					record -> predicate.test((T) record.getAttribute(this.attributeInfo.getColumnNumber()))));
 
@@ -55,6 +62,8 @@ public class Feature<T> {
 				List<Record> falsePartition = partitions.get(false);
 				if (falsePartition != null && !falsePartition.isEmpty()) {
 					records = falsePartition;
+				} else {
+					records = new ArrayList<>();
 				}
 			}
 		}

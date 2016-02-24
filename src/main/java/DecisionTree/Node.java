@@ -6,13 +6,12 @@ import java.util.List;
 import data.feature.Feature;
 
 public class Node {
-	private List<Node> children;
+	private List<Node> children = new ArrayList<>();
 	private Feature<?> feature;
 	private String label;
 	private boolean isLeaf;
 
 	private Node(Feature<?> feature) {
-		this.children = new ArrayList<>();
 		this.feature = feature;
 	}
 
@@ -47,5 +46,15 @@ public class Node {
 
 	public String getLabel() {
 		return this.label;
+	}
+
+	public List<Node> getChildren() {
+		return this.children;
+	}
+
+	@Override
+	public String toString() {
+		return "Node [numChildren=" + this.children.size() + ", feature=" + this.feature + ", label=" + this.label
+				+ ", isLeaf=" + this.isLeaf;
 	}
 }
