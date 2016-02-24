@@ -1,4 +1,4 @@
-package data;
+package data.feature;
 
 public class DefaultFeautureStrategy implements FeatureStrategy {
 }

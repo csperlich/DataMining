@@ -4,8 +4,8 @@ import org.javatuples.Pair;
 
 import java.util.List;
 
-import data.AttributeInfo;
-import data.Record;
+import data.attribute.AttributeInfo;
+import data.record.Record;
 
 public class DecisionTree {
 	private AttributeInfo[] attributeInfos;

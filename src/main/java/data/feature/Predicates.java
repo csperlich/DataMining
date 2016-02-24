@@ -1,4 +1,4 @@
-package data;
+package data.feature;
 
 import java.util.function.Predicate;
 

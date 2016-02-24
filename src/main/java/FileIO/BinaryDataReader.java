@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import data.AttributeInfo;
-import data.AttributeType;
-import data.BinaryAttributeInfo;
-import data.DefaultFeautureStrategy;
-import data.Record;
+import data.attribute.AttributeInfo;
+import data.attribute.AttributeType;
+import data.attribute.BinaryAttributeInfo;
+import data.feature.DefaultFeautureStrategy;
+import data.record.Record;
 
 public class BinaryDataReader extends DecisionTreeDataReader {
 

@@ -1,14 +1,16 @@
-package data;
+package data.feature;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface FeatureStrategy {
-	default List<Feature<String>> getBinaryFeatures(AttributeInfo<?> attributeInfo) {
-		String representation = attributeInfo.getColumnName() + ": is " + attributeInfo.getDiscreteValues(0);
+import data.attribute.AttributeInfo;
+import data.attribute.BinaryAttributeInfo;
 
-		Feature<String> feature = Feature.createFeature(representation, attributeInfo.getColumnNumber(),
-				Predicates.is((String) attributeInfo.getDiscreteValues(0)));
+public interface FeatureStrategy {
+	default List<Feature<String>> getBinaryFeatures(BinaryAttributeInfo attributeInfo) {
+		String representation = " is " + attributeInfo.getDiscreteValues(0);
+		Feature<String> feature = Feature.createFeature(Predicates.is((String) attributeInfo.getDiscreteValues(0)),
+				attributeInfo, representation);
 		List<Feature<String>> features = new ArrayList<>();
 		features.add(feature);
 		return features;

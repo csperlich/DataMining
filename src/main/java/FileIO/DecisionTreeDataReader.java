@@ -7,9 +7,9 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-import data.AttributeInfo;
-import data.FeatureStrategy;
-import data.Record;
+import data.attribute.AttributeInfo;
+import data.feature.FeatureStrategy;
+import data.record.Record;
 
 public abstract class DecisionTreeDataReader {
 

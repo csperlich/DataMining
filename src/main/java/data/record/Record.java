@@ -1,16 +1,17 @@
-package data;
+package data.record;
 
 import java.util.Arrays;
 
 public class Record {
 	private Object[] attributes;
 	private String label;
-	private int size;
+	private int recordNumber;
+	private static int totalRecords = 0;
 
 	public Record(String label, Object... attributes) {
 		this.attributes = attributes;
 		this.label = label;
-		this.size = attributes.length;
+		this.recordNumber = ++totalRecords;
 	}
 
 	public Object getAttribute(int index) {
@@ -18,7 +19,7 @@ public class Record {
 	}
 
 	public int getSize() {
-		return this.size;
+		return this.attributes.length;
 	}
 
 	public String getLabel() {
@@ -27,7 +28,8 @@ public class Record {
 
 	@Override
 	public String toString() {
-		return "Record [attributes=" + Arrays.toString(this.attributes) + ", label=" + this.label + ", size="
-				+ this.size + "]";
+		return "Record [attributes=" + Arrays.toString(this.attributes) + ", label=" + this.label + ", recordNumber="
+				+ this.recordNumber + "]";
 	}
+
 }

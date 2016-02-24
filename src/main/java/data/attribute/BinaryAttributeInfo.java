@@ -1,6 +1,8 @@
-package data;
+package data.attribute;
 
 import java.util.List;
+
+import data.feature.FeatureStrategy;
 
 public class BinaryAttributeInfo extends AttributeInfo<String> {
 

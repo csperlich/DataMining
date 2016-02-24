@@ -3,9 +3,9 @@ package app;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import data.AttributeInfo;
-import data.Feature;
-import data.Record;
+import data.attribute.AttributeInfo;
+import data.feature.Feature;
+import data.record.Record;
 import decisiontree.DecisionTree;
 import fileio.BinaryDataReader;
 

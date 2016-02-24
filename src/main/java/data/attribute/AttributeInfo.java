@@ -1,7 +1,10 @@
-package data;
+package data.attribute;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import data.feature.Feature;
+import data.feature.FeatureStrategy;
 
 public abstract class AttributeInfo<T> {
 	private AttributeType attributeType;

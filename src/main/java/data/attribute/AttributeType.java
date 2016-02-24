@@ -1,4 +1,4 @@
-package data;
+package data.attribute;
 
 public enum AttributeType {
 	BINARY, NOMINAL, ORDINAL, CONTINOUS

@@ -1,4 +1,4 @@
-package data;
+package data.feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,26 +6,36 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import data.attribute.AttributeInfo;
+import data.record.Record;
+
 public class Feature<T> {
 	private List<Predicate<T>> predicates;
 	private String representation;
-	private int columnNumber;
+	private AttributeInfo<T> attributeInfo;
 
-	private Feature(Predicate<T> predicate, String representation, int columnNumber) {
+	private Feature(Predicate<T> predicate, AttributeInfo<T> attributeInfo, String representation) {
 		this.predicates = new ArrayList<>();
 		this.predicates.add(predicate);
+		this.attributeInfo = attributeInfo;
 		this.representation = representation;
-		this.columnNumber = columnNumber;
+
 	}
 
-	private Feature(List<Predicate<T>> predicates, String representation, int columnNumber) {
+	private Feature(List<Predicate<T>> predicates, AttributeInfo<T> attributeInfo, String representation) {
 		this.predicates = predicates;
+		this.attributeInfo = attributeInfo;
 		this.representation = representation;
-		this.columnNumber = columnNumber;
+		;
 	}
 
-	public static <T> Feature<T> createFeature(String representation, int columnNumber, Predicate<T> predicate) {
-		Feature<T> newFeature = new Feature<T>(predicate, representation, columnNumber);
+	private String getRepresentation() {
+		return "Column:" + this.attributeInfo.getColumnName() + " " + this.representation;
+	}
+
+	public static <T> Feature<T> createFeature(Predicate<T> predicate, AttributeInfo<T> attributeInfo,
+			String representation) {
+		Feature<T> newFeature = new Feature<T>(predicate, attributeInfo, representation);
 		return newFeature;
 	}
 
@@ -34,8 +44,8 @@ public class Feature<T> {
 		List<List<Record>> newPartitioning = new ArrayList<>();
 
 		for (Predicate<T> predicate : this.predicates) {
-			Map<Boolean, List<Record>> partitions = records.parallelStream().collect(
-					Collectors.partitioningBy(record -> predicate.test((T) record.getAttribute(this.columnNumber))));
+			Map<Boolean, List<Record>> partitions = records.parallelStream().collect(Collectors.partitioningBy(
+					record -> predicate.test((T) record.getAttribute(this.attributeInfo.getColumnNumber()))));
 
 			List<Record> truePartition = partitions.get(true);
 
@@ -56,6 +66,6 @@ public class Feature<T> {
 
 	@Override
 	public String toString() {
-		return this.representation;
+		return this.getRepresentation();
 	}
 }
