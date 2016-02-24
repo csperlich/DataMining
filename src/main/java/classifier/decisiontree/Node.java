@@ -1,4 +1,4 @@
-package decisiontree;
+package classifier.decisiontree;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,17 +13,17 @@ import data.attribute.BinaryAttributeInfo;
 import data.feature.DefaultFeautureStrategy;
 import data.record.Record;
 
-public class BinaryDataReader extends DecisionTreeDataReader {
+public class BinaryRecordIO extends RecordIO {
 
 	private int numAttributes;
 
-	public BinaryDataReader(String fileName, int numAttributes) throws FileNotFoundException {
-		super(fileName, new DefaultFeautureStrategy());
+	public BinaryRecordIO(int numAttributes) throws FileNotFoundException {
+		super(new DefaultFeautureStrategy());
 		this.numAttributes = numAttributes;
 	}
 
 	@Override
-	protected Pair<List<Record>, List<AttributeInfo<?>>> readData() {
+	protected Pair<List<Record>, List<AttributeInfo<?>>> readData(boolean training) {
 		List<AttributeInfo<?>> attInf = new ArrayList<>();
 		List<Object> values = Arrays.asList("1", "0");
 		for (int i = 0; i < this.numAttributes; i++) {
@@ -37,8 +37,12 @@ public class BinaryDataReader extends DecisionTreeDataReader {
 			for (int i = 0; i < this.numAttributes; i++) {
 				attributes[i] = this.reader.next();
 			}
-			String label = this.reader.next();
-			records.add(new Record(label, attributes));
+			if (training) {
+				String label = this.reader.next();
+				records.add(new Record(label, attributes));
+			} else {
+				records.add(new Record(attributes));
+			}
 		}
 
 		return new Pair<List<Record>, List<AttributeInfo<?>>>(records, attInf);

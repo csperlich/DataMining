@@ -2,16 +2,18 @@ package app;
 
 import java.io.FileNotFoundException;
 
-import decisiontree.DecisionTree;
+import classifier.decisiontree.DecisionTree;
 import entropy.GiniMeasure;
-import fileio.BinaryDataReader;
+import fileio.BinaryRecordIO;
 
 public class BinaryDTree {
 	public static void main(String[] args) throws FileNotFoundException {
-		BinaryDataReader reader = new BinaryDataReader("DataMining-Data/train1", 5);
-		DecisionTree dTree = new DecisionTree(reader.getData(), new GiniMeasure());
+		BinaryRecordIO reader = new BinaryRecordIO(5);
+		DecisionTree dTree = new DecisionTree(reader.getData("DataMining-Data/train1", true), new GiniMeasure());
 		dTree.buildTree();
-
+		System.out.println(dTree.trainingError());
+		System.out.println(dTree.checkForDuplicateRecords());
+		reader.writeData("out1", dTree.getRecords());
 		// dTree.printData();
 		// dTree.printTree();
 

@@ -1,4 +1,4 @@
-package decisiontree;
+package classifier.decisiontree;
 
 import org.javatuples.Pair;
 
@@ -6,19 +6,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import classifier.Classifier;
 import data.attribute.AttributeInfo;
 import data.feature.Feature;
 import data.record.Record;
 import entropy.EntropyMeasure;
 
-public class DecisionTree {
+public class DecisionTree implements Classifier {
 	private List<AttributeInfo<?>> attributeInfos;
 	private List<Record> records;
 	private Node root;
 	private double threshold = 1.0;
 	private EntropyMeasure entropyMeasure;
 
-	private boolean oneQuestionPerAttribute = true;
+	private boolean oneQuestionPerAttribute = true; // TODO: do not change this
+													// until code to handle it
+													// is in place
 
 	public DecisionTree(Pair<List<Record>, List<AttributeInfo<?>>> data, EntropyMeasure entropyMeasure) {
 		this.records = data.getValue0();
@@ -169,4 +172,47 @@ public class DecisionTree {
 			System.out.println(record);
 		}
 	}
+
+	@Override
+	public String classify(Record record) {
+		Node node = this.root;
+		while (!node.isLeaf()) {
+			int bin = node.getFeature().binRecord(record);
+			node = node.getchild(bin);
+		}
+		return node.getLabel();
+	}
+
+	@Override
+	public double trainingError() {
+		int numCorrect = 0;
+		for (Record record : this.records) {
+			String classification = this.classify(record);
+			if (classification.equals(record.getLabel())) {
+				numCorrect++;
+			}
+			// System.out.println("guess: " + classification + ", actual: " +
+			// record.getLabel());
+		}
+		return 1.0 - (double) numCorrect / this.records.size();
+	}
+
+	public boolean checkForDuplicateRecords() {
+		for (int i = 0; i < this.records.size() - 1; i++) {
+			for (int j = i + 1; j < this.records.size(); j++) {
+				if (this.records.get(i).equals(this.records.get(j))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void classify(List<Record> records) {
+		for (Record record : records) {
+			record.setLabel(this.classify(record));
+		}
+	}
+
 }

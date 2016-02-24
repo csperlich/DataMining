@@ -44,6 +44,17 @@ public class Feature<T> {
 	}
 
 	@SuppressWarnings("unchecked")
+	public int binRecord(Record record) {
+		int i = 0;
+		for (; i < this.predicates.size(); i++) {
+			if (this.predicates.get(i).test((T) record.getAttribute(this.attributeInfo.getColumnNumber()))) {
+				break;
+			}
+		}
+		return i;
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<List<Record>> splitRecords(List<Record> records) {
 		List<List<Record>> newPartitioning = new ArrayList<>();
 
