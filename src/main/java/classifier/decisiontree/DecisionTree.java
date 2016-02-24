@@ -144,18 +144,20 @@ public class DecisionTree implements Classifier {
 	}
 
 	public void printTree() {
-		this.preOrderPrint(this.root);
+		this.preOrderPrint(this.root, "Root");
 	}
 
-	private void preOrderPrint(Node root) {
+	private void preOrderPrint(Node root, String path) {
+		System.out.printf("Path:%-20sNode:%s\n", path, root.simpleString());
 		if (root.isLeaf()) {
-			System.out.println(root);
 			return;
 		}
 
-		System.out.println(root);
-		for (Node child : root.getChildren()) {
-			this.preOrderPrint(child);
+		// System.out.println(root);
+		for (int i = 0; i < root.getChildren().size(); i++) {
+			char direction = i == 0 ? 'L' : 'R';
+			this.preOrderPrint(root.getchild(i), path + "," + direction);
+			// this.preOrderPrint(root.getchild(i), path + "," + i);
 		}
 
 	}

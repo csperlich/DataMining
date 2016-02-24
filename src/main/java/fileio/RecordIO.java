@@ -22,13 +22,20 @@ public abstract class RecordIO {
 		this.featureStrategy = featureStrategy;
 	}
 
-	public Pair<List<Record>, List<AttributeInfo<?>>> getData(String fileName, boolean training)
-			throws FileNotFoundException {
+	public Pair<List<Record>, List<AttributeInfo<?>>> getTrainingData(String fileName) throws FileNotFoundException {
 		Record.resetRecordCount();
 		this.reader = new Scanner(new File(fileName));
-		Pair<List<Record>, List<AttributeInfo<?>>> data = this.readData(training);
+		Pair<List<Record>, List<AttributeInfo<?>>> data = this.readData(true);
 		this.reader.close();
 		return data;
+	}
+
+	public List<Record> getTestData(String fileName) throws FileNotFoundException {
+		Record.resetRecordCount();
+		this.reader = new Scanner(new File(fileName));
+		Pair<List<Record>, List<AttributeInfo<?>>> data = this.readData(false);
+		this.reader.close();
+		return data.getValue0();
 	}
 
 	public void writeData(String fileName, List<Record> records) throws FileNotFoundException {
