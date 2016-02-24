@@ -52,6 +52,13 @@ public class Node {
 		return this.children;
 	}
 
+	public String simpleString() {
+		if (!this.isLeaf) {
+			return "feature->" + this.feature;
+		}
+		return "label->" + this.label;
+	}
+
 	@Override
 	public String toString() {
 		return "Node [numChildren=" + this.children.size() + ", feature=" + this.feature + ", label=" + this.label
