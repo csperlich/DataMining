@@ -23,11 +23,11 @@ public class BinaryDataReader extends DecisionTreeDataReader {
 	}
 
 	@Override
-	protected Pair<List<Record>, AttributeInfo[]> readData() {
-		AttributeInfo[] attInf = new AttributeInfo[this.numAttributes];
+	protected Pair<List<Record>, List<AttributeInfo<?>>> readData() {
+		List<AttributeInfo<?>> attInf = new ArrayList<>();
 		List<Object> values = Arrays.asList("1", "0");
-		for (int i = 0; i < attInf.length; i++) {
-			attInf[i] = new BinaryAttributeInfo(AttributeType.BINARY, i, values, this.featureStrategy);
+		for (int i = 0; i < this.numAttributes; i++) {
+			attInf.add(new BinaryAttributeInfo(AttributeType.BINARY, i, values, this.featureStrategy));
 		}
 
 		List<Record> records = new ArrayList<>();
@@ -41,7 +41,7 @@ public class BinaryDataReader extends DecisionTreeDataReader {
 			records.add(new Record(label, attributes));
 		}
 
-		return new Pair<List<Record>, AttributeInfo[]>(records, attInf);
+		return new Pair<List<Record>, List<AttributeInfo<?>>>(records, attInf);
 	}
 
 }

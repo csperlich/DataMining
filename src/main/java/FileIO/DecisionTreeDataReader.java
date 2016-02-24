@@ -21,11 +21,11 @@ public abstract class DecisionTreeDataReader {
 		this.featureStrategy = featureStrategy;
 	}
 
-	public Pair<List<Record>, AttributeInfo[]> getData() {
-		Pair<List<Record>, AttributeInfo[]> data = this.readData();
+	public Pair<List<Record>, List<AttributeInfo<?>>> getData() {
+		Pair<List<Record>, List<AttributeInfo<?>>> data = this.readData();
 		this.reader.close();
 		return data;
 	}
 
-	protected abstract Pair<List<Record>, AttributeInfo[]> readData();
+	protected abstract Pair<List<Record>, List<AttributeInfo<?>>> readData();
 }

@@ -8,25 +8,50 @@ import data.attribute.AttributeInfo;
 import data.record.Record;
 
 public class DecisionTree {
-	private AttributeInfo[] attributeInfos;
+	private List<AttributeInfo<?>> attributeInfos;
 	private List<Record> records;
+	private Node root;
+	private double threshold = 1.0;
 
-	public DecisionTree(Pair<List<Record>, AttributeInfo[]> data) {
+	public DecisionTree(Pair<List<Record>, List<AttributeInfo<?>>> data) {
 		this.records = data.getValue0();
 		this.attributeInfos = data.getValue1();
+	}
+
+	public void buildTree() {
+		this.root = this.build(this.records, this.attributeInfos);
+	}
+
+	private Node build(List<Record> records, List<AttributeInfo<?>> attributeInfos) {
+		Node node = null;
+
+		if (this.isHomogeneous(records)) {
+			node = Node.newLeafNode(this.records.get(0).getLabel());
+		}
+		return node;
+	}
+
+	private boolean isHomogeneous(List<Record> records) {
+		String label = records.get(0).getLabel();
+		for (Record record : records) {
+			if (!record.getLabel().equals(label)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public List<Record> getRecords() {
 		return this.records;
 	}
 
-	public AttributeInfo[] getAttributeInfos() {
+	public List<AttributeInfo<?>> getAttributeInfos() {
 		return this.attributeInfos;
 	}
 
 	public void printData() {
 		System.out.println("Attribute Info: ");
-		for (AttributeInfo attInf : this.attributeInfos) {
+		for (AttributeInfo<?> attInf : this.attributeInfos) {
 			System.out.println(attInf);
 		}
 

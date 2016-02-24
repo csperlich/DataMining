@@ -16,13 +16,17 @@ public class BinaryDTree {
 
 		dTree.printData();
 
-		AttributeInfo<?>[] attInfos = dTree.getAttributeInfos();
-		Feature<?> feature = attInfos[0].getFeatures().get(0);
-		List<List<Record>> newRecs = feature.splitRecords(dTree.getRecords());
-		System.out.println();
-		for (List<Record> recs : newRecs) {
-			for (Record rec : recs) {
-				System.out.println(rec);
+		List<AttributeInfo<?>> attInfos = dTree.getAttributeInfos();
+		for (AttributeInfo<?> attInfo : attInfos) {
+
+			Feature<?> feature = attInfo.getFeatures().get(0);
+			List<List<Record>> newRecs = feature.splitRecords(dTree.getRecords());
+			System.out.println();
+			for (List<Record> recs : newRecs) {
+				for (Record rec : recs) {
+					System.out.println(rec);
+				}
+				System.out.println();
 			}
 			System.out.println();
 		}
