@@ -1,15 +1,15 @@
-package Data;
+package data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttributeInfo {
+public abstract class AttributeInfo<T> {
 	private AttributeType attributeType;
-	private List<Feature> features;
+	protected List<Feature<T>> features;
 	private int columnNumber;
 	private String columnName;
 	private List<Object> discreteValues;
-	private FeatureStrategy featureStrategy;
+	protected FeatureStrategy featureStrategy;
 
 	public AttributeInfo(AttributeType attributeType, int columnNumber, List<Object> discreteValues,
 			FeatureStrategy featureStrategy) {
@@ -18,26 +18,34 @@ public class AttributeInfo {
 		this.columnName = "" + columnNumber;
 		this.discreteValues = discreteValues;
 		this.features = new ArrayList<>();
+		this.featureStrategy = featureStrategy;
 		this.addNonContinuousFeatures();
 	}
 
-	private void addNonContinuousFeatures() {
-
-		switch (this.attributeType) {
-		case BINARY:
-			this.featureStrategy.getBinaryFeatures(this);
-			break;
-		case NOMINAL:
-			this.featureStrategy.getNominalFeatures(this);
-			break;
-		case ORDINAL:
-			this.featureStrategy.getOrdinalFeatures(this);
-			break;
-		default:
-			break;
-		}
-
-	}
+	protected abstract void addNonContinuousFeatures();/*
+														 * {
+														 *
+														 * switch
+														 * (this.attributeType)
+														 * { case BINARY:
+														 * this.features.addAll(
+														 * this.featureStrategy.
+														 * getBinaryFeatures(
+														 * this)); break; case
+														 * NOMINAL:
+														 * this.features.addAll(
+														 * this.featureStrategy.
+														 * getNominalFeatures(
+														 * this)); break; case
+														 * ORDINAL:
+														 * this.features.addAll(
+														 * this.featureStrategy.
+														 * getOrdinalFeatures(
+														 * this)); break;
+														 * default: break; }
+														 *
+														 * }
+														 */
 
 	public String getColumnName() {
 		return this.columnName;
@@ -47,8 +55,8 @@ public class AttributeInfo {
 		return this.columnNumber;
 	}
 
-	public Object discreteValues(int i) {
-		return this.discreteValues(i);
+	public Object getDiscreteValues(int i) {
+		return this.discreteValues.get(i);
 	}
 
 	@Override
@@ -56,5 +64,9 @@ public class AttributeInfo {
 		return "AttributeInfo [attributeType=" + this.attributeType + ", features=" + this.features + ", columnNumber="
 				+ this.columnNumber + ", columnName=" + this.columnName + ", discreteValues=" + this.discreteValues
 				+ "]";
+	}
+
+	public List<Feature<T>> getFeatures() {
+		return this.features;
 	}
 }

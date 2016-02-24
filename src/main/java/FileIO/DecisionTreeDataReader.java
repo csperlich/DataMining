@@ -1,4 +1,4 @@
-package FileIO;
+package fileio;
 
 import org.javatuples.Pair;
 
@@ -7,9 +7,9 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-import Data.AttributeInfo;
-import Data.FeatureStrategy;
-import Data.Record;
+import data.AttributeInfo;
+import data.FeatureStrategy;
+import data.Record;
 
 public abstract class DecisionTreeDataReader {
 

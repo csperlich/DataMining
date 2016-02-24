@@ -1,11 +1,11 @@
-package DecisionTree;
+package decisiontree;
 
 import org.javatuples.Pair;
 
 import java.util.List;
 
-import Data.AttributeInfo;
-import Data.Record;
+import data.AttributeInfo;
+import data.Record;
 
 public class DecisionTree {
 	private AttributeInfo[] attributeInfos;

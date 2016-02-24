@@ -1,4 +1,4 @@
-package FileIO;
+package fileio;
 
 import org.javatuples.Pair;
 
@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import Data.AttributeInfo;
-import Data.AttributeType;
-import Data.DefaultFeautureStrategy;
-import Data.Record;
+import data.AttributeInfo;
+import data.AttributeType;
+import data.BinaryAttributeInfo;
+import data.DefaultFeautureStrategy;
+import data.Record;
 
 public class BinaryDataReader extends DecisionTreeDataReader {
 
@@ -26,7 +27,7 @@ public class BinaryDataReader extends DecisionTreeDataReader {
 		AttributeInfo[] attInf = new AttributeInfo[this.numAttributes];
 		List<Object> values = Arrays.asList("1", "0");
 		for (int i = 0; i < attInf.length; i++) {
-			attInf[i] = new AttributeInfo(AttributeType.BINARY, i, values);
+			attInf[i] = new BinaryAttributeInfo(AttributeType.BINARY, i, values, this.featureStrategy);
 		}
 
 		List<Record> records = new ArrayList<>();

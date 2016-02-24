@@ -1,9 +1,13 @@
 package app;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
-import DecisionTree.DecisionTree;
-import FileIO.BinaryDataReader;
+import data.AttributeInfo;
+import data.Feature;
+import data.Record;
+import decisiontree.DecisionTree;
+import fileio.BinaryDataReader;
 
 public class BinaryDTree {
 	public static void main(String[] args) throws FileNotFoundException {
@@ -12,12 +16,15 @@ public class BinaryDTree {
 
 		dTree.printData();
 
-		/*
-		 * for (Record record : dTree.getRecords()) { for (int i = 0; i <
-		 * record.getSize(); i++) { System.out.print(record.getAttribute(i) +
-		 * " "); } System.out.print(record.getLabel()); System.out.println();
-		 * 
-		 * }
-		 */
+		AttributeInfo<?>[] attInfos = dTree.getAttributeInfos();
+		Feature<?> feature = attInfos[0].getFeatures().get(0);
+		List<List<Record>> newRecs = feature.splitRecords(dTree.getRecords());
+		System.out.println();
+		for (List<Record> recs : newRecs) {
+			for (Record rec : recs) {
+				System.out.println(rec);
+			}
+			System.out.println();
+		}
 	}
 }
