@@ -5,6 +5,7 @@ import org.javatuples.Pair;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import data.attribute.AttributeInfo;
@@ -24,7 +25,7 @@ public class BinaryRecordIO extends RecordIO {
 
 	@Override
 	protected Pair<List<Record>, List<AttributeInfo<?>>> readData(boolean training) {
-		List<AttributeInfo<?>> attInf = new ArrayList<>();
+		List<AttributeInfo<?>> attInf = new LinkedList<>();
 		List<Object> values = Arrays.asList("1", "0");
 		for (int i = 0; i < this.numAttributes; i++) {
 			attInf.add(new BinaryAttributeInfo(AttributeType.BINARY, i, values, this.featureStrategy));

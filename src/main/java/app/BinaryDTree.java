@@ -15,11 +15,18 @@ public class BinaryDTree {
 		dTree.buildTree();
 
 		System.out.println(dTree.trainingError());
-		System.out.println(dTree.checkForDuplicateRecords());
 		dTree.printTree();
 		List<Record> testData = reader.getTestData("DataMining-Data/test1");
 		dTree.classify(testData);
 		reader.writeData("output/out1", testData);
+
+		System.out.println(dTree.getAttributeInfos());
+
+		// System.out.println("classification error = " +
+		// dTree.classificationError(testData));
+		System.out.println("leave one out sampling validation error = " + dTree.validateLeaveOneOut());
+		System.out.println("random sampling validation error = " + dTree.validateRandomSampling(20));
+		System.out.println(dTree.getAttributeInfos());
 
 		// dTree.printData();
 		// dTree.printTree();

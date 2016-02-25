@@ -14,9 +14,9 @@ import entropy.EntropyMeasure;
 
 public class DecisionTree implements Classifier {
 	private List<AttributeInfo<?>> attributeInfos;
-	private List<Record> records;
+	private List<Record> trainingRecords;
 	private Node root;
-	private double threshold = 1.0;
+	private boolean trace = false;
 	private EntropyMeasure entropyMeasure;
 
 	private boolean oneQuestionPerAttribute = true; // TODO: do not change this
@@ -24,46 +24,66 @@ public class DecisionTree implements Classifier {
 													// is in place
 
 	public DecisionTree(Pair<List<Record>, List<AttributeInfo<?>>> data, EntropyMeasure entropyMeasure) {
-		this.records = data.getValue0();
+		this.trainingRecords = data.getValue0();
 		this.attributeInfos = data.getValue1();
 		this.entropyMeasure = entropyMeasure;
 	}
 
 	public void buildTree() {
-		this.root = this.build(this.records, this.attributeInfos);
+		this.root = this.build(this.trainingRecords, this.attributeInfos);
+	}
+
+	@Override
+	public void setTrainingRecords(List<Record> records) {
+		this.trainingRecords = records;
 	}
 
 	private Node build(List<Record> records, List<AttributeInfo<?>> attributeInfos) {
 		Node node = null;
-		System.out.println("Records: " + records);
+
+		if (this.trace) {
+			System.out.println("Records: " + records);
+		}
 		if (this.isHomogeneous(records)) {
 			node = Node.newLeafNode(records.get(0).getLabel());
-			System.out.println("Homgenous, adding new leaf node: " + node + "\n");
+			if (this.trace) {
+				System.out.println("Homgenous, adding new leaf node: " + node + "\n");
+			}
 		} else if (attributeInfos.isEmpty()) {
 			node = Node.newLeafNode(this.majorityLabel(records));
-			System.out.println("attributes empty, adding new leaf node: " + node + "\n");
+			if (this.trace) {
+				System.out.println("attributes empty, adding new leaf node: " + node + "\n");
+			}
 		} else {
 
 			// get best feature
 			Feature<?> bestFeature = this.bestFeature(records, attributeInfos);
-			System.out.println("Creating bestFeature: " + bestFeature);
+			if (this.trace) {
+				System.out.println("Creating bestFeature: " + bestFeature);
+			}
 			// split records
 			List<List<Record>> splitRecords = bestFeature.splitRecords(records);
 
 			// if only one group left, make leaf node with majority class
 			if (splitRecords.size() == 1) {
 				node = Node.newLeafNode(this.majorityLabel(splitRecords.get(0)));
-				System.out.println("Best Split has only one group, cerating leaf Node " + node + "\n");
+				if (this.trace) {
+					System.out.println("Best Split has only one group, cerating leaf Node " + node + "\n");
+				}
 			} else {
 
 				node = Node.newInternalNode(bestFeature);
-				System.out.println("Creating internal node: " + node);
+				if (this.trace) {
+					System.out.println("Creating internal node: " + node);
+				}
 				if (this.oneQuestionPerAttribute) {
 					// remove attribute from list
 					AttributeInfo<?> attributeInfo = bestFeature.getAttributeInfo();
 					attributeInfos.remove(attributeInfo);
 
-					System.out.println("Attching " + splitRecords.size() + " children..." + "\n");
+					if (this.trace) {
+						System.out.println("Attching " + splitRecords.size() + " children..." + "\n");
+					}
 					// create n child nodes with the attribute removed
 					for (List<Record> recordGroup : splitRecords) {
 						node.addChild(this.build(recordGroup, attributeInfos));
@@ -135,8 +155,9 @@ public class DecisionTree implements Classifier {
 		return true;
 	}
 
-	public List<Record> getRecords() {
-		return this.records;
+	@Override
+	public List<Record> getTrainingRecords() {
+		return this.trainingRecords;
 	}
 
 	public List<AttributeInfo<?>> getAttributeInfos() {
@@ -170,7 +191,7 @@ public class DecisionTree implements Classifier {
 
 		System.out.println();
 
-		for (Record record : this.records) {
+		for (Record record : this.trainingRecords) {
 			System.out.println(record);
 		}
 	}
@@ -188,7 +209,7 @@ public class DecisionTree implements Classifier {
 	@Override
 	public double trainingError() {
 		int numCorrect = 0;
-		for (Record record : this.records) {
+		for (Record record : this.trainingRecords) {
 			String classification = this.classify(record);
 			if (classification.equals(record.getLabel())) {
 				numCorrect++;
@@ -196,13 +217,13 @@ public class DecisionTree implements Classifier {
 			// System.out.println("guess: " + classification + ", actual: " +
 			// record.getLabel());
 		}
-		return 1.0 - (double) numCorrect / this.records.size();
+		return 1.0 - (double) numCorrect / this.trainingRecords.size();
 	}
 
 	public boolean checkForDuplicateRecords() {
-		for (int i = 0; i < this.records.size() - 1; i++) {
-			for (int j = i + 1; j < this.records.size(); j++) {
-				if (this.records.get(i).equals(this.records.get(j))) {
+		for (int i = 0; i < this.trainingRecords.size() - 1; i++) {
+			for (int j = i + 1; j < this.trainingRecords.size(); j++) {
+				if (this.trainingRecords.get(i).equals(this.trainingRecords.get(j))) {
 					return true;
 				}
 			}
@@ -211,10 +232,8 @@ public class DecisionTree implements Classifier {
 	}
 
 	@Override
-	public void classify(List<Record> records) {
-		for (Record record : records) {
-			record.setLabel(this.classify(record));
-		}
+	public void buildClassifier() {
+		this.buildTree();
 	}
 
 }
