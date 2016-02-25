@@ -34,7 +34,7 @@ public class Feature<T> {
 	}
 
 	private String getRepresentation() {
-		return "Column " + this.attributeInfo.getColumnName() + this.representation;
+		return "Column " + "\"" + this.attributeInfo.getColumnName() + "\"" + this.representation;
 	}
 
 	public static <T> Feature<T> createFeature(Predicate<T> predicate, AttributeInfo<T> attributeInfo,

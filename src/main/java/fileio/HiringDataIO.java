@@ -11,30 +11,31 @@ import java.util.List;
 import data.attribute.AttributeInfo;
 import data.attribute.BinaryAttributeInfo;
 import data.feature.DefaultFeautureStrategy;
+import data.feature.FeatureStrategy;
 import data.record.Record;
 
-public class BinaryRecordIO extends RecordIO {
+public class HiringDataIO extends RecordIO {
 
-	private int numAttributes;
-
-	public BinaryRecordIO(int numAttributes) throws FileNotFoundException {
+	public HiringDataIO() throws FileNotFoundException {
 		super(new DefaultFeautureStrategy());
-		this.numAttributes = numAttributes;
 	}
 
 	@Override
 	protected Pair<List<Record>, List<AttributeInfo<?>>> readData(boolean training) {
 		List<AttributeInfo<?>> attInf = new LinkedList<>();
-		List<Object> values = Arrays.asList("1", "0");
-		for (int i = 0; i < this.numAttributes; i++) {
-			attInf.add(new BinaryAttributeInfo(i, values, this.featureStrategy));
-		}
+		FeatureStrategy fStrat = new DefaultFeautureStrategy();
+		attInf.add(new BinaryAttributeInfo(0, "major", Arrays.asList("cs", "other"), fStrat));
+		attInf.add(new BinaryAttributeInfo(1, "java experience", Arrays.asList("java", "no"), fStrat));
+		attInf.add(new BinaryAttributeInfo(2, "c/c++ experience", Arrays.asList("c/c++", "no"), fStrat));
+		attInf.add(new BinaryAttributeInfo(3, "gpa", Arrays.asList("gpa>3", "gpa<3"), fStrat));
+		attInf.add(new BinaryAttributeInfo(4, "large project experience", Arrays.asList("large", "small"), fStrat));
+		attInf.add(new BinaryAttributeInfo(5, "years of experience", Arrays.asList("years>5", "years<5"), fStrat));
 
 		List<Record> records = new ArrayList<>();
 
 		while (this.reader.hasNext()) {
-			Object[] attributes = new Object[this.numAttributes];
-			for (int i = 0; i < this.numAttributes; i++) {
+			Object[] attributes = new Object[attInf.size()];
+			for (int i = 0; i < attributes.length; i++) {
 				attributes[i] = this.reader.next();
 			}
 			if (training) {

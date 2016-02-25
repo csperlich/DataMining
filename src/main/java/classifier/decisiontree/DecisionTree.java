@@ -29,6 +29,10 @@ public class DecisionTree implements Classifier {
 		this.entropyMeasure = entropyMeasure;
 	}
 
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
 	public void buildTree() {
 		this.root = this.build(this.trainingRecords, this.attributeInfos);
 	}
@@ -38,29 +42,36 @@ public class DecisionTree implements Classifier {
 		this.trainingRecords = records;
 	}
 
+	public void setEntropyMeasure(EntropyMeasure entropyMeasure) {
+		this.entropyMeasure = entropyMeasure;
+	}
+
+	private void tracePrint(List<Record> records, List<AttributeInfo<?>> attributeInfos, Node node, String reason) {
+		System.out.println("NODE CREATED --> " + reason);
+		System.out.println(node);
+		System.out.println(records);
+		System.out.println(attributeInfos);
+		System.out.println();
+	}
+
 	private Node build(List<Record> records, List<AttributeInfo<?>> attributeInfos) {
 		Node node = null;
 
-		if (this.trace) {
-			System.out.println("Records: " + records);
-		}
 		if (this.isHomogeneous(records)) {
 			node = Node.newLeafNode(records.get(0).getLabel());
 			if (this.trace) {
-				System.out.println("Homgenous, adding new leaf node: " + node + "\n");
+				this.tracePrint(records, attributeInfos, node, "homogenous records");
 			}
 		} else if (attributeInfos.isEmpty()) {
 			node = Node.newLeafNode(this.majorityLabel(records));
 			if (this.trace) {
-				System.out.println("attributes empty, adding new leaf node: " + node + "\n");
+				this.tracePrint(records, attributeInfos, node, "no more features");
 			}
 		} else {
 
 			// get best feature
 			Feature<?> bestFeature = this.bestFeature(records, attributeInfos);
-			if (this.trace) {
-				System.out.println("Creating bestFeature: " + bestFeature);
-			}
+
 			// split records
 			List<List<Record>> splitRecords = bestFeature.splitRecords(records);
 
@@ -68,22 +79,19 @@ public class DecisionTree implements Classifier {
 			if (splitRecords.size() == 1) {
 				node = Node.newLeafNode(this.majorityLabel(splitRecords.get(0)));
 				if (this.trace) {
-					System.out.println("Best Split has only one group, cerating leaf Node " + node + "\n");
+					this.tracePrint(records, attributeInfos, node, "all records satisfy feature");
 				}
 			} else {
 
 				node = Node.newInternalNode(bestFeature);
 				if (this.trace) {
-					System.out.println("Creating internal node: " + node);
+					this.tracePrint(records, attributeInfos, node, "internal node");
 				}
 				if (this.oneQuestionPerAttribute) {
 					// remove attribute from list
 					AttributeInfo<?> attributeInfo = bestFeature.getAttributeInfo();
 					attributeInfos.remove(attributeInfo);
 
-					if (this.trace) {
-						System.out.println("Attching " + splitRecords.size() + " children..." + "\n");
-					}
 					// create n child nodes with the attribute removed
 					for (List<Record> recordGroup : splitRecords) {
 						node.addChild(this.build(recordGroup, attributeInfos));

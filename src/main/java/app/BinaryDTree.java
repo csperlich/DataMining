@@ -7,12 +7,17 @@ import classifier.decisiontree.DecisionTree;
 import data.record.Record;
 import entropy.GiniMeasure;
 import fileio.BinaryRecordIO;
+import fileio.HiringDataIO;
+import fileio.RecordIO;
 
 public class BinaryDTree {
 	public static void main(String[] args) throws FileNotFoundException {
-		BinaryRecordIO reader = new BinaryRecordIO(5);
+		RecordIO reader = new BinaryRecordIO(5);
 		DecisionTree dTree = new DecisionTree(reader.getTrainingData("DataMining-Data/train1"), new GiniMeasure());
+		// dTree.setEntropyMeasure(new ShannonEntropy());
+		dTree.setTrace(true);
 		dTree.buildTree();
+		dTree.setTrace(false);
 
 		System.out.println(dTree.trainingError());
 		dTree.printTree();
@@ -28,6 +33,10 @@ public class BinaryDTree {
 		System.out.println("random sampling validation error = " + dTree.validateRandomSampling(20));
 		System.out.println(dTree.getAttributeInfos());
 
+		reader = new HiringDataIO();
+		dTree = new DecisionTree(reader.getTrainingData("DataMining-Data/train2"), new GiniMeasure());
+		dTree.buildClassifier();
+		dTree.printTree();
 		// dTree.printData();
 		// dTree.printTree();
 

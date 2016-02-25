@@ -6,9 +6,13 @@ import data.feature.FeatureStrategy;
 
 public class BinaryAttributeInfo extends AttributeInfo<String> {
 
-	public BinaryAttributeInfo(AttributeType attributeType, int columnNumber, List<Object> discreteValues,
+	public BinaryAttributeInfo(int columnNumber, List<Object> discreteValues, FeatureStrategy featureStrategy) {
+		super(AttributeType.BINARY, columnNumber, "" + columnNumber, discreteValues, featureStrategy);
+	}
+
+	public BinaryAttributeInfo(int columnNumber, String columnName, List<Object> discreteValues,
 			FeatureStrategy featureStrategy) {
-		super(attributeType, columnNumber, "" + columnNumber, discreteValues, featureStrategy);
+		super(AttributeType.BINARY, columnNumber, columnName, discreteValues, featureStrategy);
 	}
 
 	@Override

@@ -1,6 +1,9 @@
 package data.record;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Record {
 	private Object[] attributes;
@@ -52,6 +55,22 @@ public class Record {
 		}
 		sb.append(this.label);
 		return sb.toString();
+	}
+
+	public static Map<String, Long> getLabelFrequencies(List<Record> records) {
+		Map<String, Long> labelFrequencies = new HashMap<>();
+		for (Record record : records) {
+			labelFrequencies.put(record.getLabel(), labelFrequencies.getOrDefault(record.getLabel(), 0L) + 1L);
+		}
+		return labelFrequencies;
+	}
+
+	public static Map<String, Double> getLabelProbabilites(List<Record> records) {
+		Map<String, Double> labelProbabilites = new HashMap<>();
+		for (Map.Entry<String, Long> entry : getLabelFrequencies(records).entrySet()) {
+			labelProbabilites.put(entry.getKey(), entry.getValue() / (double) records.size());
+		}
+		return labelProbabilites;
 	}
 
 }

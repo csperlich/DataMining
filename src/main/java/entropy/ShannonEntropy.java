@@ -1,20 +1,22 @@
 package entropy;
 
+import static util.math.CustomMath.log2;
+
 import java.util.List;
 import java.util.Map;
 
 import data.record.Record;
 
-public class GiniMeasure implements EntropyMeasure {
+public class ShannonEntropy implements EntropyMeasure {
 
 	@Override
 	public double getEntropy(List<Record> records) {
 		double sum = 0;
 		for (Map.Entry<String, Double> entry : Record.getLabelProbabilites(records).entrySet()) {
-			sum += Math.pow(entry.getValue(), 2);
+			sum += entry.getValue() * log2(entry.getValue());
 		}
 
-		return 1 - sum;
+		return sum * -1;
 	}
 
 }
