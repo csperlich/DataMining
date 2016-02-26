@@ -1,7 +1,9 @@
 package data.attribute;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import data.feature.Feature;
 import data.feature.FeatureStrategy;
@@ -12,10 +14,14 @@ public abstract class AttributeInfo<T> {
 	private int columnNumber;
 	private String columnName;
 	private List<Object> discreteValues;
+	protected Map<Object, T> valueMap = new HashMap<>();
 	protected FeatureStrategy featureStrategy;
 
+	protected boolean normalize;
+
 	public AttributeInfo(AttributeType attributeType, int columnNumber, String columnName, List<Object> discreteValues,
-			FeatureStrategy featureStrategy) {
+			FeatureStrategy featureStrategy, boolean normalize) {
+		this.normalize = normalize;
 		this.attributeType = attributeType;
 		this.columnNumber = columnNumber;
 		this.columnName = columnName;
@@ -23,7 +29,10 @@ public abstract class AttributeInfo<T> {
 		this.features = new ArrayList<>();
 		this.featureStrategy = featureStrategy;
 		this.addNonContinuousFeatures();
+		this.createValueMap(discreteValues);
 	}
+
+	protected abstract void createValueMap(List<Object> discreteValues);
 
 	protected abstract void addNonContinuousFeatures();
 
@@ -48,5 +57,10 @@ public abstract class AttributeInfo<T> {
 
 	public List<Feature<T>> getFeatures() {
 		return this.features;
+
 	}
+
+	public abstract Object parseValue(String next);
+
+	public abstract double getAttributeDistance(Object val1, Object val2);
 }

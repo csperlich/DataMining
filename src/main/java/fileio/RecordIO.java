@@ -1,10 +1,9 @@
 package fileio;
 
-import org.javatuples.Pair;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,15 +16,26 @@ public abstract class RecordIO {
 	protected Scanner reader;
 	protected FeatureStrategy featureStrategy;
 	protected PrintWriter writer;
+	protected List<AttributeInfo<?>> attributeInfos;
 
-	public RecordIO(FeatureStrategy featureStrategy) throws FileNotFoundException {
+	public RecordIO(List<AttributeInfo<?>> attributeInfos, FeatureStrategy featureStrategy)
+			throws FileNotFoundException {
 		this.featureStrategy = featureStrategy;
+		this.attributeInfos = attributeInfos;
 	}
 
-	public Pair<List<Record>, List<AttributeInfo<?>>> getTrainingData(String fileName) throws FileNotFoundException {
+	/*
+	 * public Pair<List<Record>, List<AttributeInfo<?>>> getTrainingData(String
+	 * fileName) throws FileNotFoundException { Record.resetRecordCount();
+	 * this.reader = new Scanner(new File(fileName)); Pair<List<Record>,
+	 * List<AttributeInfo<?>>> data = this.readData(true); this.reader.close();
+	 * return data; }
+	 */
+
+	public List<Record> getTrainingData(String fileName) throws FileNotFoundException {
 		Record.resetRecordCount();
 		this.reader = new Scanner(new File(fileName));
-		Pair<List<Record>, List<AttributeInfo<?>>> data = this.readData(true);
+		List<Record> data = this.readData(true);
 		this.reader.close();
 		return data;
 	}
@@ -33,9 +43,9 @@ public abstract class RecordIO {
 	public List<Record> getTestData(String fileName) throws FileNotFoundException {
 		Record.resetRecordCount();
 		this.reader = new Scanner(new File(fileName));
-		Pair<List<Record>, List<AttributeInfo<?>>> data = this.readData(false);
+		List<Record> data = this.readData(false);
 		this.reader.close();
-		return data.getValue0();
+		return data;
 	}
 
 	public void writeData(String fileName, List<Record> records) throws FileNotFoundException {
@@ -46,5 +56,22 @@ public abstract class RecordIO {
 		this.writer.close();
 	}
 
-	protected abstract Pair<List<Record>, List<AttributeInfo<?>>> readData(boolean training);
+	public List<Record> getRawRecords(String fileName) throws FileNotFoundException {
+		List<Record> records = new ArrayList<>();
+		this.reader = new Scanner(new File(fileName));
+		while (this.reader.hasNext()) {
+			Object[] attributes = new Object[this.attributeInfos.size()];
+
+			for (int i = 0; i < this.attributeInfos.size(); i++) {
+				attributes[i] = this.reader.next();
+			}
+
+			records.add(new Record(attributes));
+		}
+
+		return records;
+	}
+
+	protected abstract List<Record> readData(boolean training);
+
 }

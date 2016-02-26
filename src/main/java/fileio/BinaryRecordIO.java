@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import data.attribute.AttributeInfo;
-import data.attribute.BinaryAttributeInfo;
+import data.attribute.NominalAttributeInfo;
 import data.feature.DefaultFeautureStrategy;
 import data.record.Record;
 
@@ -27,7 +27,7 @@ public class BinaryRecordIO extends RecordIO {
 		List<AttributeInfo<?>> attInf = new LinkedList<>();
 		List<Object> values = Arrays.asList("1", "0");
 		for (int i = 0; i < this.numAttributes; i++) {
-			attInf.add(new BinaryAttributeInfo(i, values, this.featureStrategy));
+			attInf.add(new NominalAttributeInfo(i, values, this.featureStrategy, training));
 		}
 
 		List<Record> records = new ArrayList<>();
@@ -46,6 +46,12 @@ public class BinaryRecordIO extends RecordIO {
 		}
 
 		return new Pair<List<Record>, List<AttributeInfo<?>>>(records, attInf);
+	}
+
+	@Override
+	protected List<Record> readData(List<AttributeInfo<?>> attributeInfos, boolean training) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

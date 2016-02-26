@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Record {
 	private Object[] attributes;
@@ -58,11 +59,12 @@ public class Record {
 	}
 
 	public static Map<String, Long> getLabelFrequencies(List<Record> records) {
-		Map<String, Long> labelFrequencies = new HashMap<>();
-		for (Record record : records) {
-			labelFrequencies.put(record.getLabel(), labelFrequencies.getOrDefault(record.getLabel(), 0L) + 1L);
-		}
-		return labelFrequencies;
+		return records.parallelStream().collect(Collectors.groupingBy(Record::getLabel, Collectors.counting()));
+	}
+
+	public static String getMajorityLabel(List<Record> records) {
+		return getLabelFrequencies(records).entrySet().parallelStream().max(Map.Entry.comparingByValue()).get()
+				.getKey();
 	}
 
 	public static Map<String, Double> getLabelProbabilites(List<Record> records) {

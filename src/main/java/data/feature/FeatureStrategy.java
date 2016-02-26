@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.attribute.AttributeInfo;
-import data.attribute.BinaryAttributeInfo;
+import data.attribute.NominalAttributeInfo;
 
 public interface FeatureStrategy {
-	default List<Feature<String>> getBinaryFeatures(BinaryAttributeInfo attributeInfo) {
+	default List<Feature<Integer>> getBinaryFeatures(NominalAttributeInfo attributeInfo) {
 		String representation = " is " + attributeInfo.getDiscreteValues(0);
-		Feature<String> feature = Feature.createFeature(Predicates.is((String) attributeInfo.getDiscreteValues(0)),
+		Feature<Integer> feature = Feature.createFeature(Predicates.is((Integer) attributeInfo.getDiscreteValues(0)),
 				attributeInfo, representation);
-		List<Feature<String>> features = new ArrayList<>();
+		List<Feature<Integer>> features = new ArrayList<>();
 		features.add(feature);
 		return features;
 	}

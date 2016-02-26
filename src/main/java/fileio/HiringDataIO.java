@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import data.attribute.AttributeInfo;
-import data.attribute.BinaryAttributeInfo;
+import data.attribute.NominalAttributeInfo;
 import data.feature.DefaultFeautureStrategy;
 import data.feature.FeatureStrategy;
 import data.record.Record;
@@ -24,12 +24,12 @@ public class HiringDataIO extends RecordIO {
 	protected Pair<List<Record>, List<AttributeInfo<?>>> readData(boolean training) {
 		List<AttributeInfo<?>> attInf = new LinkedList<>();
 		FeatureStrategy fStrat = new DefaultFeautureStrategy();
-		attInf.add(new BinaryAttributeInfo(0, "major", Arrays.asList("cs", "other"), fStrat));
-		attInf.add(new BinaryAttributeInfo(1, "java experience", Arrays.asList("java", "no"), fStrat));
-		attInf.add(new BinaryAttributeInfo(2, "c/c++ experience", Arrays.asList("c/c++", "no"), fStrat));
-		attInf.add(new BinaryAttributeInfo(3, "gpa", Arrays.asList("gpa>3", "gpa<3"), fStrat));
-		attInf.add(new BinaryAttributeInfo(4, "large project experience", Arrays.asList("large", "small"), fStrat));
-		attInf.add(new BinaryAttributeInfo(5, "years of experience", Arrays.asList("years>5", "years<5"), fStrat));
+		attInf.add(new NominalAttributeInfo(0, "major", Arrays.asList("cs", "other"), fStrat));
+		attInf.add(new NominalAttributeInfo(1, "java experience", Arrays.asList("java", "no"), fStrat));
+		attInf.add(new NominalAttributeInfo(2, "c/c++ experience", Arrays.asList("c/c++", "no"), fStrat));
+		attInf.add(new NominalAttributeInfo(3, "gpa", Arrays.asList("gpa>3", "gpa<3"), fStrat));
+		attInf.add(new NominalAttributeInfo(4, "large project experience", Arrays.asList("large", "small"), fStrat));
+		attInf.add(new NominalAttributeInfo(5, "years of experience", Arrays.asList("years>5", "years<5"), fStrat));
 
 		List<Record> records = new ArrayList<>();
 

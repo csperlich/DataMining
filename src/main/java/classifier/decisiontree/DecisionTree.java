@@ -3,8 +3,6 @@ package classifier.decisiontree;
 import org.javatuples.Pair;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import classifier.Classifier;
 import data.attribute.AttributeInfo;
@@ -63,7 +61,7 @@ public class DecisionTree implements Classifier {
 				this.tracePrint(records, attributeInfos, node, "homogenous records");
 			}
 		} else if (attributeInfos.isEmpty()) {
-			node = Node.newLeafNode(this.majorityLabel(records));
+			node = Node.newLeafNode(Record.getMajorityLabel(records));
 			if (this.trace) {
 				this.tracePrint(records, attributeInfos, node, "no more features");
 			}
@@ -77,7 +75,7 @@ public class DecisionTree implements Classifier {
 
 			// if only one group left, make leaf node with majority class
 			if (splitRecords.size() == 1) {
-				node = Node.newLeafNode(this.majorityLabel(splitRecords.get(0)));
+				node = Node.newLeafNode(Record.getMajorityLabel(splitRecords.get(0)));
 				if (this.trace) {
 					this.tracePrint(records, attributeInfos, node, "all records satisfy feature");
 				}
@@ -142,15 +140,6 @@ public class DecisionTree implements Classifier {
 		}
 
 		return bestFeature;
-	}
-
-	private Map<String, Long> getLabelCounts(List<Record> records) {
-		return records.parallelStream().collect(Collectors.groupingBy(Record::getLabel, Collectors.counting()));
-	}
-
-	private String majorityLabel(List<Record> records) {
-		Map<String, Long> labelCounts = this.getLabelCounts(records);
-		return labelCounts.entrySet().parallelStream().max(Map.Entry.comparingByValue()).get().getKey();
 	}
 
 	private boolean isHomogeneous(List<Record> records) {
