@@ -14,9 +14,7 @@ import data.feature.DefaultFeautureStrategy;
 import data.feature.FeatureStrategy;
 import data.record.Record;
 import entropy.GiniMeasure;
-import entropy.GiniMeasure;
 import entropy.ShannonEntropy;
-import fileio.BinaryIO;
 import fileio.BinaryIO;
 import fileio.HomogenousIO;
 
