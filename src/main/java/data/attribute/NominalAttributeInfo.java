@@ -32,8 +32,7 @@ public class NominalAttributeInfo extends AttributeInfo<Integer> {
 
 	@Override
 	public Object parseValue(String next) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.valueMap.get(next);
 	}
 
 	@Override

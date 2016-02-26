@@ -26,7 +26,7 @@ public class NearestNeighborApp {
 		attributeInfos.add(new ContinuousAttribute(1, "GPA", null, featureStrategy, 0.0, 4.0, true));
 		attributeInfos.add(new OrdinalAttribute(2, "Grades", Arrays.asList("C", "B", "A"), featureStrategy, true));
 
-		HomogenousIO reader = new HomogenousIO(attributeInfos);
+		HomogenousIO reader = new HomogenousIO(attributeInfos, new NoFeatureStrategy());
 		List<Record> trainingRecords = reader.getTrainingData("DataMining-Data/train3");
 
 		NearestNeighbor nearestNeighbor = new NearestNeighbor(

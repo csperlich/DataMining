@@ -8,9 +8,10 @@ import data.attribute.NominalAttributeInfo;
 
 public interface FeatureStrategy {
 	default List<Feature<Integer>> getBinaryFeatures(NominalAttributeInfo attributeInfo) {
-		String representation = " is " + attributeInfo.getDiscreteValues(0);
-		Feature<Integer> feature = Feature.createFeature(Predicates.is((Integer) attributeInfo.getDiscreteValues(0)),
-				attributeInfo, representation);
+		String representation = " is " + attributeInfo.getDiscreteValues(1);
+		Feature<Integer> feature = Feature.createFeature(
+				Predicates.is(attributeInfo.getMappedValue(attributeInfo.getDiscreteValues(1))), attributeInfo,
+				representation);
 		List<Feature<Integer>> features = new ArrayList<>();
 		features.add(feature);
 		return features;

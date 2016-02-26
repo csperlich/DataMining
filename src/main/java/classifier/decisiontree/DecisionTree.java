@@ -1,7 +1,5 @@
 package classifier.decisiontree;
 
-import org.javatuples.Pair;
-
 import java.util.List;
 
 import classifier.Classifier;
@@ -21,9 +19,10 @@ public class DecisionTree implements Classifier {
 													// until code to handle it
 													// is in place
 
-	public DecisionTree(Pair<List<Record>, List<AttributeInfo<?>>> data, EntropyMeasure entropyMeasure) {
-		this.trainingRecords = data.getValue0();
-		this.attributeInfos = data.getValue1();
+	public DecisionTree(List<Record> trainingRecords, List<AttributeInfo<?>> attributeInfos,
+			EntropyMeasure entropyMeasure) {
+		this.trainingRecords = trainingRecords;
+		this.attributeInfos = attributeInfos;
 		this.entropyMeasure = entropyMeasure;
 	}
 

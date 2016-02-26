@@ -27,9 +27,9 @@ public abstract class AttributeInfo<T> {
 		this.columnName = columnName;
 		this.discreteValues = discreteValues;
 		this.features = new ArrayList<>();
+		this.createValueMap(discreteValues);
 		this.featureStrategy = featureStrategy;
 		this.addNonContinuousFeatures();
-		this.createValueMap(discreteValues);
 	}
 
 	protected abstract void createValueMap(List<Object> discreteValues);
@@ -58,6 +58,10 @@ public abstract class AttributeInfo<T> {
 	public List<Feature<T>> getFeatures() {
 		return this.features;
 
+	}
+
+	public T getMappedValue(Object o) {
+		return this.valueMap.get(o);
 	}
 
 	public abstract Object parseValue(String next);

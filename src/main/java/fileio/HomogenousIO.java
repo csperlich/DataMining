@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.attribute.AttributeInfo;
-import data.feature.NoFeatureStrategy;
+import data.feature.FeatureStrategy;
 import data.record.Record;
 
 public class HomogenousIO extends RecordIO {
 
-	public HomogenousIO(List<AttributeInfo<?>> attributeInfos) throws FileNotFoundException {
-		super(attributeInfos, new NoFeatureStrategy());
+	public HomogenousIO(List<AttributeInfo<?>> attributeInfos, FeatureStrategy featureStrategy)
+			throws FileNotFoundException {
+		super(attributeInfos, featureStrategy);
 	}
 
 	/*
 	 * @Override protected Pair<List<Record>, List<AttributeInfo<?>>>
 	 * readData(boolean training) {
-	 * 
+	 *
 	 * boolean normalize = true; List<AttributeInfo<?>> attributeInfos = new
 	 * LinkedList<>(); attributeInfos.add(new ContinuousAttribute(0, "Score",
 	 * null, this.featureStrategy, 0.0, 100.0, normalize));
@@ -27,18 +28,18 @@ public class HomogenousIO extends RecordIO {
 	 * this.featureStrategy, normalize)); attributeInfos.add(new
 	 * OrdinalAttribute(3, "Class", Arrays.asList("bad", "average", "good"),
 	 * this.featureStrategy, normalize));
-	 * 
+	 *
 	 * List<Record> records = new ArrayList<>();
-	 * 
+	 *
 	 * while (this.reader.hasNext()) { Object[] values = new
 	 * Object[attributeInfos.size()]; for (int i = 0; i < attributeInfos.size();
 	 * i++) { values[i] = this.reader.next(); } Record record = new
 	 * Record(values); if (training) { record.setLabel(this.reader.next()); }
 	 * records.add(record); }
-	 * 
+	 *
 	 * return new Pair<List<Record>, List<AttributeInfo<?>>>(records,
 	 * attributeInfos);
-	 * 
+	 *
 	 * }
 	 */
 
