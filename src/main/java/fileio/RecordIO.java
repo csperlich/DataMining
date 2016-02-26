@@ -68,7 +68,7 @@ public abstract class RecordIO {
 
 			records.add(new Record(attributes));
 		}
-
+		this.reader.close();
 		return records;
 	}
 

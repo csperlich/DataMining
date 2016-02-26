@@ -51,7 +51,14 @@ public class HomogenousIO extends RecordIO {
 		while (this.reader.hasNext()) {
 			Object[] values = new Object[this.attributeInfos.size()];
 			for (int i = 0; i < this.attributeInfos.size(); i++) {
-				values[i] = this.attributeInfos.get(i).parseValue(this.reader.next());
+				String val = this.reader.next();
+				/*
+				 * System.out.println("--"); System.out.println("i = " + i);
+				 * System.out.println(val);
+				 * System.out.println(this.attributeInfos.get(i));
+				 * System.out.println("--");
+				 */
+				values[i] = this.attributeInfos.get(i).parseValue(val);
 			}
 			Record record = new Record(values);
 			if (training) {

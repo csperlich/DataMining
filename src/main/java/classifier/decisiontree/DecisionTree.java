@@ -1,6 +1,8 @@
 package classifier.decisiontree;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import classifier.Classifier;
 import data.attribute.AttributeInfo;
@@ -22,7 +24,8 @@ public class DecisionTree implements Classifier {
 	public DecisionTree(List<Record> trainingRecords, List<AttributeInfo<?>> attributeInfos,
 			EntropyMeasure entropyMeasure) {
 		this.trainingRecords = trainingRecords;
-		this.attributeInfos = attributeInfos;
+		this.attributeInfos = new LinkedList<>();
+		this.attributeInfos.addAll(attributeInfos);
 		this.entropyMeasure = entropyMeasure;
 	}
 
@@ -32,6 +35,7 @@ public class DecisionTree implements Classifier {
 
 	public void buildTree() {
 		this.root = this.build(this.trainingRecords, this.attributeInfos);
+		this.reorderAttributeInfos();
 	}
 
 	@Override
@@ -121,6 +125,13 @@ public class DecisionTree implements Classifier {
 		}
 
 		return node;
+	}
+
+	private void reorderAttributeInfos() {
+
+		this.attributeInfos = this.attributeInfos.parallelStream().sorted((AttributeInfo<?> a1,
+				AttributeInfo<?> a2) -> Integer.compare(a1.getColumnNumber(), a2.getColumnNumber()))
+				.collect(Collectors.toList());
 	}
 
 	private Feature<?> bestFeature(List<Record> records, List<AttributeInfo<?>> attributeInfos) {
