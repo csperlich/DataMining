@@ -105,4 +105,6 @@ public interface Classifier {
 		return trainingError / numIterations;
 	}
 
+	public void setTrace(boolean trace);
+
 }

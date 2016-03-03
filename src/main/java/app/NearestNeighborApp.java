@@ -15,6 +15,7 @@ import data.feature.FeatureStrategy;
 import data.feature.NoFeatureStrategy;
 import data.record.Record;
 import fileio.HomogenousIO;
+import majorityrule.WeightedMajorityRule;
 
 public class NearestNeighborApp {
 	public static void main(String[] args) throws FileNotFoundException {
@@ -30,7 +31,8 @@ public class NearestNeighborApp {
 		List<Record> trainingRecords = reader.getTrainingData("DataMining-Data/train3");
 
 		NearestNeighbor nearestNeighbor = new NearestNeighbor(
-				new Pair<List<Record>, List<AttributeInfo<?>>>(trainingRecords, attributeInfos), 5);
+				new Pair<List<Record>, List<AttributeInfo<?>>>(trainingRecords, attributeInfos), 5,
+				new WeightedMajorityRule());
 
 		// System.out.println(trainingRecords);
 		// System.out.println(attributeInfos);

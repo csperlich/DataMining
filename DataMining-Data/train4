@@ -1,11 +1,3 @@
-
-credit score: 500-900
-income: 30k-90k
-age: 30-80
-sex: male, female
-marital status: single, divorced, married
-class: low risk, medium risk, high risk, undetermined
-
 720 87 77 male single         low
 776 47 64 male married        low
 651 47 34 female single       high
