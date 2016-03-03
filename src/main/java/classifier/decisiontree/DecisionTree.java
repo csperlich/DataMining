@@ -59,12 +59,12 @@ public class DecisionTree implements Classifier {
 		Node node = null;
 
 		if (this.isHomogeneous(records)) {
-			node = Node.newLeafNode(records.get(0).getLabel());
+			node = Node.newLeafNode(records.get(0).getLabel(), records, this.trainingRecords.size());
 			if (this.trace) {
 				this.tracePrint(records, attributeInfos, node, "homogenous records");
 			}
 		} else if (attributeInfos.isEmpty()) {
-			node = Node.newLeafNode(Record.getMajorityLabel(records));
+			node = Node.newLeafNode(Record.getMajorityLabel(records), records, this.trainingRecords.size());
 			if (this.trace) {
 				this.tracePrint(records, attributeInfos, node, "no more features");
 			}
@@ -78,7 +78,8 @@ public class DecisionTree implements Classifier {
 
 			// if only one group left, make leaf node with majority class
 			if (splitRecords.size() == 1) {
-				node = Node.newLeafNode(Record.getMajorityLabel(splitRecords.get(0)));
+				node = Node.newLeafNode(Record.getMajorityLabel(splitRecords.get(0)), records,
+						this.trainingRecords.size());
 				if (this.trace) {
 					this.tracePrint(records, attributeInfos, node, "all records satisfy feature");
 				}

@@ -58,6 +58,16 @@ public class Record {
 		return sb.toString();
 	}
 
+	public static int numCorrect(List<Record> records, String label) {
+		int count = 0;
+		for (Record record : records) {
+			if (record.label.equals(label)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 	public static Map<String, Long> getLabelFrequencies(List<Record> records) {
 		return records.parallelStream().collect(Collectors.groupingBy(Record::getLabel, Collectors.counting()));
 	}
