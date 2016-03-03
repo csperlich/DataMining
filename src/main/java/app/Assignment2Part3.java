@@ -23,12 +23,6 @@ import majorityrule.WeightedMajorityRule;
 
 public class Assignment2Part3 {
 
-	/*
-	 * credit score: 500-900 income: 30k-90k age: 30-80 sex: male, female
-	 * marital status: single, divorced, married class: low risk, medium risk,
-	 * high risk, undetermined
-	 */
-
 	public static void main(String[] args) throws FileNotFoundException {
 		// Declare the feature strategy and attribute information
 		FeatureStrategy featureStrategy = new DefaultFeautureStrategy();
