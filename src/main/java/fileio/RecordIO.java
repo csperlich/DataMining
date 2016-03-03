@@ -24,14 +24,6 @@ public abstract class RecordIO {
 		this.attributeInfos = attributeInfos;
 	}
 
-	/*
-	 * public Pair<List<Record>, List<AttributeInfo<?>>> getTrainingData(String
-	 * fileName) throws FileNotFoundException { Record.resetRecordCount();
-	 * this.reader = new Scanner(new File(fileName)); Pair<List<Record>,
-	 * List<AttributeInfo<?>>> data = this.readData(true); this.reader.close();
-	 * return data; }
-	 */
-
 	public List<Record> getTrainingData(String fileName) throws FileNotFoundException {
 		Record.resetRecordCount();
 		this.reader = new Scanner(new File(fileName));

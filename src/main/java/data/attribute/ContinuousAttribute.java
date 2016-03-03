@@ -18,8 +18,6 @@ public class ContinuousAttribute extends AttributeInfo<Double> {
 
 	@Override
 	protected void addNonContinuousFeatures() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

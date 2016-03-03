@@ -51,10 +51,6 @@ public class NearestNeighbor implements Classifier {
 		}
 
 		return label;
-
-		// return
-		// Record.getMajorityLabel(this.nearestNeighbors(idsAndDistances));
-
 	}
 
 	private void printTrace(Record record, String label, List<Pair<Integer, Double>> idsAndDistances,

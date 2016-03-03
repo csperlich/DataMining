@@ -37,8 +37,6 @@ public interface Classifier {
 
 	default public double validateLeaveOneOut() {
 		List<Record> originalTrainingRecords = getTrainingRecords();
-		// System.out.println("trainingRecordsSize " +
-		// originalTrainingRecords.size());
 		double trainingError = 0;
 		for (int i = 0; i < originalTrainingRecords.size(); i++) {
 			List<Record> newTrainingRecords = new ArrayList<>();
@@ -47,13 +45,10 @@ public interface Classifier {
 			newTrainingRecords.addAll(originalTrainingRecords);
 			newTestRecords.add(newTrainingRecords.remove(i));
 
-			// System.out.print(newTrainingRecords.size() + " " +
-			// newTestRecords.size() + " error ->");
 			this.setTrainingRecords(newTrainingRecords);
 			this.buildClassifier();
 			double error = this.classificationError(newTestRecords);
 
-			// System.out.print(error + "\n");
 			trainingError += error;
 
 		}
@@ -66,8 +61,6 @@ public interface Classifier {
 
 	default public double validateRandomSampling(int numIterations) {
 		List<Record> originalTrainingRecords = getTrainingRecords();
-		// System.out.println("trainingRecordsSize " +
-		// originalTrainingRecords.size());
 		double trainingError = 0;
 		for (int i = 0; i < numIterations; i++) {
 
@@ -88,13 +81,11 @@ public interface Classifier {
 			if (newTestRecords.size() == 0) {
 				newTestRecords.add(newTrainingRecords.remove(newTrainingRecords.size() - 1));
 			}
-			// System.out.print(newTrainingRecords.size() + " " +
-			// newTestRecords.size() + " error ->");
+
 			this.setTrainingRecords(newTrainingRecords);
 			this.buildClassifier();
 			double error = this.classificationError(newTestRecords);
 
-			// System.out.print(error + "\n");
 			trainingError += error;
 
 		}
