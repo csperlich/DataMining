@@ -60,6 +60,14 @@ public class Node {
 		return this.children;
 	}
 
+	public double getConfidence() {
+		return this.confidence;
+	}
+
+	public double getSupport() {
+		return this.support;
+	}
+
 	public String simpleString() {
 		if (!this.isLeaf) {
 			return "feature->" + this.feature;

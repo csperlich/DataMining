@@ -11,6 +11,8 @@ public class Record {
 	private String label;
 	private int recordNumber;
 	private static int totalRecords = 0;
+	private double confidence;
+	private double support;
 
 	public static void resetRecordCount() {
 		totalRecords = 0;
@@ -25,6 +27,22 @@ public class Record {
 	public Record(Object[] attributes) {
 		this.attributes = attributes;
 		this.recordNumber = ++totalRecords;
+	}
+
+	public void setConfidence(double confidence) {
+		this.confidence = confidence;
+	}
+
+	public void setSupport(double support) {
+		this.support = support;
+	}
+
+	public double getConfidence() {
+		return this.confidence;
+	}
+
+	public double getSupport() {
+		return this.support;
 	}
 
 	public Object getAttribute(int index) {

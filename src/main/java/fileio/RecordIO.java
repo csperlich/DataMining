@@ -43,7 +43,8 @@ public abstract class RecordIO {
 	public void writeData(String fileName, List<Record> records) throws FileNotFoundException {
 		this.writer = new PrintWriter(new File(fileName));
 		for (Record record : records) {
-			this.writer.println(record.csvString() + ", class-> " + record.getLabel());
+			this.writer.println(record.csvString() + ", class-> " + record.getLabel() + "\t confidence="
+					+ record.getConfidence() + "\t support=" + record.getSupport());
 		}
 		this.writer.close();
 	}

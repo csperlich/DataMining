@@ -29,6 +29,7 @@ public class DecisionTree implements Classifier {
 		this.entropyMeasure = entropyMeasure;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
@@ -209,6 +210,8 @@ public class DecisionTree implements Classifier {
 			int bin = node.getFeature().binRecord(record);
 			node = node.getchild(bin);
 		}
+		record.setConfidence(node.getConfidence());
+		record.setSupport(node.getSupport());
 		return node.getLabel();
 	}
 
