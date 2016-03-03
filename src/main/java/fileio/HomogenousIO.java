@@ -65,6 +65,13 @@ public class HomogenousIO extends RecordIO {
 				record.setLabel(this.reader.next());
 			}
 			records.add(record);
+			// System.out.println(record.getLabel());
+			// System.out.println(curLabel);
+
+			// System.out.println(record.csvString(' '));
+			// System.out.println(records.get(records.size() - 1).getLabel() + "
+			// labelCount=" + labelCount);
+
 		}
 
 		return records;
