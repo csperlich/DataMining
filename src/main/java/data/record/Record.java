@@ -50,11 +50,14 @@ public class Record {
 	}
 
 	public String csvString() {
+		return this.csvString('\t');
+	}
+
+	public String csvString(char separator) {
 		StringBuilder sb = new StringBuilder();
 		for (Object value : this.attributes) {
-			sb.append(value.toString() + "\t");
+			sb.append(value.toString() + separator);
 		}
-		sb.append(this.label);
 		return sb.toString();
 	}
 

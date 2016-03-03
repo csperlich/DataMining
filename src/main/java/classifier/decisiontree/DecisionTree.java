@@ -48,11 +48,25 @@ public class DecisionTree implements Classifier {
 	}
 
 	private void tracePrint(List<Record> records, List<AttributeInfo<?>> attributeInfos, Node node, String reason) {
-		System.out.println("NODE CREATED --> " + reason);
+		String type = node.isLeaf() ? "LEAF" : "INTERNAL";
+		System.out.println(type + " NODE CREATED --> " + reason);
 		System.out.println(node);
-		System.out.println(records);
-		System.out.println(attributeInfos);
-		System.out.println();
+		System.out.println("Records: ");
+		int i = 0;
+		for (; i < records.size(); i++) {
+			System.out.print("[" + records.get(i).csvString(' ') + "] ");
+			if ((i + 1) % 4 == 0) {
+				System.out.println();
+			}
+		}
+		if ((i + 1) % 4 != 1) {
+			System.out.println();
+		}
+		System.out.print("Attribute Columns: ");
+		for (AttributeInfo<?> attributeInfo : attributeInfos) {
+			System.out.print(attributeInfo.getColumnNumber() + " ");
+		}
+		System.out.println("\n");
 	}
 
 	private Node build(List<Record> records, List<AttributeInfo<?>> attributeInfos) {
@@ -102,25 +116,11 @@ public class DecisionTree implements Classifier {
 					// replace the attribute
 					attributeInfos.add(attributeInfo);
 				} else {
-					// TODO: IMPLEMENT THIS
-					/*
-					 * AttributeInfo<?> attributeInfo =
-					 * bestFeature.getAttributeInfo();
-					 * attributeInfo.getFeatures().remove(bestFeature); boolean
-					 * attributeRemoved = false; if
-					 * (attributeInfo.getFeatures().isEmpty()) {
-					 * attributeInfos.remove(attributeInfo); attributeRemoved =
-					 * true; }
-					 *
-					 * for (List<Record> recordGroup : splitRecords) {
-					 * node.addChild(this.build(recordGroup, attributeInfos)); }
-					 *
-					 * // replace the removed attribute if (attributeRemoved) {
-					 * attributeInfos.add(attributeInfo); }
-					 *
-					 * // replace the feature
-					 * attributeInfo.getFeatures().add(bestFeature);
-					 */
+					// TODO: IMPLEMENTING THIS WILL BE NECESSARY FOR TREES
+					// WITH MULTIPLE QUESTIONS ALLOWED PER ATTRIBUTE
+					// Must remove and replace a feature from an attribute
+					// instead of the entire attribute as opposed to the above
+					// if block
 				}
 			}
 		}
@@ -182,11 +182,9 @@ public class DecisionTree implements Classifier {
 			return;
 		}
 
-		// System.out.println(root);
 		for (int i = 0; i < root.getChildren().size(); i++) {
 			char direction = i == 0 ? 'L' : 'R';
 			this.preOrderPrint(root.getchild(i), path + "," + direction);
-			// this.preOrderPrint(root.getchild(i), path + "," + i);
 		}
 
 	}
@@ -222,8 +220,6 @@ public class DecisionTree implements Classifier {
 			if (classification.equals(record.getLabel())) {
 				numCorrect++;
 			}
-			// System.out.println("guess: " + classification + ", actual: " +
-			// record.getLabel());
 		}
 		return 1.0 - (double) numCorrect / this.trainingRecords.size();
 	}
