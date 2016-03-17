@@ -30,6 +30,16 @@ public class BayesClassifier {
 		}
 	}
 
+	private static class ClassificationResult {
+		private int className;
+		private double confidence;
+
+		private ClassificationResult(int className, double confidence) {
+			this.className = className;
+			this.confidence = confidence;
+		}
+	}
+
 	private DataConverter dataConverter;
 
 	private List<Record> records;
@@ -206,10 +216,10 @@ public class BayesClassifier {
 				attributeArray[j] = this.convert(label, j + 1);
 			}
 
-			int className = this.classify(attributeArray);
+			ClassificationResult result = this.classify(attributeArray);
 
-			String label = this.convert(className);
-			outFile.println(label);
+			String label = this.convert(result.className);
+			outFile.println("class=" + label + ", confidence=" + result.confidence);
 		}
 
 		inFile.close();
@@ -231,7 +241,8 @@ public class BayesClassifier {
 				attributeArray[j] = this.convert(label, j + 1);
 			}
 
-			int predictedClass = this.classify(attributeArray);
+			ClassificationResult result = this.classify(attributeArray);
+			int predictedClass = result.className;
 
 			String label = inFile.next();
 			int actualClass = this.convert(label, this.numberAttributes + 1);
@@ -256,12 +267,15 @@ public class BayesClassifier {
 		return this.dataConverter.convert(value);
 	}
 
-	private int classify(int[] attributes) {
+	private ClassificationResult classify(int[] attributes) {
 		double maxProbability = 0;
 		int maxClass = -1;
 
+		double probabilitySum = 0;
+
 		for (int i = 0; i < this.numberClasses; i++) {
 			double probability = this.findProbability(i + 1, attributes);
+			probabilitySum += probability;
 
 			if (probability > maxProbability) {
 				maxProbability = probability;
@@ -269,7 +283,9 @@ public class BayesClassifier {
 			}
 		}
 
-		return maxClass + 1;
+		double confidence = maxProbability / probabilitySum;
+
+		return new ClassificationResult(maxClass + 1, confidence);
 	}
 
 	public double trainingError() {
@@ -279,7 +295,7 @@ public class BayesClassifier {
 	public double classificationError(List<Record> records) {
 		int numIncorrect = 0;
 		for (Record record : records) {
-			int classification = this.classify(record.attributes);
+			int classification = this.classify(record.attributes).className;
 			if (classification != record.className) {
 				numIncorrect++;
 			}
@@ -299,7 +315,7 @@ public class BayesClassifier {
 			this.buildModel();
 
 			// test the classifer against the one out and update the error
-			int theClass = this.classify(theOneOut.attributes);
+			int theClass = this.classify(theOneOut.attributes).className;
 			if (theClass != theOneOut.className) {
 				trainingError += 1;
 			}
