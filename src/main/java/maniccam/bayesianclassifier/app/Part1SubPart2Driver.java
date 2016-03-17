@@ -21,5 +21,8 @@ public class Part1SubPart2Driver {
 
 		System.out.println("TRAINING ERROR IS: " + classifier.trainingError());
 		System.out.println("LEAVE ONE OUT VALIDATION ERROR IS: " + classifier.validateLeaveOneOut() + "\n");
+
+		System.out.println("LAPLACE ADJUSTED CONDITIONAL PROBABILITES:\n");
+		classifier.printLaplaceConditionalProbabilites(13);
 	}
 }

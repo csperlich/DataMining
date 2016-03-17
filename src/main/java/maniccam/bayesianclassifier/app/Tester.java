@@ -22,5 +22,7 @@ public class Tester {
 		classifier.buildModel();
 
 		classifier.classifyData("bayes_data/testfile", "bayes_data/classifiedfile");
+
+		classifier.printLaplaceConditionalProbabilites(34);
 	}
 }

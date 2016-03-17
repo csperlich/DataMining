@@ -1,5 +1,5 @@
-mediumrisk
-undetermined
-highrisk
-highrisk
-lowrisk
+class = mediumrisk, confidence = 43%
+class = undetermined, confidence = 46%
+class = highrisk, confidence = 63%
+class = highrisk, confidence = 52%
+class = lowrisk, confidence = 78%

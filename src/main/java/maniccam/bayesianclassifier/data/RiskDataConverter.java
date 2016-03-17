@@ -31,20 +31,30 @@ public class RiskDataConverter implements DataConverter {
 	}
 
 	@Override
-	public String convert(int value) {
-		String label;
+	public String convert(int value, int column) {
+		String name;
 
-		if (value == 1) {
-			label = "highrisk";
-		} else if (value == 2) {
-			label = "mediumrisk";
-		} else if (value == 3) {
-			label = "lowrisk";
+		if (column == 1) {
+			name = value == 1 ? "college" : "highschool";
+		} else if (column == 2) {
+			name = value == 1 ? "smoker" : "nonsmoker";
+		} else if (column == 3) {
+			name = value == 1 ? "married" : "notmarried";
+		} else if (column == 4) {
+			name = value == 1 ? "male" : "female";
+		} else if (column == 5) {
+			name = value == 1 ? "nonsmoker" : "smoker";
 		} else {
-			label = "undetermined";
+			if (value == 1) {
+				name = "highrisk";
+			} else if (value == 2) {
+				name = "mediumrisk";
+			} else if (value == 3) {
+				name = "lowrisk";
+			} else {
+				name = "undetermined";
+			}
 		}
-
-		return label;
-
+		return name;
 	}
 }

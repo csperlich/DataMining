@@ -10,7 +10,10 @@ public class Part1JustNumbersDataConverter implements DataConverter {
 	}
 
 	@Override
-	public String convert(int value) {
+	public String convert(int value, int column) {
+		if (column == 1 || column == 4) {
+			return value == 1 ? 0 + "" : 1 + "";
+		}
 		return value + "";
 	}
 }

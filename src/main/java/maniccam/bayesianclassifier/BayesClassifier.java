@@ -218,8 +218,8 @@ public class BayesClassifier {
 
 			ClassificationResult result = this.classify(attributeArray);
 
-			String label = this.convert(result.className);
-			outFile.println("class=" + label + ", confidence=" + result.confidence);
+			String label = this.convert(result.className, this.numberAttributes + 1);
+			outFile.printf("class = %s, confidence = %d%%%n", label, (int) (result.confidence * 100));
 		}
 
 		inFile.close();
@@ -263,8 +263,31 @@ public class BayesClassifier {
 		return this.dataConverter.convert(label, column);
 	}
 
-	private String convert(int value) {
-		return this.dataConverter.convert(value);
+	/**
+	 *
+	 * @param value
+	 * @return the string associated with the int value for the given column
+	 */
+	private String convert(int value, int column) {
+		return this.dataConverter.convert(value, column);
+	}
+
+	public void printLaplaceConditionalProbabilites(int colWidth) {
+		for (int i = 0; i < this.table.length; i++) {
+
+			// print header
+			System.out.println("ATTRIBUTE: " + (i + 1));
+
+			for (int j = 0; j < this.table[i].length; j++) {
+				for (int k = 0; k < this.table[i][j].length; k++) {
+					System.out.printf("%" + colWidth + "s",
+							"P(" + this.convert(k + 1, i + 1) + "|" + this.convert(j + 1, this.numberAttributes + 1)
+									+ ")=" + String.format("%4.2f", this.table[i][j][k]));
+				}
+				System.out.println();
+			}
+			System.out.println();
+		}
 	}
 
 	private ClassificationResult classify(int[] attributes) {
@@ -327,15 +350,6 @@ public class BayesClassifier {
 		}
 
 		return trainingError / this.records.size();
-	}
-
-	public void printRecs() {
-		for (Record rec : this.records) {
-			for (int i = 0; i < rec.attributes.length; i++) {
-				System.out.print(rec.attributes[i] + " ");
-			}
-			System.out.print(rec.className + "\n");
-		}
 	}
 
 }
