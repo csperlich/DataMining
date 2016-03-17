@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class Tester {
 	public static void main(String[] args) throws IOException {
-		BayesClassifier classifier = new BayesClassifier();
+		BayesClassifier classifier = new BayesClassifier(new RiskDataConverter());
 
 		classifier.loadTrainingData("bayes_data/trainingfile");
 
