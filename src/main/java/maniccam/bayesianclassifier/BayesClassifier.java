@@ -313,4 +313,13 @@ public class BayesClassifier {
 		return trainingError / this.records.size();
 	}
 
+	public void printRecs() {
+		for (Record rec : this.records) {
+			for (int i = 0; i < rec.attributes.length; i++) {
+				System.out.print(rec.attributes[i] + " ");
+			}
+			System.out.print(rec.className + "\n");
+		}
+	}
+
 }
