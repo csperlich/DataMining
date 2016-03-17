@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import maniccam.bayesianclassifier.data.DataConverter;
@@ -31,7 +32,7 @@ public class BayesClassifier {
 
 	private DataConverter dataConverter;
 
-	private ArrayList<Record> records;
+	private List<Record> records;
 	private int[] attributeValues;
 	private int numberRecords;
 	private int numberAttributes;
@@ -179,22 +180,6 @@ public class BayesClassifier {
 		}
 	}
 
-	private int classify(int[] attributes) {
-		double maxProbability = 0;
-		int maxClass = -1;
-
-		for (int i = 0; i < this.numberClasses; i++) {
-			double probability = this.findProbability(i + 1, attributes);
-
-			if (probability > maxProbability) {
-				maxProbability = probability;
-				maxClass = i;
-			}
-		}
-
-		return maxClass + 1;
-	}
-
 	private double findProbability(int className, int[] attributes) {
 		double value;
 		double product = 1;
@@ -270,4 +255,62 @@ public class BayesClassifier {
 	private String convert(int value) {
 		return this.dataConverter.convert(value);
 	}
+
+	private int classify(int[] attributes) {
+		double maxProbability = 0;
+		int maxClass = -1;
+
+		for (int i = 0; i < this.numberClasses; i++) {
+			double probability = this.findProbability(i + 1, attributes);
+
+			if (probability > maxProbability) {
+				maxProbability = probability;
+				maxClass = i;
+			}
+		}
+
+		return maxClass + 1;
+	}
+
+	public double trainingError() {
+		return this.classificationError(this.records);
+	}
+
+	public double classificationError(List<Record> records) {
+		int numIncorrect = 0;
+		for (Record record : records) {
+			int classification = this.classify(record.attributes);
+			if (classification != record.className) {
+				numIncorrect++;
+			}
+		}
+		return (double) numIncorrect / records.size();
+	}
+
+	public double validateLeaveOneOut() {
+		double trainingError = 0;
+		for (int i = 0; i < this.records.size(); i++) {
+
+			// remove one record
+			Record theOneOut = this.records.remove(i);
+
+			// build the classifer
+			this.numberRecords--;
+			this.buildModel();
+
+			// test the classifer against the one out and update the error
+			int theClass = this.classify(theOneOut.attributes);
+			if (theClass != theOneOut.className) {
+				trainingError += 1;
+			}
+
+			// put the record back in
+			this.records.add(i, theOneOut);
+			this.numberRecords++;
+
+		}
+
+		return trainingError / this.records.size();
+	}
+
 }

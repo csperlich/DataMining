@@ -14,5 +14,9 @@ public class Part1SubPart2Driver {
 		classifier.buildModel();
 
 		classifier.classifyData("program2_data/part1/test1", "program2_data/part1/classified1");
+
+		System.out.println("TRAINING ERROR IS: " + classifier.trainingError());
+		System.out.println("LEAVE ONE OUT VALIDATION ERROR IS: " + classifier.validateLeaveOneOut());
+
 	}
 }
