@@ -1,4 +1,4 @@
-package maniccam;
+package maniccam.neuralnets;
 /**
  * This is the code for a Neural Network program given out to
  * students of Dr. Maniccam's Data Mining class at Eastern Michigan University.

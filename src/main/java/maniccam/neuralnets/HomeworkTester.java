@@ -1,4 +1,4 @@
-package maniccam;
+package maniccam.neuralnets;
 
 import java.io.IOException;
 
