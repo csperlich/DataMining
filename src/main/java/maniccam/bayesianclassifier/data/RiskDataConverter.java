@@ -1,4 +1,4 @@
-package maniccam.bayesianclassifier;
+package maniccam.bayesianclassifier.data;
 
 public class RiskDataConverter implements DataConverter {
 

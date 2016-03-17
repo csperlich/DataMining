@@ -1,6 +1,9 @@
-package maniccam.bayesianclassifier;
+package maniccam.bayesianclassifier.app;
 
 import java.io.IOException;
+
+import maniccam.bayesianclassifier.BayesClassifier;
+import maniccam.bayesianclassifier.data.RiskDataConverter;
 
 /**
  * This is the code for a driver program for a Bayesian Classifer Class given

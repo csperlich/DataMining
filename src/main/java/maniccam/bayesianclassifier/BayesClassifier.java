@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import maniccam.bayesianclassifier.data.DataConverter;
+
 /**
  * This is the code for a Bayesian Classifer program given out to students of
  * Dr. Maniccam's Data Mining class at Eastern Michigan University.
