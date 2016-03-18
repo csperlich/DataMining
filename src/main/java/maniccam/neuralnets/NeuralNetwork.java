@@ -55,7 +55,6 @@ public class NeuralNetwork {
 	private double[][] matrixMiddle;
 	private double[][] matrixOut;
 
-	// Constructor for neural network regression
 	public NeuralNetwork(DataConverter<Double> dataConverter) {
 		this.dataConverter = dataConverter;
 	}
@@ -103,8 +102,8 @@ public class NeuralNetwork {
 		System.out.println("MIDDLE BIASES:");
 		this.printArray(this.thetaMiddle);
 
-		System.out.println("MIDDLE ERRORS:");
-		this.printArray(this.errorMiddle);
+		// System.out.println("MIDDLE ERRORS:");
+		// this.printArray(this.errorMiddle);
 
 		System.out.println("OUT WEIGHTS: ");
 		this.printMatrix(this.matrixOut);
@@ -112,8 +111,8 @@ public class NeuralNetwork {
 		System.out.println("OUT BIASES:");
 		this.printArray(this.thetaOut);
 
-		System.out.println("OUT ERRORS:");
-		this.printArray(this.errorOut);
+		// System.out.println("OUT ERRORS:");
+		// this.printArray(this.errorOut);
 	}
 
 	private void printArray(double[] array) {
@@ -345,13 +344,15 @@ public class NeuralNetwork {
 		return error / numberRecords;
 	}
 
-	public void printParams() {
-		System.out.println("INPUT NODES: " + this.numberInputs);
-		System.out.println("HIDDEN NODES: " + this.numberMiddle);
-		System.out.println("OUTPUT NODES: " + this.numberOutputs);
-		System.out.println("TRAINING ITERATIONS: " + this.numberIterations);
-		System.out.println("LEARNING RATE: " + this.rate);
-		System.out.println("RANDOM SEED: " + this.seed);
+	public String getParamString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("INPUT NODES: " + this.numberInputs + "\n");
+		sb.append("HIDDEN NODES: " + this.numberMiddle + "\n");
+		sb.append("OUTPUT NODES: " + this.numberOutputs + "\n");
+		sb.append("TRAINING ITERATIONS: " + this.numberIterations + "\n");
+		sb.append("LEARNING RATE: " + this.rate + "\n");
+		sb.append("RANDOM SEED: " + this.seed + "\n");
+		return sb.toString();
 	}
 
 }
