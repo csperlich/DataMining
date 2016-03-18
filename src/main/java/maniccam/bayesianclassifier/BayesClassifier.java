@@ -349,6 +349,9 @@ public class BayesClassifier {
 
 		}
 
+		// rebuild the original model
+		this.buildModel();
+
 		return trainingError / this.records.size();
 	}
 
