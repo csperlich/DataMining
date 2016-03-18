@@ -20,5 +20,7 @@ public class Part2SubPart2Driver {
 		System.out.println("\n===== after training ====\n");
 		network.printNetwork();
 		network.testData("program2_data/part2/test1", "program2_data/part2/output1");
+
+		network.validate("program2_data/part2/validate1");
 	}
 }

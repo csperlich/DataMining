@@ -292,7 +292,7 @@ public class NeuralNetwork {
 
 			double[] input = new double[this.numberInputs];
 			for (int j = 0; j < this.numberInputs; j++) {
-				input[j] = this.dataConverter.convert(inFile.next(), this.numberInputs + j + 1);
+				input[j] = this.dataConverter.convert(inFile.next(), j + 1);
 			}
 
 			double[] actualOutput = new double[this.numberOutputs];
