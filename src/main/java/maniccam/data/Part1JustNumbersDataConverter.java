@@ -1,8 +1,8 @@
-package maniccam.bayesianclassifier.data;
+package maniccam.data;
 
-public class Part1JustNumbersDataConverter implements DataConverter {
+public class Part1JustNumbersDataConverter implements DataConverter<Integer> {
 	@Override
-	public int convert(String label, int column) {
+	public Integer convert(String label, int column) {
 		if (column == 1 || column == 4) {
 			return label.equals("0") ? 1 : 2;
 		}
@@ -10,7 +10,7 @@ public class Part1JustNumbersDataConverter implements DataConverter {
 	}
 
 	@Override
-	public String convert(int value, int column) {
+	public String convert(Integer value, int column) {
 		if (column == 1 || column == 4) {
 			return value == 1 ? 0 + "" : 1 + "";
 		}

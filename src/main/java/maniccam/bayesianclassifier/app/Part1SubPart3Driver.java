@@ -3,7 +3,7 @@ package maniccam.bayesianclassifier.app;
 import java.io.IOException;
 
 import maniccam.bayesianclassifier.BayesClassifier;
-import maniccam.bayesianclassifier.data.Part1HiringDatatConverter;
+import maniccam.data.Part1HiringDatatConverter;
 
 public class Part1SubPart3Driver {
 	public static void main(String[] args) throws IOException {

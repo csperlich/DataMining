@@ -1,10 +1,13 @@
-package maniccam.neuralnets;
+package maniccam.neuralnets.app;
 
 import java.io.IOException;
 
+import maniccam.data.PassThroughDoubleDataConverter;
+import maniccam.neuralnets.NeuralNetwork;
+
 public class HomeworkTester {
 	public static void main(String[] args) throws IOException {
-		NeuralNetwork network = new NeuralNetwork();
+		NeuralNetwork network = new NeuralNetwork(new PassThroughDoubleDataConverter());
 
 		network.loadTrainingData("neural_data/homeworkinput");
 

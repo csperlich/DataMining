@@ -1,9 +1,9 @@
-package maniccam.bayesianclassifier.data;
+package maniccam.data;
 
-public class Part1HiringDatatConverter implements DataConverter {
+public class Part1HiringDatatConverter implements DataConverter<Integer> {
 
 	@Override
-	public int convert(String label, int column) {
+	public Integer convert(String label, int column) {
 		int value;
 
 		switch (column) {
@@ -37,7 +37,7 @@ public class Part1HiringDatatConverter implements DataConverter {
 	}
 
 	@Override
-	public String convert(int value, int column) {
+	public String convert(Integer value, int column) {
 		String label;
 
 		switch (column) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import maniccam.bayesianclassifier.data.DataConverter;
+import maniccam.data.DataConverter;
 
 /**
  * This is the code for a Bayesian Classifer program given out to students of
@@ -40,7 +40,7 @@ public class BayesClassifier {
 		}
 	}
 
-	private DataConverter dataConverter;
+	private DataConverter<Integer> dataConverter;
 
 	private List<Record> records;
 	private int[] attributeValues;
@@ -51,7 +51,7 @@ public class BayesClassifier {
 	double[] classTable; // class frequencies
 	double[][][] table; // conditional probabilities
 
-	public BayesClassifier(DataConverter dataConverter) {
+	public BayesClassifier(DataConverter<Integer> dataConverter) {
 		this.dataConverter = dataConverter;
 
 		this.records = null;

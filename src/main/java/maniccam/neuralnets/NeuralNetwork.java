@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import maniccam.data.DataConverter;
+
 public class NeuralNetwork {
 
 	private class Record {
@@ -26,6 +28,8 @@ public class NeuralNetwork {
 			this.output = output;
 		}
 	}
+
+	private DataConverter<Double> dataConverter;
 
 	private int numberRecords;
 	private int numberInputs;
@@ -51,7 +55,23 @@ public class NeuralNetwork {
 	private double[][] matrixMiddle;
 	private double[][] matrixOut;
 
-	public NeuralNetwork() {
+	private double[] rangeMarkers;
+
+	public NeuralNetwork(DataConverter<Double> dataConverter) {
+		this.dataConverter = dataConverter;
+	}
+
+	public NeuralNetwork(DataConverter<Double> dataConverter, int numClasses) {
+		this.dataConverter = dataConverter;
+		this.initRangeMarkers(numClasses);
+	}
+
+	private void initRangeMarkers(int numClasses) {
+		this.rangeMarkers = new double[numClasses];
+		for (int i = 0; i < numClasses; i++) {
+			this.rangeMarkers[i] = (i * 2 + 1) / (double) (numClasses * 2);
+		}
+
 	}
 
 	public void loadTrainingData(String trainingFile) throws IOException {
@@ -68,13 +88,13 @@ public class NeuralNetwork {
 			// read inputs
 			double[] input = new double[this.numberInputs];
 			for (int j = 0; j < this.numberInputs; j++) {
-				input[j] = inFile.nextDouble();
+				input[j] = this.dataConverter.convert(inFile.next(), j + 1);
 			}
 
 			// read outputs
 			double[] output = new double[this.numberOutputs];
 			for (int j = 0; j < this.numberOutputs; j++) {
-				output[j] = inFile.nextDouble();
+				output[j] = this.dataConverter.convert(inFile.next(), this.numberInputs + j + 1);
 			}
 
 			Record record = new Record(input, output);
