@@ -50,7 +50,7 @@ public class Part2StudentDataConverter implements DataConverter<Double> {
 			label = String.format("%.2f", value * 4.0);
 			break;
 		case 3:
-			int gradeRange = this.getRange(value);
+			int gradeRange = this.getRange(value, this.rangeMarkers);
 			if (gradeRange == 1) {
 				label = "C";
 			} else {
@@ -58,7 +58,7 @@ public class Part2StudentDataConverter implements DataConverter<Double> {
 			}
 			break;
 		case 4:
-			int classRange = this.getRange(value);
+			int classRange = this.getRange(value, this.rangeMarkers);
 			if (classRange == 1) {
 				label = "bad";
 			} else {
@@ -69,19 +69,6 @@ public class Part2StudentDataConverter implements DataConverter<Double> {
 			throw new IllegalArgumentException("Bad attribute column number!");
 		}
 		return label;
-	}
-
-	private int getRange(Double value) {
-		int closestIndex = 0;
-		double closestDistance = 2.0;
-		for (int i = 0; i < this.rangeMarkers.length; i++) {
-			double distance = Math.abs(value - this.rangeMarkers[i]);
-			if (distance < closestDistance) {
-				closestDistance = distance;
-				closestIndex = i;
-			}
-		}
-		return closestIndex + 1;
 	}
 
 }

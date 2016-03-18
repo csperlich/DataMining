@@ -1,0 +1,18 @@
+high 
+undetermined 
+undetermined 
+undetermined 
+undetermined 
+high 
+undetermined 
+undetermined 
+-----------------
+INPUT NODES: 5
+HIDDEN NODES: 7
+OUTPUT NODES: 1
+TRAINING ITERATIONS: 10000
+LEARNING RATE: 0.5
+RANDOM SEED: 4539
+
+TRAINING ERROR USING ROOT MEAN SQUARED ERROR ->   0.0680
+VALIDATION ERROR USING MEAN ROOT MEAN SQUARED ERROR ->   0.1001

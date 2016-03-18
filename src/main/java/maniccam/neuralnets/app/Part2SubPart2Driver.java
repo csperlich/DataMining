@@ -1,8 +1,8 @@
 package maniccam.neuralnets.app;
 
-import java.io.FileWriter;
+import static maniccam.neuralnets.app.NeuralDriverTools.runSimulation;
+
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import maniccam.data.Part2StudentDataConverter;
 import maniccam.neuralnets.NeuralNetwork;
@@ -10,8 +10,13 @@ import maniccam.neuralnets.NeuralNetwork;
 public class Part2SubPart2Driver {
 	public static void main(String[] args) throws IOException {
 
+		String testFile = "program2_data/part2/test1";
+		String validationFile = "program2_data/part2/validate1";
+		String trainingFile = "program2_data/part2/train1";
+		String outFile = "program2_data/part2/output1";
+
 		NeuralNetwork network = new NeuralNetwork(new Part2StudentDataConverter());
-		network.loadTrainingData("program2_data/part2/train1");
+		network.loadTrainingData(trainingFile);
 
 		int bestHiddenNodes = 12;
 		int bestIterations = 10000;
@@ -27,49 +32,24 @@ public class Part2SubPart2Driver {
 		network.train();
 		network.printNetwork();
 
-		String outFile = "program2_data/part2/output1";
-		runSimulation(network, bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, outFile + "_best");
+		runSimulation(network, bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, outFile + "_best",
+				validationFile, testFile);
 
 		runSimulation(network, bestHiddenNodes * 2, bestIterations, bestSeedValue, bestLearningRate,
-				outFile + "_hiddenNodesDoubled");
+				outFile + "_hiddenNodesDoubled", validationFile, testFile);
 
 		runSimulation(network, bestHiddenNodes / 2, bestIterations, bestSeedValue, bestLearningRate,
-				outFile + "_hiddenNodesHalved");
+				outFile + "_hiddenNodesHalved", validationFile, testFile);
 
 		runSimulation(network, bestHiddenNodes, bestIterations * 2, bestSeedValue, bestLearningRate,
-				outFile + "_iterationsDoubled");
+				outFile + "_iterationsDoubled", validationFile, testFile);
 
 		runSimulation(network, bestHiddenNodes, bestIterations / 2, bestSeedValue, bestLearningRate,
-				outFile + "_iterationsHalved");
+				outFile + "_iterationsHalved", validationFile, testFile);
 
 		runSimulation(network, bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate / 2,
-				outFile + "_learningRateHalved");
+				outFile + "_learningRateHalved", validationFile, testFile);
 
 	}
 
-	public static void runSimulation(NeuralNetwork network, int hiddenNodes, int iterations, int seedValue,
-			double learningRate, String outFile) throws IOException {
-
-		PrintWriter fileOut = new PrintWriter(new FileWriter(outFile, true));
-
-		network.setParameters(hiddenNodes, iterations, seedValue, learningRate);
-		network.train();
-
-		fileOut.println("-----------------");
-		System.out.println("PRINTING CLASSIFICATIONS OF \"program2_data/part2/test1\" to " + outFile);
-		network.testData("program2_data/part2/test1", outFile);
-
-		System.out.println("PRINTING NETWORK PARAMETERS TO " + outFile);
-		fileOut.println(network.getParamString());
-
-		System.out.println("PRININTG TRAINING ERROR AND VALIDATION ERROR TO " + outFile);
-		fileOut.println(
-				"TRAINING ERROR USING ROOT MEAN SQUARED ERROR -> " + String.format("%8.4f", network.trainingError()));
-		fileOut.println("VALIDATION ERROR USING MEAN ROOT MEAN SQUARED ERROR -> "
-				+ String.format("%8.4f", network.validate("program2_data/part2/validate1")));
-
-		fileOut.close();
-		System.out.println();
-
-	}
 }
