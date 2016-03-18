@@ -55,23 +55,9 @@ public class NeuralNetwork {
 	private double[][] matrixMiddle;
 	private double[][] matrixOut;
 
-	private double[] rangeMarkers;
-
+	// Constructor for neural network regression
 	public NeuralNetwork(DataConverter<Double> dataConverter) {
 		this.dataConverter = dataConverter;
-	}
-
-	public NeuralNetwork(DataConverter<Double> dataConverter, int numClasses) {
-		this.dataConverter = dataConverter;
-		this.initRangeMarkers(numClasses);
-	}
-
-	private void initRangeMarkers(int numClasses) {
-		this.rangeMarkers = new double[numClasses];
-		for (int i = 0; i < numClasses; i++) {
-			this.rangeMarkers[i] = (i * 2 + 1) / (double) (numClasses * 2);
-		}
-
 	}
 
 	public void loadTrainingData(String trainingFile) throws IOException {
@@ -176,7 +162,7 @@ public class NeuralNetwork {
 		this.matrixMiddle = new double[this.numberInputs][numberMiddle];
 		for (int i = 0; i < this.numberInputs; i++) {
 			for (int j = 0; j < numberMiddle; j++) {
-				this.matrixMiddle[i][j] = 2 * rand.nextLong() - 1;
+				this.matrixMiddle[i][j] = 2 * rand.nextDouble() - 1;
 			}
 		}
 
@@ -281,13 +267,13 @@ public class NeuralNetwork {
 			double[] input = new double[this.numberInputs];
 
 			for (int j = 0; j < this.numberInputs; j++) {
-				input[j] = inFile.nextDouble();
+				input[j] = this.dataConverter.convert(inFile.next(), j + 1);
 			}
 
 			double[] output = this.test(input);
 
 			for (int j = 0; j < this.numberOutputs; j++) {
-				outFile.println(output[j] + " ");
+				outFile.print(this.dataConverter.convert(output[j], this.numberInputs + j + 1) + " ");
 			}
 			outFile.println();
 		}
@@ -306,12 +292,12 @@ public class NeuralNetwork {
 
 			double[] input = new double[this.numberInputs];
 			for (int j = 0; j < this.numberInputs; j++) {
-				input[j] = inFile.nextDouble();
+				input[j] = this.dataConverter.convert(inFile.next(), this.numberInputs + j + 1);
 			}
 
 			double[] actualOutput = new double[this.numberOutputs];
 			for (int j = 0; j < this.numberOutputs; j++) {
-				actualOutput[j] = inFile.nextDouble();
+				actualOutput[j] = this.dataConverter.convert(inFile.next(), this.numberInputs + j + 1);
 			}
 
 			double[] predictedOutput = this.test(input);
