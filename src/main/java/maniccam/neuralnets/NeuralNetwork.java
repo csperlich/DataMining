@@ -282,7 +282,7 @@ public class NeuralNetwork {
 		outFile.close();
 	}
 
-	public void validate(String validationFile) throws IOException {
+	public double validate(String validationFile) throws IOException {
 		Scanner inFile = new Scanner(new File(validationFile));
 
 		int numberRecords = inFile.nextInt();
@@ -304,10 +304,10 @@ public class NeuralNetwork {
 
 			error += this.computeError(actualOutput, predictedOutput);
 		}
-
-		System.out.println(error / numberRecords);
-
 		inFile.close();
+
+		return error / numberRecords;
+
 	}
 
 	private double computeError(double[] actualOutput, double[] predictedOutput) {
@@ -323,6 +323,35 @@ public class NeuralNetwork {
 	public void setBiases(double[] middleBiases, double[] outBiases) {
 		this.thetaMiddle = middleBiases;
 		this.thetaOut = outBiases;
+	}
+
+	public double trainingError() {
+
+		int numberRecords = this.records.size();
+		double error = 0;
+
+		for (int i = 0; i < numberRecords; i++) {
+
+			double[] input = this.records.get(i).input;
+			double[] actualOutput = this.records.get(i).output;
+			double[] predictedOutput = this.test(input);
+
+			// System.out.println("predicted " + predictedOutput[0] + ", actual
+			// " + actualOutput[0]);
+
+			error += this.computeError(actualOutput, predictedOutput);
+		}
+
+		return error / numberRecords;
+	}
+
+	public void printParams() {
+		System.out.println("INPUT NODES: " + this.numberInputs);
+		System.out.println("HIDDEN NODES: " + this.numberMiddle);
+		System.out.println("OUTPUT NODES: " + this.numberOutputs);
+		System.out.println("TRAINING ITERATIONS: " + this.numberIterations);
+		System.out.println("LEARNING RATE: " + this.rate);
+		System.out.println("RANDOM SEED: " + this.seed);
 	}
 
 }
