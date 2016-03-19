@@ -301,6 +301,24 @@ public class NeuralNetwork {
 
 			double[] predictedOutput = this.test(input);
 
+			System.out.print("input= ");
+			for (int j = 0; j < input.length; j++) {
+				System.out.print(input[j] + " ");
+			}
+			System.out.println();
+
+			System.out.print("predicted= ");
+			for (int j = 0; j < predictedOutput.length; j++) {
+				System.out.print(predictedOutput[j] + " ");
+			}
+			System.out.println();
+
+			System.out.print("actual= ");
+			for (int j = 0; j < actualOutput.length; j++) {
+				System.out.print(actualOutput[j] + " ");
+			}
+			System.out.println("\n");
+
 			error += this.computeError(actualOutput, predictedOutput);
 		}
 		inFile.close();

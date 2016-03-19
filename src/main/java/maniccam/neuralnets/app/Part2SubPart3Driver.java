@@ -17,6 +17,7 @@ public class Part2SubPart3Driver {
 		String testFile = "program2_data/part2/test2";
 
 		network.loadTrainingData(trainingFile);
+		// 4539
 		runSimulation(network, 7, 10000, 4539, .5, outFile, validationFile, testFile);
 	}
 }
