@@ -1,6 +1,6 @@
 package maniccam.data;
 
-public class Part1JustNumbersDataConverter implements DataConverter<Integer> {
+public class JustNumbersBayesDataConverter implements DataConverter<Integer> {
 	@Override
 	public Integer convert(String label, int column) {
 		if (column == 1 || column == 4) {

@@ -3,7 +3,7 @@ package maniccam.bayesianclassifier.app;
 import java.io.IOException;
 
 import maniccam.bayesianclassifier.BayesClassifier;
-import maniccam.data.RiskDataConverter;
+import maniccam.data.RiskDataBayesDataConverter;
 
 /**
  * This is the code for a driver program for a Bayesian Classifer Class given
@@ -15,7 +15,7 @@ import maniccam.data.RiskDataConverter;
  */
 public class Tester {
 	public static void main(String[] args) throws IOException {
-		BayesClassifier classifier = new BayesClassifier(new RiskDataConverter());
+		BayesClassifier classifier = new BayesClassifier(new RiskDataBayesDataConverter());
 
 		classifier.loadTrainingData("bayes_data/trainingfile");
 

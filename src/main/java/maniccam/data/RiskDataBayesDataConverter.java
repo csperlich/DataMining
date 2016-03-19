@@ -1,6 +1,6 @@
 package maniccam.data;
 
-public class RiskDataConverter implements DataConverter<Integer> {
+public class RiskDataBayesDataConverter implements DataConverter<Integer> {
 
 	@Override
 	public Integer convert(String label, int column) {

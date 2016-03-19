@@ -1,6 +1,6 @@
 package maniccam.data;
 
-public class Part1HiringDatatConverter implements DataConverter<Integer> {
+public class HiringDataBayesDataConverter implements DataConverter<Integer> {
 
 	@Override
 	public Integer convert(String label, int column) {

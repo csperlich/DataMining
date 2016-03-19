@@ -1,6 +1,6 @@
 package maniccam.data;
 
-public class Part2LoanApplicantsDataConverter implements DataConverter<Double> {
+public class LoanDataNeuralNetworkDataConverter implements DataConverter<Double> {
 
 	double[] colFourRangeMarkers = new double[] { 1 / 4.0, 3 / 4.0 };
 	double[] colFiveRangeMarkers = new double[] { 1 / 3.0, 3 / 3.0, 5 / 3.0 };

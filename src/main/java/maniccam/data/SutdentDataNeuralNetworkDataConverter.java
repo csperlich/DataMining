@@ -1,6 +1,6 @@
 package maniccam.data;
 
-public class Part2StudentDataConverter implements DataConverter<Double> {
+public class SutdentDataNeuralNetworkDataConverter implements DataConverter<Double> {
 
 	double[] rangeMarkers = new double[] { 1 / 6.0, 3 / 6.0, 5 / 6.0 };
 

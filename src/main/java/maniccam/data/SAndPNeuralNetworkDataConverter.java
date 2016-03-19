@@ -1,6 +1,6 @@
 package maniccam.data;
 
-public class Part3SAndPDataConverter implements DataConverter<Double> {
+public class SAndPNeuralNetworkDataConverter implements DataConverter<Double> {
 
 	@Override
 	public Double convert(String label, int column) {

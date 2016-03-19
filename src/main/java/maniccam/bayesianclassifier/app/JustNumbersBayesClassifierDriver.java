@@ -3,11 +3,11 @@ package maniccam.bayesianclassifier.app;
 import java.io.IOException;
 
 import maniccam.bayesianclassifier.BayesClassifier;
-import maniccam.data.Part1JustNumbersDataConverter;
+import maniccam.data.JustNumbersBayesDataConverter;
 
-public class Part1SubPart2Driver {
+public class JustNumbersBayesClassifierDriver {
 	public static void main(String[] args) throws IOException {
-		BayesClassifier classifier = new BayesClassifier(new Part1JustNumbersDataConverter());
+		BayesClassifier classifier = new BayesClassifier(new JustNumbersBayesDataConverter());
 
 		System.out.println("LOADING TRAINING DATA \"program2_data/part1/train1\"\n");
 		classifier.loadTrainingData("program2_data/part1/train1");
