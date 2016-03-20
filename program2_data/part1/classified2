@@ -1,6 +1,6 @@
-class = hire, confidence = 59%
-class = no, confidence = 59%
-class = no, confidence = 56%
-class = no, confidence = 85%
-class = hire, confidence = 53%
-class = hire, confidence = 59%
+1           java        2           other       C            | hire         confidence = 76%
+2           no          0           cs          A            | no           confidence = 59%
+1           java        1           other       B            | hire         confidence = 62%
+0           no          1           cs          B            | no           confidence = 85%
+2           java        2           cs          D            | hire         confidence = 71%
+1           no          2           other       C            | hire         confidence = 59%

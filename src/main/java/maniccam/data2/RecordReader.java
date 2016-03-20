@@ -26,6 +26,8 @@ public class RecordReader {
 		double convert(String stringValue);
 
 		String convert(double numberValue);
+
+		int getNumValues();
 	}
 
 	private enum AttributeType implements DataMapper {
@@ -59,6 +61,12 @@ public class RecordReader {
 						return this.formatDouble(value);
 					}
 
+					@Override
+					public int getNumValues() {
+						// TODO Auto-generated method stub
+						return 0;
+					}
+
 				};
 			}
 		};
@@ -87,6 +95,11 @@ public class RecordReader {
 						throw new IllegalArgumentException(
 								"Number Values: " + numberValue + " is not in a valid range!");
 					}
+
+					@Override
+					public int getNumValues() {
+						return stringToNumberMap.size();
+					}
 				};
 
 			} else {
@@ -103,6 +116,11 @@ public class RecordReader {
 					@Override
 					public String convert(double numberValue) {
 						return numberToStringMap.get(numberValue);
+					}
+
+					@Override
+					public int getNumValues() {
+						return stringToNumberMap.size();
 					}
 
 				};
@@ -152,6 +170,10 @@ public class RecordReader {
 
 	public RecordReader(boolean normalize) {
 		this.normalize = normalize;
+	}
+
+	public int getNumValues(int attributeIndex) {
+		return this.dataConverters.get(attributeIndex).getNumValues();
 	}
 
 	public List<Record> readTrainingRecords(String trainingFile) throws FileNotFoundException {
@@ -232,19 +254,30 @@ public class RecordReader {
 		recordReader.writeRecords(trainingRecords, "output_file");
 	}
 
-	public void writeRecords(List<Record> trainingRecords, String outputFile) throws FileNotFoundException {
+	public void writeRecords(List<Record> records, String outputFile) throws FileNotFoundException {
+		this.writeRecords(records, outputFile, null);
+	}
+
+	public void writeRecords(List<Record> records, String outputFile, List<String> confidences)
+			throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(new File(outputFile));
 
-		for (Record record : trainingRecords) {
+		for (int i = 0; i < records.size(); i++) {
+			Record record = records.get(i);
 			double[] inputs = record.getInputs();
-			for (int i = 0; i < inputs.length; i++) {
-				writer.printf("%-12s", this.dataConverters.get(i).convert(inputs[i]));
+			for (int j = 0; j < inputs.length; j++) {
+				writer.printf("%-12s", this.dataConverters.get(j).convert(inputs[j]));
 			}
 
+			writer.print(" | ");
+
 			double[] outputs = record.getOutputs();
-			for (int i = 0; i < outputs.length; i++) {
-				writer.printf("%-12s", this.dataConverters.get(inputs.length - i).convert(outputs[i]));
+			for (int j = 0; j < outputs.length; j++) {
+				writer.printf("%-12s", this.dataConverters.get(inputs.length - j).convert(outputs[j]));
 			}
+
+			writer.print(" " + confidences.get(i));
+
 			writer.println();
 		}
 		writer.close();
@@ -278,4 +311,13 @@ public class RecordReader {
 
 		return records;
 	}
+
+	public String convert(int index, double value) {
+		return this.dataConverters.get(index).convert(value);
+	}
+
+	public String getAttributeName(int index) {
+		return this.attributeNames.get(index);
+	}
+
 }
