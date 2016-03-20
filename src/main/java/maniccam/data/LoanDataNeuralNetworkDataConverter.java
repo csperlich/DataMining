@@ -3,7 +3,7 @@ package maniccam.data;
 public class LoanDataNeuralNetworkDataConverter implements DataConverter<Double> {
 
 	double[] colFourRangeMarkers = new double[] { 1 / 4.0, 3 / 4.0 };
-	double[] colFiveRangeMarkers = new double[] { 1 / 3.0, 3 / 3.0, 5 / 3.0 };
+	double[] colFiveRangeMarkers = new double[] { 1 / 6.0, 3 / 6.0, 5 / 6.0 };
 	double[] colSixRangeMarkers = new double[] { 1 / 8.0, 3 / 8.0, 5 / 8.0, 7 / 8.0 };
 
 	@Override

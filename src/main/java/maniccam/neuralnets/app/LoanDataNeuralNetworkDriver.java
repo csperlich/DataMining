@@ -4,12 +4,12 @@ import static maniccam.neuralnets.app.NeuralDriverTools.runSimulation;
 
 import java.io.IOException;
 
-import maniccam.data.LoanDataNeuralNetworkDataConverter;
+import maniccam.data2.RecordReader;
 import maniccam.neuralnets.NeuralNetwork;
 
 public class LoanDataNeuralNetworkDriver {
 	public static void main(String[] args) throws IOException {
-		NeuralNetwork network = new NeuralNetwork(new LoanDataNeuralNetworkDataConverter());
+		NeuralNetwork network = new NeuralNetwork(new RecordReader(true));
 
 		String trainingFile = "program2_data/part2/train2";
 		String outFile = "program2_data/part2/output2";

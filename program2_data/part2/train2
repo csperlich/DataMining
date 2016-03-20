@@ -1,4 +1,11 @@
-80 5 1
+5 1
+
+CONTINUOUS, CREDIT SCORE, 500 900
+CONTINUOUS, INCOME(K), 30 90
+CONTINUOUS, AGE, 30 80
+BINARY, SEX, male female
+NOMINAL, MARITAL STATUS, single divorced married
+NOMINAL, CLASS, low medium high undetermined
 
 613 80 65 male single         high
 852 83 44 male divorced       low
