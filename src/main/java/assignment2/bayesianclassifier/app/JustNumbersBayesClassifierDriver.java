@@ -3,14 +3,13 @@ package assignment2.bayesianclassifier.app;
 import java.io.IOException;
 
 import assignment2.bayesianclassifier.BayesClassifier;
-import assignment2.data.RecordReader;
 
 public class JustNumbersBayesClassifierDriver {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Running driver program for Assignment2-Part1-Subpart2: "
 				+ "\n\tBayesian Classifer - Making Classifications Of Data That Consists Of Only Numbers\n");
 
-		BayesClassifier classifier = new BayesClassifier(new RecordReader(false));
+		BayesClassifier classifier = new BayesClassifier();
 
 		String trainingFile = "program2_data/part1/train1";
 		String testFile = "program2_data/part1/test1";

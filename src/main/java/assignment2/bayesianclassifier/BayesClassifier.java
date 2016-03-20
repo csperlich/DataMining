@@ -40,8 +40,8 @@ public class BayesClassifier {
 
 	private RecordReader recordReader;
 
-	public BayesClassifier(RecordReader recordReader) {
-		this.recordReader = recordReader;
+	public BayesClassifier() {
+		this.recordReader = new RecordReader(false);
 
 		this.records = null;
 		this.attributeValues = null;

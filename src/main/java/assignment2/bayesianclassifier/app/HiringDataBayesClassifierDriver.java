@@ -3,14 +3,13 @@ package assignment2.bayesianclassifier.app;
 import java.io.IOException;
 
 import assignment2.bayesianclassifier.BayesClassifier;
-import assignment2.data.RecordReader;
 
 public class HiringDataBayesClassifierDriver {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Running driver program for Assignment2-Part1-Subpart3: "
 				+ "\n\tBayesian Classifer - Making Hiring Decision Classification With Application Data\n");
 
-		BayesClassifier classifier = new BayesClassifier(new RecordReader(false));
+		BayesClassifier classifier = new BayesClassifier();
 
 		String trainingFile = "program2_data/part1/train2";
 		String testFile = "program2_data/part1/test2";
