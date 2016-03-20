@@ -4,7 +4,7 @@ import static maniccam.neuralnets.app.NeuralDriverTools.runSimulation;
 
 import java.io.IOException;
 
-import maniccam.data.SutdentDataNeuralNetworkDataConverter;
+import maniccam.data2.RecordReader;
 import maniccam.neuralnets.NeuralNetwork;
 
 public class StudentDataNeuralNetworkDriver {
@@ -15,7 +15,7 @@ public class StudentDataNeuralNetworkDriver {
 		String trainingFile = "program2_data/part2/train1";
 		String outFile = "program2_data/part2/output1";
 
-		NeuralNetwork network = new NeuralNetwork(new SutdentDataNeuralNetworkDataConverter());
+		NeuralNetwork network = new NeuralNetwork(new RecordReader(true));
 		network.loadTrainingData(trainingFile);
 
 		int bestHiddenNodes = 12;

@@ -1,8 +1,8 @@
-average 
-average 
-bad 
-good 
-bad 
+ 60.0000      3.2000    B           average     
+ 92.0000      2.8000    A           average     
+ 80.0000      3.8000    C           bad         
+ 45.0000      3.6000    A           good        
+ 63.0000      2.5000    B           bad         
 -----------------
 INPUT NODES: 3
 HIDDEN NODES: 12
@@ -12,4 +12,4 @@ LEARNING RATE: 0.5
 RANDOM SEED: 4539
 
 TRAINING ERROR USING ROOT MEAN SQUARED ERROR ->   0.0802
-VALIDATION ERROR USING MEAN ROOT MEAN SQUARED ERROR ->   0.1600
+VALIDATION ERROR USING MEAN ROOT MEAN SQUARED ERROR ->   0.0320
