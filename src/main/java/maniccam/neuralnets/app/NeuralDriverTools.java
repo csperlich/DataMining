@@ -10,14 +10,14 @@ public class NeuralDriverTools {
 	public static void runSimulation(NeuralNetwork network, int hiddenNodes, int iterations, int seedValue,
 			double learningRate, String outFile, String validationFile, String testFile) throws IOException {
 
-		PrintWriter fileOut = new PrintWriter(new FileWriter(outFile, true));
-
 		network.setParameters(hiddenNodes, iterations, seedValue, learningRate);
 		network.train();
 
-		fileOut.println("-----------------");
-		System.out.println("PRINTING CLASSIFICATIONS OF \"program2_data/part2/test1\" to " + outFile);
+		System.out.println("PRINTING CLASSIFICATIONS OF " + testFile + " to " + outFile);
 		network.testData(testFile, outFile);
+
+		PrintWriter fileOut = new PrintWriter(new FileWriter(outFile, true));
+		fileOut.println("-----------------");
 
 		System.out.println("PRINTING NETWORK PARAMETERS TO " + outFile);
 		fileOut.println(network.getParamString());

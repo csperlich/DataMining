@@ -7,31 +7,16 @@ package maniccam.neuralnets;
  * @author Suchindran Maniccam
  */
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
-import maniccam.data.DataConverter;
+import maniccam.data2.Record;
+import maniccam.data2.RecordReader;
 
 public class NeuralNetwork {
 
-	private class Record {
-		private double[] input;
-		private double[] output;
-
-		private Record(double[] input, double[] output) {
-			this.input = input;
-			this.output = output;
-		}
-	}
-
-	private DataConverter<Double> dataConverter;
-
-	private int numberRecords;
 	private int numberInputs;
 	private int numberOutputs;
 
@@ -40,7 +25,7 @@ public class NeuralNetwork {
 	private int seed;
 	private double rate;
 
-	private ArrayList<Record> records;
+	private List<Record> records;
 
 	private double[] input;
 	private double[] middle;
@@ -55,39 +40,10 @@ public class NeuralNetwork {
 	private double[][] matrixMiddle;
 	private double[][] matrixOut;
 
-	public NeuralNetwork(DataConverter<Double> dataConverter) {
-		this.dataConverter = dataConverter;
-	}
+	private RecordReader recordReader;
 
-	public void loadTrainingData(String trainingFile) throws IOException {
-		Scanner inFile = new Scanner(new File(trainingFile));
-
-		this.numberRecords = inFile.nextInt();
-		this.numberInputs = inFile.nextInt();
-		this.numberOutputs = inFile.nextInt();
-
-		this.records = new ArrayList<Record>();
-
-		for (int i = 0; i < this.numberRecords; i++) {
-
-			// read inputs
-			double[] input = new double[this.numberInputs];
-			for (int j = 0; j < this.numberInputs; j++) {
-				input[j] = this.dataConverter.convert(inFile.next(), j + 1);
-			}
-
-			// read outputs
-			double[] output = new double[this.numberOutputs];
-			for (int j = 0; j < this.numberOutputs; j++) {
-				output[j] = this.dataConverter.convert(inFile.next(), this.numberInputs + j + 1);
-			}
-
-			Record record = new Record(input, output);
-
-			this.records.add(record);
-		}
-
-		inFile.close();
+	public NeuralNetwork(RecordReader recordReader) {
+		this.recordReader = recordReader;
 	}
 
 	public void setWeights(double[][] weightsMiddle, double[][] weightsOut) {
@@ -133,6 +89,13 @@ public class NeuralNetwork {
 		System.out.println();
 	}
 
+	public void loadTrainingData(String trainingFile) throws FileNotFoundException {
+		List<Record> trainingRecords = this.recordReader.readTrainingRecords(trainingFile);
+		this.numberInputs = trainingRecords.get(0).getInputs().length;
+		this.numberOutputs = trainingRecords.get(0).getOutputs().length;
+		this.records = trainingRecords;
+	}
+
 	public void setParameters(int numberMiddle, int numberIterations, int seed, double rate) {
 		this.numberMiddle = numberMiddle;
 		this.numberIterations = numberIterations;
@@ -175,9 +138,9 @@ public class NeuralNetwork {
 
 	public void train() {
 		for (int i = 0; i < this.numberIterations; i++) {
-			for (int j = 0; j < this.numberRecords; j++) {
-				this.forwardCalculation(this.records.get(j).input);
-				this.backwardCalculation(this.records.get(j).output);
+			for (int j = 0; j < this.records.size(); j++) {
+				this.forwardCalculation(this.records.get(j).getInputs());
+				this.backwardCalculation(this.records.get(j).getOutputs());
 			}
 		}
 	}
@@ -255,49 +218,31 @@ public class NeuralNetwork {
 		return this.output;
 	}
 
-	public void testData(String inputFile, String outputFile) throws IOException {
+	public void testData(String testInputFile, String outputFile) throws IOException {
 
-		Scanner inFile = new Scanner(new File(inputFile));
-		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
+		List<Record> testRecords = this.recordReader.readTestRecords(testInputFile);
 
-		int numberRecords = inFile.nextInt();
+		for (int i = 0; i < testRecords.size(); i++) {
+			Record record = testRecords.get(i);
 
-		for (int i = 0; i < numberRecords; i++) {
-			double[] input = new double[this.numberInputs];
+			double[] output = this.test(record.getInputs()).clone();
 
-			for (int j = 0; j < this.numberInputs; j++) {
-				input[j] = this.dataConverter.convert(inFile.next(), j + 1);
-			}
+			record.setOutput(output);
 
-			double[] output = this.test(input);
-
-			for (int j = 0; j < this.numberOutputs; j++) {
-				outFile.print(this.dataConverter.convert(output[j], this.numberInputs + j + 1) + " ");
-			}
-			outFile.println();
 		}
 
-		inFile.close();
-		outFile.close();
+		this.recordReader.writeRecords(testRecords, outputFile);
 	}
 
 	public double validate(String validationFile) throws IOException {
-		Scanner inFile = new Scanner(new File(validationFile));
-
-		int numberRecords = inFile.nextInt();
+		List<Record> records = this.recordReader.readValidationRecords(validationFile);
 		double error = 0;
 
-		for (int i = 0; i < numberRecords; i++) {
+		for (int i = 0; i < records.size(); i++) {
 
-			double[] input = new double[this.numberInputs];
-			for (int j = 0; j < this.numberInputs; j++) {
-				input[j] = this.dataConverter.convert(inFile.next(), j + 1);
-			}
+			double[] input = records.get(i).getInputs();
 
-			double[] actualOutput = new double[this.numberOutputs];
-			for (int j = 0; j < this.numberOutputs; j++) {
-				actualOutput[j] = this.dataConverter.convert(inFile.next(), this.numberInputs + j + 1);
-			}
+			double[] actualOutput = records.get(i).getOutputs();
 
 			double[] predictedOutput = this.test(input);
 
@@ -321,9 +266,8 @@ public class NeuralNetwork {
 
 			error += this.computeError(actualOutput, predictedOutput);
 		}
-		inFile.close();
 
-		return error / numberRecords;
+		return error / this.records.size();
 
 	}
 
@@ -349,12 +293,11 @@ public class NeuralNetwork {
 
 		for (int i = 0; i < numberRecords; i++) {
 
-			double[] input = this.records.get(i).input;
-			double[] actualOutput = this.records.get(i).output;
+			double[] input = this.records.get(i).getInputs();
+			double[] actualOutput = this.records.get(i).getOutputs();
 			double[] predictedOutput = this.test(input);
 
-			// System.out.println("predicted " + predictedOutput[0] + ", actual
-			// " + actualOutput[0]);
+			System.out.println("predicted " + predictedOutput[0] + ", actual " + actualOutput[0]);
 
 			error += this.computeError(actualOutput, predictedOutput);
 		}
@@ -371,6 +314,10 @@ public class NeuralNetwork {
 		sb.append("LEARNING RATE: " + this.rate + "\n");
 		sb.append("RANDOM SEED: " + this.seed + "\n");
 		return sb.toString();
+	}
+
+	public List<Record> getTrainingData() {
+		return this.records;
 	}
 
 }
