@@ -8,11 +8,13 @@ import assignment2.data.Record;
 import assignment2.data.RecordReader;
 
 /**
- * This is the code for a Bayesian Classifer program given out to students of
- * Dr. Maniccam's Data Mining class at Eastern Michigan University.
+ * This class is based on the code for a Bayesian Classifer program given out to
+ * students of Dr. Maniccam's Data Mining class at Eastern Michigan University.
+ * I have altered it and extended it as per the requirements of the programming
+ * assignment.
  *
  * @date Winter Semester, 2016.
- * @author Suchindran Maniccam
+ * @author Suchindran Maniccam & Cade Sperlich
  */
 
 public class BayesClassifier {
