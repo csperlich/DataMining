@@ -18,7 +18,7 @@ public class SAndPDataNeuralNetworkDriver {
 		String trainingFile = "program2_data/s&p/training_jan2014-dec2014_bounded";
 		String outFile = "program2_data/s&p/output";
 		String validationFile = "program2_data/s&p/validate_jan2015-mar2015_bounded";
-		String testFile = "program2_data/s&p/test_apr2014_bounded";
+		String testFile = "program2_data/s&p/test_apr2015_bounded";
 
 		network.loadTrainingData(trainingFile);
 		network.setValidationTrace(true);
