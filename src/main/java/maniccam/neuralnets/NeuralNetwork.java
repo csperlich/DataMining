@@ -267,7 +267,7 @@ public class NeuralNetwork {
 			error += this.computeError(actualOutput, predictedOutput);
 		}
 
-		return error / this.records.size();
+		return error / records.size();
 
 	}
 
