@@ -1,5 +1,8 @@
 package assignment2.data;
 
+/**
+ * A Record class used for a Bayesian classifier and a Neural Network class.
+ */
 public class Record {
 	private double[] inputs;
 	private double[] outputs;
@@ -43,7 +46,6 @@ public class Record {
 
 	public void setOutput(double[] outputs) {
 		this.outputs = outputs;
-
 	}
 
 }

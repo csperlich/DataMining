@@ -3,6 +3,17 @@ package assignment2.neuralnets.testerrorcomputers;
 import assignment2.data.RecordReader;
 import assignment2.neuralnets.NeuralNetwork;
 
+/**
+ * Class to compute training and validation test error for a Neural Network
+ * using S&P 500 data. The error it computes is the average return on a daily
+ * investment if the investor bought stock at open and sold the same stock at
+ * close for a given day. The computation does not take into account taxes or
+ * trading fees.
+ *
+ * It is important to note that high errors are better than low errors in this
+ * case, since the error represents return on investment.
+ *
+ */
 public class DailyAverageReturnOnMoneyInvestedComputer extends NeuralTestErrorComputer {
 
 	public DailyAverageReturnOnMoneyInvestedComputer(NeuralNetwork neuralNetwork) {

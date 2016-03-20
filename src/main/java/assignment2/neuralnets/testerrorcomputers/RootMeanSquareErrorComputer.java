@@ -2,6 +2,9 @@ package assignment2.neuralnets.testerrorcomputers;
 
 import assignment2.neuralnets.NeuralNetwork;
 
+/**
+ * Returns the root mean squared error of network output.
+ */
 public class RootMeanSquareErrorComputer extends NeuralTestErrorComputer {
 
 	public RootMeanSquareErrorComputer(NeuralNetwork neuralNetwork) {

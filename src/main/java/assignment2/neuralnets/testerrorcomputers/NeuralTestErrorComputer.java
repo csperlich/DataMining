@@ -2,6 +2,10 @@ package assignment2.neuralnets.testerrorcomputers;
 
 import assignment2.neuralnets.NeuralNetwork;
 
+/**
+ * Abstract class for computing errors used in training error and validation
+ * error testing for a Neural Network.
+ */
 public abstract class NeuralTestErrorComputer {
 
 	public static enum ComputerType {
@@ -19,6 +23,9 @@ public abstract class NeuralTestErrorComputer {
 	@Override
 	public abstract String toString();
 
+	/**
+	 * Factory method for test error computers
+	 */
 	public static NeuralTestErrorComputer getNeuralTestErrorComputer(ComputerType type, NeuralNetwork neuralNetwork) {
 		if (type.equals(ComputerType.RootMeanSquareErrorComputer)) {
 			return new RootMeanSquareErrorComputer(neuralNetwork);

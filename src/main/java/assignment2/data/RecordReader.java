@@ -9,16 +9,54 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+This class handles the reading of records and print out of records for
+records for a Bayesian Classifier and a Neural Network. This class also
+effectively acts as the classifier for the Bayesian Classifier and Neural
+Network since it handles the conversion from original values to doubles, and
+from the double values back to the original values.
+
+NOTE: !!!THE readTrainigRecords METHOD MUST BE CALLED BEFORE READING IN VALIDATION
+	  OR TEST DATA OR BEFORE WRITING OUT RECORDS TO FILE!!!
+
+All training record files have input of the form:
+
+<numberOfInputs> <numberOfOutputs>
+
+<firstAttributeType>, <attributeName>, <firstValue> <secondValue> ... <nthValue>
+<2ndAttributeType>, <attributeName>, <firstValue> <secondValue> ... <nthValue>
+...
+<nthAttributeType>, <attributeName>, <firstValue> <secondValue> ... <nthValue>
+
+<row1input1> <row1input2> ... <row1inputn> <row1output1> <row1output2> ... <row1outputn>
+<row2input1> <row2input2> ... <row2inputn> <row2output1> <row2output2> ... <row2outputn>
+<rowninput1> <rowninput2> ... <rowninputn> <rownoutput1> <rownoutput2> ... <rownoutputn>
+
+ All validation record files have the form:
+
+<row1input1> <row1input2> ... <row1inputn> <row1output1> <row1output2> ... <row1outputn>
+<row2input1> <row2input2> ... <row2inputn> <row2output1> <row2output2> ... <row2outputn>
+<rowninput1> <rowninput2> ... <rowninputn> <rownoutput1> <rownoutput2> ... <rownoutputn>
+
+All test record files have the form:
+<row1input1> <row1input2> ... <row1inputn>
+<row2input1> <row2input2> ... <row2inputn>
+<rowninput1> <rowninput2> ... <rowninputn>
+
+All input files must have no trailing blank lines
+See program2_data/part2/train2 for an example of training file input format
+See program2_data/part2/validate2 for an example of training file input format
+See program2_data/part2/test2 for an example of training file input format
+ */
 public class RecordReader {
 
-	private boolean normalize;
-
+	//private interfaces to ensure functionality of data mapping and conversion
+	//for the different attribute types: BINARY, ORDINAL, NOMINAL, CONTINUOUS
 	private interface DataMapper {
 		DataConverter getDataConverter(String[] values, boolean normalize);
 	}
 
 	private interface DataConverter {
-
 		default String formatDouble(double value) {
 			return String.format("%8.4f", value);
 		}
@@ -30,55 +68,81 @@ public class RecordReader {
 		int getNumValues();
 	}
 
+	/* Inner ENUM for the different attribute types.
+	*  It implements DataMapper and so has methods to return DataConverters that
+	*  use closures to return parameterized functions for the conversion of the attribute
+	*  based on the values of the attribute.
+	*/
 	private enum AttributeType implements DataMapper {
 
-		BINARY, ORDINAL, NOMINAL, CONTINUOUS
-
-		{
-
+		BINARY, ORDINAL, NOMINAL, CONTINUOUS {
 			@Override
 			public DataConverter getDataConverter(final String[] values, boolean normalize) {
 
-				return new DataConverter() {
+				if (normalize) {
+					//return a DataConverter that maps numbers from there range and
+					//offset to the range[0.0, 1.0], and back.
+					return new DataConverter() {
 
-					private double offset = Double.parseDouble(values[0]);
-					private double range = Double.parseDouble(values[1]) - this.offset;
+						private double offset = Double.parseDouble(values[0]);
+						private double range = Double.parseDouble(values[1]) - this.offset;
 
-					@Override
-					public double convert(String stringValue) {
-						double value = Double.parseDouble(stringValue);
-						value = value - this.offset;
-						value = value / this.range;
-						return value;
+						@Override
+						public double convert(String stringValue) {
+							double value = Double.parseDouble(stringValue);
+							value = value - this.offset;
+							value = value / this.range;
+							return value;
+						}
 
-					}
+						@Override
+						public String convert(double numberValue) {
+							double value = numberValue;
+							value = value * this.range;
+							value = value + this.offset;
+							return this.formatDouble(value);
+						}
 
-					@Override
-					public String convert(double numberValue) {
-						double value = numberValue;
-						value = value * this.range;
-						value = value + this.offset;
-						return this.formatDouble(value);
-					}
+						@Override
+						public int getNumValues() {
+							return Integer.MAX_VALUE; //there are an infite number of values
+						}
 
-					@Override
-					public int getNumValues() {
-						// TODO Auto-generated method stub
-						return 0;
-					}
+					};
+				} else { //if not normalize
+					//return a DataConverter that simply passes the values through
+					return new DataConverter() {
+						@Override
+						public double convert(String stringValue) {
+							return Double.parseDouble(stringValue);
+						}
 
-				};
+						@Override
+						public String convert(double numberValue) {
+							return this.formatDouble(numberValue);
+						}
+
+						@Override
+						public int getNumValues() {
+							return Integer.MAX_VALUE; //there are an infinte number of values
+						}
+					};
+				}
 			}
 		};
 
+		/* This is the current behavior of getDataConverter for attribute types: BINARY, ORDINAL, and NOMINAL
+		* If normalization is on, then the DataConverter uses a set of range values between 0 and 1
+		* 	to map arbitrary string values to doubles.
+		* Otherwise, values are mapped from arbitray string values to
+		* 	incrementing doubled values 0.0, 1.0, 2.0, etc...
+		*/
 		@Override
 		public DataConverter getDataConverter(final String[] values, boolean normalize) {
-
 			if (normalize) {
 				final HashMap<String, Double> stringToNumberMap = this.createValueMap(values, normalize);
 				final double[] rangeMarkers = this.getRangeMarkers(values);
 				return new DataConverter() {
-
 					@Override
 					public double convert(String stringValue) {
 						return stringToNumberMap.get(stringValue);
@@ -101,9 +165,7 @@ public class RecordReader {
 						return stringToNumberMap.size();
 					}
 				};
-
 			} else {
-
 				final HashMap<String, Double> stringToNumberMap = this.createValueMap(values, normalize);
 				final HashMap<Double, String> numberToStringMap = this.reverseMap(stringToNumberMap);
 				return new DataConverter() {
@@ -122,12 +184,13 @@ public class RecordReader {
 					public int getNumValues() {
 						return stringToNumberMap.size();
 					}
-
 				};
 
 			}
 		}
 
+		//helper method to return an array of double values, representing the center
+		//of each separate range
 		protected double[] getRangeMarkers(String[] values) {
 			double[] rangeMarkers = new double[values.length];
 			for (int i = 0; i < rangeMarkers.length; i++) {
@@ -137,6 +200,7 @@ public class RecordReader {
 			return rangeMarkers;
 		}
 
+		//helper method to create value map from double values to string values
 		protected HashMap<Double, String> reverseMap(HashMap<String, Double> stringToNumberMap) {
 			HashMap<Double, String> reverseHashMap = new HashMap<>();
 			for (Map.Entry<String, Double> entry : stringToNumberMap.entrySet()) {
@@ -145,8 +209,8 @@ public class RecordReader {
 			return reverseHashMap;
 		}
 
+		//helper method to create a value map from string values to double values
 		protected HashMap<String, Double> createValueMap(String[] values, boolean normalize) {
-
 			HashMap<String, Double> hashMap = new HashMap<>();
 			if (normalize) {
 				for (int i = 0; i < values.length; i++) {
@@ -157,16 +221,18 @@ public class RecordReader {
 				for (int i = 0; i < values.length; i++) {
 					hashMap.put(values[i], (double) i);
 				}
-
 			}
 			return hashMap;
 		}
-	}
+	} //End of inner ENUM AttributeType
 
+	//Record reader instance variables
 	private List<DataConverter> dataConverters = new ArrayList<>();
 	private List<String> attributeNames = new ArrayList<>();
 	private int numInputs;
 	private int numOutputs;
+	private boolean normalize; //normalize data to [0.0, 1.0] if true,
+								//otherwise data is converted to [0.0, 1.0, 2.0, ...] values
 
 	public RecordReader(boolean normalize) {
 		this.normalize = normalize;
@@ -176,10 +242,13 @@ public class RecordReader {
 		return this.dataConverters.get(attributeIndex).getNumValues();
 	}
 
+	/*
+	 * Reads the training records and setups up all of the data converters.
+	 * !!!THIS METHOD MUST BE CALLED BEFORE READING IN VALIDATION
+	 * OR TEST DATA OR BEFORE WRITING OUT RECORDS TO FILE!!!
+	 */
 	public List<Record> readTrainingRecords(String trainingFile) throws FileNotFoundException {
-
 		List<Record> records = new ArrayList<>();
-
 		Scanner fileReader = new Scanner(new File(trainingFile));
 
 		this.numInputs = fileReader.nextInt();
@@ -197,9 +266,7 @@ public class RecordReader {
 			this.attributeNames.add(attributeName);
 
 			String[] values = attributeInfo[2].trim().split(" ");
-
 			this.dataConverters.add(attributeType.getDataConverter(values, this.normalize));
-
 		}
 
 		while (fileReader.hasNextLine()) {
@@ -207,7 +274,6 @@ public class RecordReader {
 		}
 
 		fileReader.close();
-
 		return records;
 	}
 
@@ -226,32 +292,7 @@ public class RecordReader {
 				outputs[i] = this.dataConverters.get(this.numInputs + i).convert(next);
 			}
 		}
-
 		return new Record(inputs, outputs);
-	}
-
-	public static void main(String[] args) throws FileNotFoundException {
-		RecordReader recordReader = new RecordReader(true);
-		List<Record> trainingRecords = recordReader.readTrainingRecords("training_data");
-
-		System.out.println("TRAINING RECORDS");
-		for (Record record : trainingRecords) {
-			System.out.println(record);
-		}
-
-		List<Record> validationRecords = recordReader.readValidationRecords("validation_data");
-		System.out.println("\nVALIDATION RECORDS");
-		for (Record record : validationRecords) {
-			System.out.println(record);
-		}
-
-		List<Record> testRecords = recordReader.readTestRecords("test_data");
-		System.out.println("\nTEST RECORDS");
-		for (Record record : testRecords) {
-			System.out.println(record);
-		}
-
-		recordReader.writeRecords(trainingRecords, "output_file");
 	}
 
 	public void writeRecords(List<Record> records, String outputFile) throws FileNotFoundException {
@@ -283,20 +324,17 @@ public class RecordReader {
 			writer.println();
 		}
 		writer.close();
-
 	}
 
 	public List<Record> readTestRecords(String testFile) throws FileNotFoundException {
 		List<Record> records = new ArrayList<>();
 
 		Scanner fileReader = new Scanner(new File(testFile));
-
 		while (fileReader.hasNextLine()) {
 			records.add(this.readRecord(fileReader, false));
 		}
 
 		fileReader.close();
-
 		return records;
 	}
 
@@ -304,13 +342,11 @@ public class RecordReader {
 		List<Record> records = new ArrayList<>();
 
 		Scanner fileReader = new Scanner(new File(validationFile));
-
 		while (fileReader.hasNextLine()) {
 			records.add(this.readRecord(fileReader, true));
 		}
 
 		fileReader.close();
-
 		return records;
 	}
 
@@ -325,5 +361,4 @@ public class RecordReader {
 	public int getNumAttributes() {
 		return this.attributeNames.size();
 	}
-
 }

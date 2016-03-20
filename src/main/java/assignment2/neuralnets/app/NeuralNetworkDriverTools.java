@@ -7,6 +7,11 @@ import java.io.PrintWriter;
 import assignment2.neuralnets.NeuralNetwork;
 
 public class NeuralNetworkDriverTools {
+
+	/*
+	 * Runs training error and validation error tests on a neural network.
+	 * Prints network parameters and test results to outFile.
+	 */
 	public static void runTests(NeuralNetwork network, int hiddenNodes, int iterations, int seedValue,
 			double learningRate, String outFile, String validationFile, String testFile) throws IOException {
 
@@ -30,6 +35,5 @@ public class NeuralNetworkDriverTools {
 
 		fileOut.close();
 		System.out.println();
-
 	}
 }

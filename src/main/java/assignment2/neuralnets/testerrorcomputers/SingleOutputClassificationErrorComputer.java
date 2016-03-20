@@ -3,6 +3,10 @@ package assignment2.neuralnets.testerrorcomputers;
 import assignment2.data.RecordReader;
 import assignment2.neuralnets.NeuralNetwork;
 
+/**
+ * The error for this class is simple. If the classification is correct, it
+ * returns 0.0 error, otherwise it returns 1.0 for the error value.
+ */
 public class SingleOutputClassificationErrorComputer extends NeuralTestErrorComputer {
 
 	public SingleOutputClassificationErrorComputer(NeuralNetwork neuralNetwork) {
@@ -19,7 +23,7 @@ public class SingleOutputClassificationErrorComputer extends NeuralTestErrorComp
 
 	@Override
 	public String toString() {
-		return "CORRECTLY CLASSIFICATION ERROR (LOWER IS BETTER)";
+		return "CORRECT CLASSIFICATION ERROR (LOWER IS BETTER)";
 	}
 
 }
