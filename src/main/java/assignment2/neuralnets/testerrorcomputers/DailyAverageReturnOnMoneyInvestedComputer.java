@@ -1,6 +1,7 @@
-package assignment2.neuralnets;
+package assignment2.neuralnets.testerrorcomputers;
 
 import assignment2.data.RecordReader;
+import assignment2.neuralnets.NeuralNetwork;
 
 public class DailyAverageReturnOnMoneyInvestedComputer extends NeuralTestErrorComputer {
 

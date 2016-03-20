@@ -7,22 +7,28 @@ import assignment2.data.RecordReader;
 
 public class HiringDataBayesClassifierDriver {
 	public static void main(String[] args) throws IOException {
+		System.out.println("Running driver program for Assignment2-Part1-Subpart3: "
+				+ "\n\tBayesian Classifer - Making Hiring Decision Classification With Application Data\n");
+
 		BayesClassifier classifier = new BayesClassifier(new RecordReader(false));
 
-		System.out.println("LOADING TRAINING DATA \"program2_data/part1/train2\"\n");
-		classifier.loadTrainingData("program2_data/part1/train2");
+		String trainingFile = "program2_data/part1/train2";
+		String testFile = "program2_data/part1/test2";
+		String outputFile = "program2_data/part1/output2";
+
+		System.out.println("LOADING TRAINING DATA " + trainingFile + "\n");
+		classifier.loadTrainingData(trainingFile);
 
 		System.out.println("BUILDING MODEL\n");
 		classifier.buildModel();
 
-		System.out.println("CLASSIFYING TEST DATA \"program2_data/part1/test2\""
-				+ "\n\tand writing results to \"program2_data/part1/classified2\"\n");
-		classifier.classifyData("program2_data/part1/test2", "program2_data/part1/classified2");
+		System.out.println("CLASSIFYING TEST DATA " + testFile + "\n\tand writing results to " + outputFile + "\n");
+		classifier.classifyData(testFile, outputFile);
 
-		System.out.println("TRAINING ERROR IS: " + classifier.trainingError());
-		System.out.println("LEAVE ONE OUT VALIDATION ERROR IS: " + classifier.validateLeaveOneOut() + "\n");
+		System.out.printf("TRAINING ERROR IS: %.2f%%%n", classifier.trainingError() * 100);
+		System.out.printf("LEAVE ONE OUT VALIDATION ERROR IS: %.2f%%%n", classifier.validateLeaveOneOut() * 100);
 
-		System.out.println("LAPLACE ADJUSTED CONDITIONAL PROBABILITES:\n");
+		System.out.println("\nLAPLACE ADJUSTED CONDITIONAL PROBABILITES:");
 		classifier.printLaplaceConditionalProbabilites(20);
 	}
 }

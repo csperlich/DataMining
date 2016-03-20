@@ -1,14 +1,16 @@
 package assignment2.neuralnets.app;
 
-import static assignment2.neuralnets.app.NeuralDriverTools.runSimulation;
+import static assignment2.neuralnets.app.NeuralNetworkDriverTools.runTests;
 
 import java.io.IOException;
 
 import assignment2.neuralnets.NeuralNetwork;
-import assignment2.neuralnets.NeuralTestErrorComputer;
+import assignment2.neuralnets.testerrorcomputers.NeuralTestErrorComputer;
 
 public class StudentDataNeuralNetworkDriver {
 	public static void main(String[] args) throws IOException {
+		System.out.println("Running driver program for Assignment2-Part2-Subpart3: "
+				+ "\n\tNeural Network Student Data Ranking Classification With Multiple Network Parameters\n");
 
 		String testFile = "program2_data/part2/test1";
 		String validationFile = "program2_data/part2/validate1";
@@ -33,22 +35,30 @@ public class StudentDataNeuralNetworkDriver {
 		network.train();
 		network.printNetwork();
 
-		runSimulation(network, bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, outFile + "_best",
+		network.setValidationTrace(true);
+
+		System.out.println("RUNNING TESTS WITH BEST NETWORK PARAMETERS");
+		runTests(network, bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, outFile + "_best",
 				validationFile, testFile);
 
-		runSimulation(network, bestHiddenNodes * 2, bestIterations, bestSeedValue, bestLearningRate,
+		System.out.println("RUNNING TESTS WITH TWICE AS MANY HIDDEN NODES");
+		runTests(network, bestHiddenNodes * 2, bestIterations, bestSeedValue, bestLearningRate,
 				outFile + "_hiddenNodesDoubled", validationFile, testFile);
 
-		runSimulation(network, bestHiddenNodes / 2, bestIterations, bestSeedValue, bestLearningRate,
+		System.out.println("RUNNING TESTS WITH HALF AS MANY HIDDEN NODES");
+		runTests(network, bestHiddenNodes / 2, bestIterations, bestSeedValue, bestLearningRate,
 				outFile + "_hiddenNodesHalved", validationFile, testFile);
 
-		runSimulation(network, bestHiddenNodes, bestIterations * 2, bestSeedValue, bestLearningRate,
+		System.out.println("RUNNING TESTS WITH TWICE AS MANY ITERATIONS");
+		runTests(network, bestHiddenNodes, bestIterations * 2, bestSeedValue, bestLearningRate,
 				outFile + "_iterationsDoubled", validationFile, testFile);
 
-		runSimulation(network, bestHiddenNodes, bestIterations / 2, bestSeedValue, bestLearningRate,
+		System.out.println("RUNNING TESTS WITH HALF AS MANY ITERATIONS");
+		runTests(network, bestHiddenNodes, bestIterations / 2, bestSeedValue, bestLearningRate,
 				outFile + "_iterationsHalved", validationFile, testFile);
 
-		runSimulation(network, bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate / 2,
+		System.out.println("RUNNING TESTS WITH LEARNING RATE HALVED");
+		runTests(network, bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate / 2,
 				outFile + "_learningRateHalved", validationFile, testFile);
 
 	}

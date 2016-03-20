@@ -16,6 +16,7 @@ import java.util.Random;
 
 import assignment2.data.Record;
 import assignment2.data.RecordReader;
+import assignment2.neuralnets.testerrorcomputers.NeuralTestErrorComputer;
 
 public class NeuralNetwork {
 
@@ -44,10 +45,20 @@ public class NeuralNetwork {
 
 	private RecordReader recordReader;
 	private NeuralTestErrorComputer testErrorComputer;
+	private boolean validationTrace = false;
+	private boolean trainingErrorTrace = false;
 
 	public NeuralNetwork(NeuralTestErrorComputer.ComputerType neuralTestErrorComputerType) {
 		this.recordReader = new RecordReader(true);
 		this.testErrorComputer = NeuralTestErrorComputer.getNeuralTestErrorComputer(neuralTestErrorComputerType, this);
+	}
+
+	public void setValidationTrace(boolean validationTrace) {
+		this.validationTrace = validationTrace;
+	}
+
+	public void setTrainingErrorTrace(boolean trainingErrorTrace) {
+		this.trainingErrorTrace = trainingErrorTrace;
 	}
 
 	public void setWeights(double[][] weightsMiddle, double[][] weightsOut) {
@@ -62,17 +73,11 @@ public class NeuralNetwork {
 		System.out.println("MIDDLE BIASES:");
 		this.printArray(this.thetaMiddle);
 
-		// System.out.println("MIDDLE ERRORS:");
-		// this.printArray(this.errorMiddle);
-
 		System.out.println("OUT WEIGHTS: ");
 		this.printMatrix(this.matrixOut);
 
 		System.out.println("OUT BIASES:");
 		this.printArray(this.thetaOut);
-
-		// System.out.println("OUT ERRORS:");
-		// this.printArray(this.errorOut);
 	}
 
 	private void printArray(double[] array) {
@@ -242,43 +247,48 @@ public class NeuralNetwork {
 		List<Record> records = this.recordReader.readValidationRecords(validationFile);
 		double error = 0;
 
+		if (this.validationTrace) {
+			System.out.println("\nVALIDATION TRACE:");
+		}
+
 		for (int i = 0; i < records.size(); i++) {
 
 			double[] input = records.get(i).getInputs();
-
 			double[] actualOutput = records.get(i).getOutputs();
-
 			double[] predictedOutput = this.test(input);
 
-			System.out.print("input= ");
-			for (int j = 0; j < input.length; j++) {
-				System.out.print(input[j] + " ");
+			if (this.validationTrace) {
+				this.printTrace(input, actualOutput, predictedOutput);
 			}
-			System.out.println();
-
-			System.out.print("predicted= ");
-			for (int j = 0; j < predictedOutput.length; j++) {
-				System.out.print(predictedOutput[j] + " ");
-			}
-			System.out.println();
-
-			System.out.print("actual= ");
-			for (int j = 0; j < actualOutput.length; j++) {
-				System.out.print(actualOutput[j] + " ");
-			}
-			System.out.println("\n");
 
 			error += this.computeError(actualOutput, predictedOutput);
 		}
 
 		return error / records.size();
+	}
 
+	private void printTrace(double[] input, double[] actual, double[] predicted) {
+		System.out.print("input = ");
+		for (int j = 0; j < input.length; j++) {
+			System.out.printf("%.2f ", input[j]);
+		}
+		System.out.print(" | ");
+
+		System.out.print("predicted = ");
+		for (int j = 0; j < predicted.length; j++) {
+			System.out.printf("%.2f ", predicted[j]);
+		}
+		System.out.print(" | ");
+
+		System.out.print("actual = ");
+		for (int j = 0; j < actual.length; j++) {
+			System.out.printf("%.2f ", actual[j]);
+		}
+		System.out.println("\n");
 	}
 
 	private double computeError(double[] actualOutput, double[] predictedOutput) {
-
 		return this.testErrorComputer.computeError(actualOutput, predictedOutput);
-
 	}
 
 	public void setBiases(double[] middleBiases, double[] outBiases) {
@@ -291,13 +301,18 @@ public class NeuralNetwork {
 		int numberRecords = this.records.size();
 		double error = 0;
 
+		if (this.trainingErrorTrace) {
+			System.out.println("\nTRAINING ERROR TRACE:");
+		}
+
 		for (int i = 0; i < numberRecords; i++) {
 
 			double[] input = this.records.get(i).getInputs();
 			double[] actualOutput = this.records.get(i).getOutputs();
 			double[] predictedOutput = this.test(input);
-
-			System.out.println("predicted " + predictedOutput[0] + ", actual " + actualOutput[0]);
+			if (this.trainingErrorTrace) {
+				this.printTrace(input, actualOutput, predictedOutput);
+			}
 
 			error += this.computeError(actualOutput, predictedOutput);
 		}

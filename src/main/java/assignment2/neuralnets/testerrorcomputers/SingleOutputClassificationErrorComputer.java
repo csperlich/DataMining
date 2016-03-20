@@ -1,6 +1,7 @@
-package assignment2.neuralnets;
+package assignment2.neuralnets.testerrorcomputers;
 
 import assignment2.data.RecordReader;
+import assignment2.neuralnets.NeuralNetwork;
 
 public class SingleOutputClassificationErrorComputer extends NeuralTestErrorComputer {
 
@@ -13,8 +14,6 @@ public class SingleOutputClassificationErrorComputer extends NeuralTestErrorComp
 		RecordReader recordReader = this.neuralNetwork.getRecordReader();
 		String actualClass = recordReader.convert(recordReader.getNumAttributes() - 1, actualOutput[0]);
 		String predictedClass = recordReader.convert(recordReader.getNumAttributes() - 1, predictedOutput[0]);
-		System.out.println("actualClass=" + actualClass + ", predictedClass=" + predictedClass);
-		System.out.println("actualValue=" + actualOutput[0] + ", predictedValue=" + predictedOutput[0]);
 		return actualClass.equals(predictedClass) ? 0.0 : 1.0;
 	}
 

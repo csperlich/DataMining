@@ -168,7 +168,6 @@ public class BayesClassifier {
 			ClassificationResult result = this.classify(testRecords.get(i).getInputs());
 			testRecords.get(i).setOutput(new double[] { result.className });
 			confidences.add(String.format("confidence = %d%%", (int) (result.confidence * 100)));
-			System.out.println(result.confidence);
 		}
 
 		this.recordReader.writeRecords(testRecords, classifiedFile, confidences);

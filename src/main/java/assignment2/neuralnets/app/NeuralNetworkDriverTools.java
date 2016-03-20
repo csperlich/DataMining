@@ -6,8 +6,8 @@ import java.io.PrintWriter;
 
 import assignment2.neuralnets.NeuralNetwork;
 
-public class NeuralDriverTools {
-	public static void runSimulation(NeuralNetwork network, int hiddenNodes, int iterations, int seedValue,
+public class NeuralNetworkDriverTools {
+	public static void runTests(NeuralNetwork network, int hiddenNodes, int iterations, int seedValue,
 			double learningRate, String outFile, String validationFile, String testFile) throws IOException {
 
 		network.setParameters(hiddenNodes, iterations, seedValue, learningRate);

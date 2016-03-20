@@ -1,14 +1,17 @@
 package assignment2.neuralnets.app;
 
-import static assignment2.neuralnets.app.NeuralDriverTools.runSimulation;
+import static assignment2.neuralnets.app.NeuralNetworkDriverTools.runTests;
 
 import java.io.IOException;
 
 import assignment2.neuralnets.NeuralNetwork;
-import assignment2.neuralnets.NeuralTestErrorComputer;
+import assignment2.neuralnets.testerrorcomputers.NeuralTestErrorComputer;
 
 public class SAndPDataNeuralNetworkDriver {
 	public static void main(String[] args) throws IOException {
+		System.out.println("Running driver program for Assignment2-Part3-Subpart2: "
+				+ "\n\tNeural Network Regression On S&P Daily Percentage Change Stock Price Data\n");
+
 		NeuralNetwork network = new NeuralNetwork(
 				NeuralTestErrorComputer.ComputerType.DailyAverageReturnOnMoneyInvestedComputer);
 
@@ -18,7 +21,8 @@ public class SAndPDataNeuralNetworkDriver {
 		String testFile = "program2_data/s&p/test_apr2014_bounded";
 
 		network.loadTrainingData(trainingFile);
+		network.setValidationTrace(true);
 
-		runSimulation(network, 6, 10000, 3126, .8, outFile, validationFile, testFile);
+		runTests(network, 6, 10000, 3126, .8, outFile, validationFile, testFile);
 	}
 }

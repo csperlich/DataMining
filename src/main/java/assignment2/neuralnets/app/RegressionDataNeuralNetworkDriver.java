@@ -1,15 +1,17 @@
 package assignment2.neuralnets.app;
 
-import static assignment2.neuralnets.app.NeuralDriverTools.runSimulation;
+import static assignment2.neuralnets.app.NeuralNetworkDriverTools.runTests;
 
 import java.io.IOException;
 
-import assignment2.data.RecordReader;
 import assignment2.neuralnets.NeuralNetwork;
-import assignment2.neuralnets.NeuralTestErrorComputer;
+import assignment2.neuralnets.testerrorcomputers.NeuralTestErrorComputer;
 
 public class RegressionDataNeuralNetworkDriver {
 	public static void main(String[] args) throws IOException {
+		System.out.println("Running driver program for Assignment2-Part3-Subpart1: "
+				+ "\n\tNeural Network Regression on Various Function Data Inputs\n");
+
 		String folder = "program2_data/part3/";
 
 		int bestHiddenNodes = 12;
@@ -36,10 +38,10 @@ public class RegressionDataNeuralNetworkDriver {
 
 	private static void buildAndRun(int hiddenNodes, int iterations, int seedValue, double learningRate,
 			String trainingFile, String validationFile, String testFile, String outFile) throws IOException {
-		RecordReader recordReader = new RecordReader(true);
 		NeuralNetwork network = new NeuralNetwork(NeuralTestErrorComputer.ComputerType.RootMeanSquareErrorComputer);
+		network.setValidationTrace(true);
 		network.loadTrainingData(trainingFile);
-		runSimulation(network, hiddenNodes, iterations, seedValue, learningRate, outFile, validationFile, testFile);
+		runTests(network, hiddenNodes, iterations, seedValue, learningRate, outFile, validationFile, testFile);
 	}
 
 }
