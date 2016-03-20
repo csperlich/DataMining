@@ -19,27 +19,17 @@ public class RegressionDataNeuralNetworkDriver {
 		buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, folder + "train1",
 				folder + "validate1", folder + "test1", folder + "output1");
 
-		/*
-		 * buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue,
-		 * bestLearningRate, folder + "train2", folder + "validate2", folder +
-		 * "test2", folder + "output2", new double[][] { { 10.0, 20.0 }, {
-		 * 2000.0, 16000.0 } });
-		 *
-		 * buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue,
-		 * bestLearningRate, folder + "train3", folder + "validate3", folder +
-		 * "test3", folder + "output3", new double[][] { { 0.0, 1.0 }, { -3.0,
-		 * 3.0 } });
-		 *
-		 * buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue,
-		 * bestLearningRate, folder + "train4", folder + "validate4", folder +
-		 * "test4", folder + "output4", new double[][] { { 0.0, 1.0 }, { 0.0,
-		 * 10.0 }, { 0.0, 10.0 }, { 0.0, 100.0 } });
-		 *
-		 * buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue,
-		 * bestLearningRate, folder + "train5", folder + "validate5", folder +
-		 * "test5", folder + "output5", new double[][] { { 0.0, 10.0 }, { 0.0,
-		 * 1.0 }, { 0.0, 20.0 }, { 1.0, 2.0 }, { 0.0, 200.0 } });
-		 */
+		buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, folder + "train2",
+				folder + "validate2", folder + "test2", folder + "output2");
+
+		buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, folder + "train3",
+				folder + "validate3", folder + "test3", folder + "output3");
+
+		buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, folder + "train4",
+				folder + "validate4", folder + "test4", folder + "output4");
+
+		buildAndRun(bestHiddenNodes, bestIterations, bestSeedValue, bestLearningRate, folder + "train5",
+				folder + "validate5", folder + "test5", folder + "output5");
 
 	}
 
