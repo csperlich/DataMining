@@ -1,0 +1,5 @@
+1	0	0	1	0	, class-> 2	 confidence=1.0	 support=0.08333333333333333
+0	0	1	1	1	, class-> 1	 confidence=1.0	 support=0.041666666666666664
+1	1	0	0	1	, class-> 1	 confidence=1.0	 support=0.125
+1	0	1	0	1	, class-> 4	 confidence=1.0	 support=0.25
+1	1	0	1	1	, class-> 3	 confidence=1.0	 support=0.041666666666666664

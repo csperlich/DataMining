@@ -36,7 +36,7 @@ public class Assignment2Part3 {
 
 		// Read in the training data
 		HomogenousIO recordIO = new HomogenousIO(attributeInfos, new NoFeatureStrategy());
-		List<Record> trainingRecords = recordIO.getTrainingData("DataMining-Data/train4");
+		List<Record> trainingRecords = recordIO.getTrainingData("program1_data/train4");
 
 		// Construct the nearest neighbor classifier
 		System.out.println("CONSTRUCTING NEAREST NEIGHBOR CLASSIFIER...");
@@ -68,7 +68,7 @@ public class Assignment2Part3 {
 		System.out.println("LEAVE-ONE-OUT VALIDATION ERR IS " + nearestNeighbor.validateLeaveOneOut());
 
 		// Read in the test data
-		List<Record> testRecords = recordIO.getTestData("DataMining-Data/test4");
+		List<Record> testRecords = recordIO.getTestData("program1_data/test4");
 		nearestNeighbor.classify(testRecords);
 
 		// Classify the data with trace on
@@ -82,8 +82,8 @@ public class Assignment2Part3 {
 		// file. Have to reread the files since my NearestNeighor classifier
 		// normalizes everything
 		System.out.println("WRITING \"test4\" CLASSIFACTIONS TO OUTPUT FILE \"results4\"...\n");
-		List<Record> unNormalizedTestRecords = recordIO.getRawRecords("DataMining-Data/test4");
-		PrintWriter recordWriter = new PrintWriter(new File("output/results4"));
+		List<Record> unNormalizedTestRecords = recordIO.getRawRecords("program1_data/test4");
+		PrintWriter recordWriter = new PrintWriter(new File("program1_data/output4"));
 		for (int i = 0; i < unNormalizedTestRecords.size(); i++) {
 			Record record = unNormalizedTestRecords.get(i);
 			record.setLabel(testRecords.get(i).getLabel());

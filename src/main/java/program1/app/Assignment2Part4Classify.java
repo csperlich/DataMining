@@ -30,7 +30,7 @@ public class Assignment2Part4Classify {
 
 		// Read in the training data
 		HomogenousIO recordIO = new HomogenousIO(attributeInfos, new NoFeatureStrategy());
-		List<Record> trainingRecords = recordIO.getTrainingData("DataMining-Data/digits_20by20_training_spaced");
+		List<Record> trainingRecords = recordIO.getTrainingData("program1_data/digits_20by20_training_spaced");
 
 		// Construct the nearest neighbor classifier
 		System.out.println("CONSTRUCTING NEAREST NEIGHBOR CLASSIFIER WITH 1000 DIGIT FILES");
@@ -45,7 +45,7 @@ public class Assignment2Part4Classify {
 			try {
 				showMenu();
 				String file = keyboard.nextLine();
-				List<Record> testData = recordIO.getTestData("test_digits/" + file);
+				List<Record> testData = recordIO.getTestData("program1_data/test_digits/" + file);
 				Record testRecord = testData.get(0);
 				String label = nearestNeighbor.classify(testRecord);
 				System.out.println("The file " + file + " is classified as " + label);
@@ -62,7 +62,7 @@ public class Assignment2Part4Classify {
 		}
 
 		System.out.println("GOODBYE!");
-
+		keyboard.close();
 	}
 
 	private static void prettyPrintDigit(Record record) {
@@ -88,10 +88,10 @@ public class Assignment2Part4Classify {
 
 /*
  * SAMPLE RUN
- * 
+ *
  * CONSTRUCTING NEAREST NEIGHBOR CLASSIFIER WITH 1000 DIGIT FILES USING WEIGHTED
  * MAJORITY RULE AND 10 NEIGHBORS
- * 
+ *
  * PLEASE ENTER A FILE TO CLASSIFY THERE ARE 25 TEST FILES FOR EACH DIGIT)
  * FILENAMES HAVE THE FORM: 0_1 3_14 3_15 etc.. Enter filename: 8_4 The file 8_4
  * is classified as 8 00000000000000000000 00000000000000000000
@@ -101,10 +101,10 @@ public class Assignment2Part4Classify {
  * 00000000011111100000 00000000001111000000 00000000011110000000
  * 00000000011111000000 00000000011111100000 00000000011111100000
  * 00000000001111110000 00000000000111111000 00000000000001100000
- * 
- * 
+ *
+ *
  * Continue 'y'/'n'?: y
- * 
+ *
  * PLEASE ENTER A FILE TO CLASSIFY THERE ARE 25 TEST FILES FOR EACH DIGIT)
  * FILENAMES HAVE THE FORM: 0_1 3_14 3_15 etc.. Enter filename: 3_5 The file 3_5
  * is classified as 3 00000000000000000000 00000000000000000000
@@ -114,10 +114,10 @@ public class Assignment2Part4Classify {
  * 00000000000000001110 00000000000000000110 00000000000000001100
  * 11100000000000011100 00111100000011110000 00001111111111000000
  * 00000011111000000000 00000000000000000000 00000000000000000000
- * 
- * 
+ *
+ *
  * Continue 'y'/'n'?: y
- * 
+ *
  * PLEASE ENTER A FILE TO CLASSIFY THERE ARE 25 TEST FILES FOR EACH DIGIT)
  * FILENAMES HAVE THE FORM: 0_1 3_14 3_15 etc.. Enter filename: 4_8 The file 4_8
  * is classified as 4 00000000000000000000 00000000000000000000
@@ -127,10 +127,10 @@ public class Assignment2Part4Classify {
  * 01111111111111111111 11111000000001100010 00000000000001100000
  * 00000000000001100000 00000000000000100000 00000000000000100000
  * 00000000000000110000 00000000000000110000 00000000000000000000
- * 
- * 
+ *
+ *
  * Continue 'y'/'n'?: y
- * 
+ *
  * PLEASE ENTER A FILE TO CLASSIFY THERE ARE 25 TEST FILES FOR EACH DIGIT)
  * FILENAMES HAVE THE FORM: 0_1 3_14 3_15 etc.. Enter filename: 2_6 The file 2_6
  * is classified as 2 00000000000000000000 00000000000000000000
@@ -140,10 +140,10 @@ public class Assignment2Part4Classify {
  * 00000001100001100000 00000011000110000000 00000011011000000000
  * 00000011100000000000 00000111000000000000 00011100000000000000
  * 00000000000000000000 00000000000000000000 00000000000000000000
- * 
- * 
+ *
+ *
  * Continue 'y'/'n'?: y
- * 
+ *
  * PLEASE ENTER A FILE TO CLASSIFY THERE ARE 25 TEST FILES FOR EACH DIGIT)
  * FILENAMES HAVE THE FORM: 0_1 3_14 3_15 etc.. Enter filename: 7_1 The file 7_1
  * is classified as 7 00000000000000000000 00000000000000000000
@@ -153,10 +153,10 @@ public class Assignment2Part4Classify {
  * 00000000000001110000 00000000000111100000 00000000001111000000
  * 00000000001100000000 00000000111000000000 00000000110000000000
  * 00000000110000000000 00000000000000000000 00000000000000000000
- * 
- * 
+ *
+ *
  * Continue 'y'/'n'?: y
- * 
+ *
  * PLEASE ENTER A FILE TO CLASSIFY THERE ARE 25 TEST FILES FOR EACH DIGIT)
  * FILENAMES HAVE THE FORM: 0_1 3_14 3_15 etc.. Enter filename: 9_4 The file 9_4
  * is classified as 9 00000000000000000000 00000000000000000000
@@ -166,8 +166,8 @@ public class Assignment2Part4Classify {
  * 00000111100011100000 00000000000011100000 00000000000011100000
  * 00000000000011100000 00000000000001100000 00000000000001110000
  * 00000000000001110000 00000000000000110000 00000000000000110000
- * 
- * 
+ *
+ *
  * Continue 'y'/'n'?: n GOODBYE!
- * 
+ *
  */

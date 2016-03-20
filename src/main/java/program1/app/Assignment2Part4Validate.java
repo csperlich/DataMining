@@ -28,7 +28,7 @@ public class Assignment2Part4Validate {
 
 		// Read in the training data
 		HomogenousIO recordIO = new HomogenousIO(attributeInfos, new NoFeatureStrategy());
-		List<Record> trainingRecords = recordIO.getTrainingData("DataMining-Data/digits_20by20_training_spaced");
+		List<Record> trainingRecords = recordIO.getTrainingData("program1_data/digits_20by20_training_spaced");
 
 		// Construct the nearest neighbor classifier
 		System.out.println("CONSTRUCTING NEAREST NEIGHBOR CLASSIFIER WITH 1000 DIGIT FILES");

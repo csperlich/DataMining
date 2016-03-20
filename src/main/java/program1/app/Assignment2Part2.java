@@ -32,7 +32,7 @@ public class Assignment2Part2 {
 
 		// Read in the training data
 		HomogenousIO recordIO = new HomogenousIO(attributeInfos, new NoFeatureStrategy());
-		List<Record> trainingRecords = recordIO.getTrainingData("DataMining-Data/train3");
+		List<Record> trainingRecords = recordIO.getTrainingData("program1_data/train3");
 
 		// Construct the nearest neighbor classifier
 		System.out.println("CONSTRUCTING NEAREST NEIGHBOR CLASSIFIER...");
@@ -41,7 +41,7 @@ public class Assignment2Part2 {
 				new WeightedMajorityRule());
 
 		// Read in the test data
-		List<Record> testRecords = recordIO.getTestData("DataMining-Data/test3");
+		List<Record> testRecords = recordIO.getTestData("program1_data/test3");
 
 		// Classify the data with trace on
 		System.out.println("PRINTING CLASSIFICATION TRACE FOR RECORD SET \"test3\"");
@@ -55,8 +55,8 @@ public class Assignment2Part2 {
 		// file. Have to reread the files since my NearestNeighor classifier
 		// normalizes everything
 		System.out.println("WRITING \"test3\" CLASSIFACTIONS TO OUTPUT FILE \"results3\"...\n");
-		List<Record> unNormalizedTestRecords = recordIO.getRawRecords("DataMining-Data/test3");
-		PrintWriter recordWriter = new PrintWriter(new File("output/results3"));
+		List<Record> unNormalizedTestRecords = recordIO.getRawRecords("program1_data/test3");
+		PrintWriter recordWriter = new PrintWriter(new File("program1_data/output3"));
 		for (int i = 0; i < unNormalizedTestRecords.size(); i++) {
 			Record record = unNormalizedTestRecords.get(i);
 			record.setLabel(testRecords.get(i).getLabel());

@@ -31,7 +31,7 @@ public class Assignment1Part3 {
 
 		// Read in the data
 		HomogenousIO recordIO = new HomogenousIO(attInf, fStrat);
-		List<Record> trainingData = recordIO.getTrainingData("DataMining-Data/train2");
+		List<Record> trainingData = recordIO.getTrainingData("program1_data/train2");
 
 		// Initialize the tree and build it
 		DecisionTree dTree = new DecisionTree(trainingData, attInf, new GiniMeasure());
@@ -50,9 +50,9 @@ public class Assignment1Part3 {
 
 		// Load the test data, classify the test records, write results to
 		// file, and print the results to the console
-		List<Record> testData = recordIO.getTestData("DataMining-Data/test2");
+		List<Record> testData = recordIO.getTestData("program1_data/test2");
 		dTree.classify(testData);
-		recordIO.writeData("output/results2-GiniMeasure", testData);
+		recordIO.writeData("program1_data/output2-GiniMeasure", testData);
 
 		// Print out training error
 		System.out.println("Training Error: " + dTree.trainingError());
@@ -71,9 +71,9 @@ public class Assignment1Part3 {
 
 		// Load the test data, classify the test records, write results to
 		// file, and print the results to the console
-		testData = recordIO.getTestData("DataMining-Data/test2");
+		testData = recordIO.getTestData("program1_data/test2");
 		dTree.classify(testData);
-		recordIO.writeData("output/results2-ShannonEntropy", testData);
+		recordIO.writeData("program1_data/output2-ShannonEntropy", testData);
 
 		// Print out training error
 		System.out.println("Training Error: " + dTree.trainingError());
