@@ -23,10 +23,10 @@ public class NeuralDriverTools {
 		fileOut.println(network.getParamString());
 
 		System.out.println("PRININTG TRAINING ERROR AND VALIDATION ERROR TO " + outFile);
-		fileOut.println(
-				"TRAINING ERROR USING ROOT MEAN SQUARED ERROR -> " + String.format("%8.4f", network.trainingError()));
-		fileOut.println("VALIDATION ERROR USING MEAN ROOT MEAN SQUARED ERROR -> "
-				+ String.format("%8.4f", network.validate(validationFile)));
+		fileOut.println("TRAINING ERROR USING " + network.getTestErrorString() + " -> "
+				+ String.format("%.2f%%", (network.trainingError() * 100)));
+		fileOut.println("VALIDATION ERROR USING " + network.getTestErrorString() + " -> "
+				+ String.format("%.2f%%", (network.validate(validationFile) * 100)));
 
 		fileOut.close();
 		System.out.println();

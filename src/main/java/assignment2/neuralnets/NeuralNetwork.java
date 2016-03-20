@@ -43,9 +43,11 @@ public class NeuralNetwork {
 	private double[][] matrixOut;
 
 	private RecordReader recordReader;
+	private NeuralTestErrorComputer testErrorComputer;
 
-	public NeuralNetwork(RecordReader recordReader) {
-		this.recordReader = recordReader;
+	public NeuralNetwork(NeuralTestErrorComputer.ComputerType neuralTestErrorComputerType) {
+		this.recordReader = new RecordReader(true);
+		this.testErrorComputer = NeuralTestErrorComputer.getNeuralTestErrorComputer(neuralTestErrorComputerType, this);
 	}
 
 	public void setWeights(double[][] weightsMiddle, double[][] weightsOut) {
@@ -274,13 +276,9 @@ public class NeuralNetwork {
 	}
 
 	private double computeError(double[] actualOutput, double[] predictedOutput) {
-		double error = 0;
 
-		for (int i = 0; i < actualOutput.length; i++) {
-			error += Math.pow(actualOutput[i] - predictedOutput[i], 2);
-		}
+		return this.testErrorComputer.computeError(actualOutput, predictedOutput);
 
-		return Math.sqrt(error / actualOutput.length);
 	}
 
 	public void setBiases(double[] middleBiases, double[] outBiases) {
@@ -320,6 +318,14 @@ public class NeuralNetwork {
 
 	public List<Record> getTrainingData() {
 		return this.records;
+	}
+
+	public RecordReader getRecordReader() {
+		return this.recordReader;
+	}
+
+	public String getTestErrorString() {
+		return this.testErrorComputer.toString();
 	}
 
 }

@@ -322,4 +322,8 @@ public class RecordReader {
 		return this.attributeNames.get(index);
 	}
 
+	public int getNumAttributes() {
+		return this.attributeNames.size();
+	}
+
 }

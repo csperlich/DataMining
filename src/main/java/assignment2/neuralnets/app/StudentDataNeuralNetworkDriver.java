@@ -4,8 +4,8 @@ import static assignment2.neuralnets.app.NeuralDriverTools.runSimulation;
 
 import java.io.IOException;
 
-import assignment2.data.RecordReader;
 import assignment2.neuralnets.NeuralNetwork;
+import assignment2.neuralnets.NeuralTestErrorComputer;
 
 public class StudentDataNeuralNetworkDriver {
 	public static void main(String[] args) throws IOException {
@@ -15,7 +15,8 @@ public class StudentDataNeuralNetworkDriver {
 		String trainingFile = "program2_data/part2/train1";
 		String outFile = "program2_data/part2/output1";
 
-		NeuralNetwork network = new NeuralNetwork(new RecordReader(true));
+		NeuralNetwork network = new NeuralNetwork(
+				NeuralTestErrorComputer.ComputerType.SingleOutputClassificationTestComputer);
 		network.loadTrainingData(trainingFile);
 
 		int bestHiddenNodes = 12;

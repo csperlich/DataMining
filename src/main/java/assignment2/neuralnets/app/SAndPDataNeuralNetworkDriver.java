@@ -4,12 +4,13 @@ import static assignment2.neuralnets.app.NeuralDriverTools.runSimulation;
 
 import java.io.IOException;
 
-import assignment2.data.RecordReader;
 import assignment2.neuralnets.NeuralNetwork;
+import assignment2.neuralnets.NeuralTestErrorComputer;
 
 public class SAndPDataNeuralNetworkDriver {
 	public static void main(String[] args) throws IOException {
-		NeuralNetwork network = new NeuralNetwork(new RecordReader(true));
+		NeuralNetwork network = new NeuralNetwork(
+				NeuralTestErrorComputer.ComputerType.DailyAverageReturnOnMoneyInvestedComputer);
 
 		String trainingFile = "program2_data/s&p/training_jan2014-dec2014_bounded";
 		String outFile = "program2_data/s&p/output";

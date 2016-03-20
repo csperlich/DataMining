@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import assignment2.data.RecordReader;
 import assignment2.neuralnets.NeuralNetwork;
+import assignment2.neuralnets.NeuralTestErrorComputer;
 
 public class RegressionDataNeuralNetworkDriver {
 	public static void main(String[] args) throws IOException {
@@ -36,7 +37,7 @@ public class RegressionDataNeuralNetworkDriver {
 	private static void buildAndRun(int hiddenNodes, int iterations, int seedValue, double learningRate,
 			String trainingFile, String validationFile, String testFile, String outFile) throws IOException {
 		RecordReader recordReader = new RecordReader(true);
-		NeuralNetwork network = new NeuralNetwork(recordReader);
+		NeuralNetwork network = new NeuralNetwork(NeuralTestErrorComputer.ComputerType.RootMeanSquareErrorComputer);
 		network.loadTrainingData(trainingFile);
 		runSimulation(network, hiddenNodes, iterations, seedValue, learningRate, outFile, validationFile, testFile);
 	}
