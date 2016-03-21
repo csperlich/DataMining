@@ -19,6 +19,9 @@ import program2.data.RecordReader;
 
 public class BayesClassifier {
 
+	/*
+	 * Helper class to return confidence of a classification
+	 */
 	private static class ClassificationResult {
 		private double className;
 		private double confidence;
@@ -42,23 +45,14 @@ public class BayesClassifier {
 
 	public BayesClassifier() {
 		this.recordReader = new RecordReader(false);
-
-		this.records = null;
-		this.attributeValues = null;
-
-		this.numberRecords = 0;
-		this.numberAttributes = 0;
-		this.numberClasses = 0;
-
-		this.classTable = null;
-		this.table = null;
 	}
 
 	// method loads training records from training file
 	public void loadTrainingData(String trainingFile) throws IOException {
 
 		this.records = this.recordReader.readTrainingRecords(trainingFile);
-		// read number of records, attributes, classes
+
+		// set number of records, attributes, classes
 		this.numberRecords = this.records.size();
 		this.numberAttributes = this.records.get(0).getInputs().length;
 		this.numberClasses = this.recordReader.getNumValues(this.numberAttributes);
@@ -148,6 +142,7 @@ public class BayesClassifier {
 		}
 	}
 
+	//method computes conditional probability of a class for a given attribute
 	private double findProbability(int className, double[] attributes) {
 		double value;
 		double product = 1;
@@ -160,6 +155,7 @@ public class BayesClassifier {
 		return product * this.classTable[className];
 	}
 
+	//method reads test records from test file and writes classes to classified file
 	public void classifyData(String testFile, String classifiedFile) throws IOException {
 		List<Record> testRecords = this.recordReader.readTestRecords(testFile);
 		List<String> confidences = new ArrayList<>();
@@ -171,15 +167,14 @@ public class BayesClassifier {
 		}
 
 		this.recordReader.writeRecords(testRecords, classifiedFile, confidences);
-
 	}
 
+	//method validates classifier using validation file and displays error rate
 	public void validate(String validationFile) throws IOException {
 
 		List<Record> validationRecords = this.recordReader.readValidationRecords(validationFile);
 
 		int numberErrors = 0;
-
 		for (int i = 0; i < validationRecords.size(); i++) {
 
 			ClassificationResult result = this.classify(validationRecords.get(i).getInputs());
@@ -187,24 +182,26 @@ public class BayesClassifier {
 
 			double actualClass = validationRecords.get(i).getOutputs()[0];
 
-			// may have to convert them back from doubles before doing this
 			if (predictedClass != actualClass) {
 				numberErrors += 1;
 			}
 
 		}
+
 		// find and print error rate
 		double errorRate = 100.0 * numberErrors / this.numberRecords;
 		System.out.println(errorRate + " percent error");
 
 	}
 
+	//returns the probability tables using laplace corrections
 	public void printLaplaceConditionalProbabilites(int colWidth) {
 		for (int i = 0; i < this.table.length; i++) {
 
 			// print header
 			System.out.println("ATTRIBUTE: " + (this.recordReader.getAttributeName(i)));
 
+			//print probabilities for attribute i
 			for (int j = 0; j < this.table[i].length; j++) {
 				for (int k = 0; k < this.table[i][j].length; k++) {
 					System.out.printf("%" + colWidth + "s",
@@ -218,6 +215,7 @@ public class BayesClassifier {
 		}
 	}
 
+	//method classifies a record and returns the result along with the confidence of classification
 	private ClassificationResult classify(double[] attributes) {
 		double maxProbability = 0;
 		int maxClass = -1;
@@ -235,14 +233,15 @@ public class BayesClassifier {
 		}
 
 		double confidence = maxProbability / probabilitySum;
-
 		return new ClassificationResult(maxClass, confidence);
 	}
 
+	//method computes the training error
 	public double trainingError() {
 		return this.classificationError(this.records);
 	}
 
+	//method computes classification error for a given set of records
 	public double classificationError(List<Record> records) {
 		int numIncorrect = 0;
 		for (Record record : records) {
@@ -254,6 +253,7 @@ public class BayesClassifier {
 		return (double) numIncorrect / records.size();
 	}
 
+	//method computes validation classification error using leave one out method
 	public double validateLeaveOneOut() {
 		double trainingError = 0;
 		for (int i = 0; i < this.records.size(); i++) {
@@ -279,8 +279,6 @@ public class BayesClassifier {
 
 		// rebuild the original model
 		this.buildModel();
-
 		return trainingError / this.records.size();
 	}
-
 }
