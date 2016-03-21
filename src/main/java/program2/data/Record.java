@@ -47,5 +47,4 @@ public class Record {
 	public void setOutput(double[] outputs) {
 		this.outputs = outputs;
 	}
-
 }

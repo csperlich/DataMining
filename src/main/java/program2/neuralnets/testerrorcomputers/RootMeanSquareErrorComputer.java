@@ -27,5 +27,4 @@ public class RootMeanSquareErrorComputer extends NeuralTestErrorComputer {
 	public String toString() {
 		return "ROOT MEAN SQUARED ERROR (LOWER IS BETTER)";
 	}
-
 }

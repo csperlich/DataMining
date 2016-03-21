@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * This class is used to bound S&P 500 daily percentage change data
+ * to values between -2.0 and 2.0
+ */
 public class DoubleFileDataBounder {
 	public static void limitRange(double lowerBound, double upperBound, int doublesPerLine, String inFile,
 			String outFile) throws FileNotFoundException {

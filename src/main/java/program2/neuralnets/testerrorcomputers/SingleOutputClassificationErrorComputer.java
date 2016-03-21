@@ -25,5 +25,4 @@ public class SingleOutputClassificationErrorComputer extends NeuralTestErrorComp
 	public String toString() {
 		return "CORRECT CLASSIFICATION ERROR (LOWER IS BETTER)";
 	}
-
 }

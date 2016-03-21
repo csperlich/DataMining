@@ -38,5 +38,4 @@ public class DailyAverageReturnOnMoneyInvestedComputer extends NeuralTestErrorCo
 	public String toString() {
 		return "DAILY AVERAGE RETURN ON MONEY INVESTED (HIGHER IS BETTER)";
 	}
-
 }

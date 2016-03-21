@@ -44,7 +44,10 @@ public class NeuralNetwork {
 	private double[][] matrixOut;//weights between hidden/output nodes
 
 	private RecordReader recordReader;//reads and writes records
-	private NeuralTestErrorComputer testErrorComputer;//computes errors for training error and validation error
+
+	//computes errors for training error and validation error
+	private NeuralTestErrorComputer testErrorComputer;
+
 	private boolean validationTrace = false;//enables trace for validation error
 	private boolean trainingErrorTrace = false;//enables trace for training error
 

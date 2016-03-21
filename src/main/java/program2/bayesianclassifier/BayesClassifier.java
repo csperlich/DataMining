@@ -38,8 +38,8 @@ public class BayesClassifier {
 	private int numberAttributes;
 	private int numberClasses;
 
-	double[] classTable; // class frequencies
-	double[][][] table; // conditional probabilities
+	double[] classTable;// class frequencies
+	double[][][] table;// conditional probabilities
 
 	private RecordReader recordReader;
 
