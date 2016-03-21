@@ -23,6 +23,6 @@ public class LoanDataNeuralNetworkDriver {
 		network.loadTrainingData(trainingFile);
 		network.setValidationTrace(true);
 
-		runTests(network, 7, 10000, 4539, .5, outFile, validationFile, testFile);
+		runTests(network, 12, 15000, 4539, .5, outFile, validationFile, testFile);
 	}
 }
