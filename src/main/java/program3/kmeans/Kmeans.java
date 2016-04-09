@@ -156,7 +156,7 @@ public class Kmeans {
 				}
 			}
 
-			//if closest clsuter is different from current cluster
+			//if closest cluster is different from current cluster
 			if (this.clusters[i] != minIndex) {
 				//change cluster of record
 				this.clusters[i] = minIndex;
@@ -193,7 +193,7 @@ public class Kmeans {
 		double[] result = new double[u.attributes.length];
 
 		//multiply attributes of record by scaler
-		for (int i = 0; i < result.length; i++) {
+		for (int i = 0; i < u.attributes.length; i++) {
 			result[i] = k * u.attributes[i];
 		}
 		return new Record(result);
@@ -205,7 +205,7 @@ public class Kmeans {
 		for (int i = 0; i < this.numberRecords; i++) {
 			//write attributes of record
 			for (int j = 0; j < this.numberAttributes; j++) {
-				outFile.print(this.records.get(0).attributes[j] + " ");
+				outFile.print(this.records.get(i).attributes[j] + " ");
 			}
 			outFile.println(this.clusters[i] + 1);
 		}
