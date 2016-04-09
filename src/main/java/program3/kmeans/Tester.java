@@ -8,7 +8,7 @@ public class Tester {
 		Kmeans clustering = new Kmeans();
 
 		//load data records
-		clustering.load("program3_data/example/kmeans/inputfile");
+		clustering.load("program3_data/example/kmeans/part1-2_input");
 
 		//set parameters
 		clustering.setParameters(2, 4539);

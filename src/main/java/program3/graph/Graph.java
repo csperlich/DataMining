@@ -88,7 +88,7 @@ public class Graph {
 		//allocate adjacency matrix
 		this.matrix = new int[this.numberRecords][this.numberRecords];
 
-		//entery (i, j) is 0 or 1 depending on i and j are neighbors or not
+		//entry (i, j) is 0 or 1 depending on i and j are neighbors or not
 		for (int i = 0; i < this.numberRecords; i++) {
 			for (int j = 0; j < this.numberRecords; j++) {
 				this.matrix[i][j] = this.neighbor(this.records.get(i), this.records.get(j));

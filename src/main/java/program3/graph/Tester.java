@@ -8,7 +8,10 @@ public class Tester {
 		Graph clustering = new Graph();
 
 		//load data records
-		clustering.load("program3_data/example/graph/inputfile");
+		clustering.load("program3_data/example/graph/part2-2_input");
+
+		//set parameters
+		clustering.setParameters(3);
 
 		//perform clustering
 		clustering.cluster();
