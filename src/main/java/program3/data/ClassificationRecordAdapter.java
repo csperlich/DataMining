@@ -1,0 +1,59 @@
+package program3.data;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import program2.data.Record;
+
+public class ClassificationRecordAdapter implements ClusteringRecord {
+
+	private Record classificationRecord;
+
+	public ClassificationRecordAdapter(Record classificationRecord) {
+		this.classificationRecord = classificationRecord;
+		this.classificationRecord.setOutput(new double[] { -1 });
+	}
+
+	public ClassificationRecordAdapter(int size) {
+		this.classificationRecord = new Record(new double[size], new double[1]);
+		this.classificationRecord.getOutputs()[0] = -1;
+	}
+
+	public ClassificationRecordAdapter(double[] attributes) {
+		this.classificationRecord = new Record(attributes, new double[1]);
+		this.classificationRecord.getOutputs()[0] = -1;
+	}
+
+	@Override
+	public int getCluster() {
+		return (int) Math.round(this.classificationRecord.getOutputs()[0]);
+	}
+
+	@Override
+	public void setCluster(int cluster) {
+		this.classificationRecord.getOutputs()[0] = cluster;
+
+	}
+
+	//adapts a list of classification records from program2 into clustering records for program3
+	public static List<ClusteringRecord> adaptList(List<Record> classificationRecords) {
+		List<ClusteringRecord> clusteringRecords = new ArrayList<>();
+
+		for (Record classificationRecord : classificationRecords) {
+			clusteringRecords.add(new ClassificationRecordAdapter(classificationRecord));
+		}
+
+		return clusteringRecords;
+	}
+
+	@Override
+	public int getSize() {
+		return this.classificationRecord.getInputs().length;
+	}
+
+	@Override
+	public double[] getAttributes() {
+		return this.classificationRecord.getInputs();
+	}
+
+}
