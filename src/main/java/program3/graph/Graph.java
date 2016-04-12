@@ -1,50 +1,28 @@
 package program3.graph;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.List;
+
+import program3.data.ClusteringRecord;
 
 //Graph basesd clustering class
 public class Graph {
-	//data record class
-	private class Record {
-		private double[] attributes;
-
-		private Record(double[] attributes) {
-			this.attributes = attributes;
-		}
-	}
 
 	private int numberRecords;
 	private int numberAttributes;
 	private double delta;	//neighbor threshold
 
-	private ArrayList<Record> records;
+	private List<ClusteringRecord> records;
 	private int[][] matrix; //adjacency matrix
 	private int[] clusters; //clusters of records
 
-	public void load(String inputFile) throws IOException {
-		Scanner inFile = new Scanner(new File(inputFile));
-
-		this.numberRecords = inFile.nextInt();
-		this.numberAttributes = inFile.nextInt();
-
-		this.records = new ArrayList<Record>();
-
-		for (int i = 0; i < this.numberRecords; i++) {
-			//read attributes
-			double[] attributes = new double[this.numberAttributes];
-			for (int j = 0; j < this.numberAttributes; j++) {
-				attributes[j] = inFile.nextDouble();
-			}
-			Record record = new Record(attributes);
-			this.records.add(record);
-		}
-		inFile.close();
+	public void load(List<ClusteringRecord> clusteringRecords) throws IOException {
+		this.records = clusteringRecords;
+		this.numberRecords = this.records.size();
+		this.numberAttributes = this.records.get(0).getSize();
 	}
 
 	//sets parameters of clustering
@@ -98,12 +76,12 @@ public class Graph {
 
 	//method decides whether two records are neighbors or not
 	//method is application specific
-	private int neighbor(Record u, Record v) {
+	private int neighbor(ClusteringRecord u, ClusteringRecord v) {
 		double distance = 0;
 
 		//find Euclidean distance between two records
-		for (int i = 0; i < u.attributes.length; i++) {
-			distance += (u.attributes[i] - v.attributes[i]) * (u.attributes[i] - v.attributes[i]);
+		for (int i = 0; i < u.getSize(); i++) {
+			distance += (u.getAttributes()[i] - v.getAttributes()[i]) * (u.getAttributes()[i] - v.getAttributes()[i]);
 		}
 
 		distance = Math.sqrt(distance);
@@ -165,7 +143,7 @@ public class Graph {
 		for (int i = 0; i < this.numberRecords; i++) {
 			//write attributes of record
 			for (int j = 0; j < this.numberAttributes; j++) {
-				outFile.print(this.records.get(i).attributes[j] + " ");
+				outFile.print(this.records.get(i).getAttributes()[j] + " ");
 			}
 
 			//write cluster

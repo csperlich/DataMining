@@ -1,6 +1,11 @@
 package program3.graph;
 
 import java.io.IOException;
+import java.util.List;
+
+import program2.data.Record;
+import program2.data.RecordReader;
+import program3.data.ClassificationRecordAdapter;
 
 public class Tester {
 	public static void main(String[] args) throws IOException {
@@ -8,7 +13,10 @@ public class Tester {
 		Graph clustering = new Graph();
 
 		//load data records
-		clustering.load("program3_data/example/graph/part2-2_input");
+		RecordReader recordReader = new RecordReader(false);
+		List<Record> classificationRecords = recordReader
+				.readTrainingRecords("program3_data/example/graph/part2-2_input2");
+		clustering.load(ClassificationRecordAdapter.adaptList(classificationRecords));
 
 		//set parameters
 		clustering.setParameters(3);
