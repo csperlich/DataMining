@@ -48,4 +48,34 @@ public class ClusteringRecord implements IClusteringRecord {
 		return this.toPrettyString();
 	}
 
+	public static double squaredDistance(IClusteringRecord record1, IClusteringRecord record2) {
+		double sum = 0;
+		for (int i = 0; i < record1.getSize(); i++) {
+			sum += Math.pow(record1.getAttributes()[i] - record2.getAttributes()[i], 2);
+		}
+		return sum;
+	}
+
+	//finds scaler multiple of a record
+	public static IClusteringRecord scale(IClusteringRecord u, double k) {
+		double[] result = new double[u.getSize()];
+
+		//multiply attributes of record by scaler
+		for (int i = 0; i < u.getSize(); i++) {
+			result[i] = k * u.getAttributes()[i];
+		}
+		return new ClusteringRecord(result);
+	}
+
+	//finds sum of two records
+	public static IClusteringRecord sum(IClusteringRecord u, IClusteringRecord v) {
+		double[] result = new double[u.getSize()];
+
+		//find sum by adding corresponding attributes of records
+		for (int i = 0; i < u.getSize(); i++) {
+			result[i] = u.getAttributes()[i] + v.getAttributes()[i];
+		}
+		return new ClusteringRecord(result);
+	}
+
 }

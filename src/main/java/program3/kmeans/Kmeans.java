@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import program3.data.ClusteringRecord;
@@ -20,12 +21,17 @@ public class Kmeans {
 	private List<IClusteringRecord> records;
 	private List<IClusteringRecord> centroids;
 	private Random rand;
+	private boolean traceCentroids = false;
 
-	//loads records from input file
+	//loads records
 	public void load(List<IClusteringRecord> clusteringRecords) throws FileNotFoundException {
 		this.records = clusteringRecords;
 		this.numberRecords = this.records.size();
 		this.numberAttributes = this.records.get(0).getSize();
+	}
+
+	public void setTrace(boolean traceCentroids) {
+		this.traceCentroids = traceCentroids;
 	}
 
 	//sets parameters of clustering
@@ -44,8 +50,19 @@ public class Kmeans {
 		while (!stopCondition) {
 			int clusterChanges = this.assignClusters();
 			this.updateCentroids();
+			if (this.traceCentroids) {
+				this.printCentroids("UPDATED CENTROIDS:");
+			}
 			stopCondition = clusterChanges == 0;
 		}
+	}
+
+	private void printCentroids(String message) {
+		System.out.println("\n" + message);
+		for (IClusteringRecord record : this.centroids) {
+			System.out.println(record);
+		}
+
 	}
 
 	//updates centroids of clusters
@@ -73,7 +90,7 @@ public class Kmeans {
 			int cluster = this.records.get(i).getCluster();
 
 			//add record to cluster sum
-			IClusteringRecord sum = this.sum(clusterSum.get(cluster), this.records.get(i));
+			IClusteringRecord sum = ClusteringRecord.sum(clusterSum.get(cluster), this.records.get(i));
 			clusterSum.set(cluster, sum);
 
 			//increment cluster size
@@ -83,7 +100,7 @@ public class Kmeans {
 		//for each cluster
 		for (int i = 0; i < this.numberClusters; i++) {
 			//find average by dividing cluster sum by cluster size
-			IClusteringRecord average = this.scale(clusterSum.get(i), 1.0 / clusterSize[i]);
+			IClusteringRecord average = ClusteringRecord.scale(clusterSum.get(i), 1.0 / clusterSize[i]);
 			this.centroids.set(i, average);
 		}
 
@@ -103,6 +120,9 @@ public class Kmeans {
 			int index = this.rand.nextInt(this.numberRecords);
 			this.centroids.add(this.records.get(index));
 		}
+		if (this.traceCentroids) {
+			this.printCentroids("INITIAL CENTROIDS:");
+		}
 	}
 
 	private int assignClusters() {
@@ -113,13 +133,13 @@ public class Kmeans {
 			IClusteringRecord record = this.records.get(i);
 
 			//find distance between record and first centroid
-			double minDistance = this.distance(record, this.centroids.get(0));
+			double minDistance = ClusteringRecord.squaredDistance(record, this.centroids.get(0));
 			int minIndex = 0;
 
 			//go through centroids and find closest centroid
 			for (int j = 0; j < this.numberClusters; j++) {
 				//find distance between record and centroid
-				double distance = this.distance(record, this.centroids.get(j));
+				double distance = ClusteringRecord.squaredDistance(record, this.centroids.get(j));
 
 				if (distance < minDistance) {
 					minDistance = distance;
@@ -138,53 +158,38 @@ public class Kmeans {
 		return clusterChanges;
 	}
 
-	//finds Euclidean distance between two records
-	private double distance(IClusteringRecord u, IClusteringRecord v) {
-		double sum = 0;
-
-		for (int i = 0; i < u.getSize(); i++) {
-			sum += (u.getAttributes()[i] - v.getAttributes()[i]) * (u.getAttributes()[i] - v.getAttributes()[i]);
-		}
-		return sum;
-	}
-
-	//finds sum of two records
-	private IClusteringRecord sum(IClusteringRecord u, IClusteringRecord v) {
-		double[] result = new double[u.getSize()];
-
-		//find sum by adding corresponding attributes of records
-		for (int i = 0; i < u.getSize(); i++) {
-			result[i] = u.getAttributes()[i] + v.getAttributes()[i];
-		}
-		return new ClusteringRecord(result);
-	}
-
-	//finds scaler multiple of a record
-	private IClusteringRecord scale(IClusteringRecord u, double k) {
-		double[] result = new double[u.getSize()];
-
-		//multiply attributes of record by scaler
-		for (int i = 0; i < u.getSize(); i++) {
-			result[i] = k * u.getAttributes()[i];
-		}
-		return new ClusteringRecord(result);
-	}
-
 	public void display(String outputFile) throws IOException {
 		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
 
 		for (int i = 0; i < this.numberRecords; i++) {
-			//write attributes of record
-			for (int j = 0; j < this.numberAttributes; j++) {
-				outFile.print(this.records.get(i).getAttributes()[j] + " ");
-			}
-			outFile.println(this.records.get(i).getCluster() + 1);
+			outFile.println(this.records.get(i));
 		}
 		outFile.close();
 	}
 
 	public List<IClusteringRecord> getRecords() {
 		return this.records;
+	}
+
+	public double sumSquaredError() {
+		double sse = 0;
+		for (IClusteringRecord record : this.records) {
+			sse += ClusteringRecord.squaredDistance(record, this.centroids.get(record.getCluster()));
+		}
+		return sse;
+	}
+
+	public void displayGrouped(String outputFile) throws IOException {
+		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
+
+		Map<Integer, List<IClusteringRecord>> groups = ClusteringRecord.sortRecordsByCluster(this.records);
+
+		for (Map.Entry<Integer, List<IClusteringRecord>> group : groups.entrySet()) {
+			for (IClusteringRecord record : group.getValue()) {
+				outFile.println(record);
+			}
+		}
+		outFile.close();
 	}
 
 }

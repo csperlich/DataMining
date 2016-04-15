@@ -22,11 +22,17 @@ public class Tester {
 		//set parameters
 		clustering.setParameters(2, 4539);
 
+		//turn tracing on
+		clustering.setTrace(true);
+
 		//perform clustering
 		clustering.cluster();
 
 		//display records and clusters
 		clustering.display("program3_data/example/kmeans/outputfile3");
+
+		//display grouped records and clusters
+		clustering.displayGrouped("program3_data/example/kmeans/outputfile3_grouped");
 
 		//create graph of clustered data
 		ClusterGrapher.graphClusters(clustering.getRecords(), "example1", "xAxis", "yAxis", "example1");
