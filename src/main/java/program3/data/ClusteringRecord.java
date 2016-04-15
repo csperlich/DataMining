@@ -1,11 +1,32 @@
 package program3.data;
 
-public interface ClusteringRecord {
-	public int getCluster();
+public class ClusteringRecord implements IClusteringRecord {
 
-	public void setCluster(int cluster);
+	private double[] attributes;
+	private int cluster;
 
-	public int getSize();
+	public ClusteringRecord(double[] attributes) {
+		this.attributes = attributes;
+	}
 
-	public double[] getAttributes();
+	@Override
+	public int getCluster() {
+		return this.cluster;
+	}
+
+	@Override
+	public void setCluster(int cluster) {
+		this.cluster = cluster;
+	}
+
+	@Override
+	public int getSize() {
+		return this.attributes.length;
+	}
+
+	@Override
+	public double[] getAttributes() {
+		return this.attributes;
+	}
+
 }

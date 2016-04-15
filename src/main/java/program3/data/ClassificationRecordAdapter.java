@@ -5,7 +5,7 @@ import java.util.List;
 
 import program2.data.Record;
 
-public class ClassificationRecordAdapter implements ClusteringRecord {
+public class ClassificationRecordAdapter implements IClusteringRecord {
 
 	private Record classificationRecord;
 
@@ -36,8 +36,8 @@ public class ClassificationRecordAdapter implements ClusteringRecord {
 	}
 
 	//adapts a list of classification records from program2 into clustering records for program3
-	public static List<ClusteringRecord> adaptList(List<Record> classificationRecords) {
-		List<ClusteringRecord> clusteringRecords = new ArrayList<>();
+	public static List<IClusteringRecord> adaptList(List<Record> classificationRecords) {
+		List<IClusteringRecord> clusteringRecords = new ArrayList<>();
 
 		for (Record classificationRecord : classificationRecords) {
 			clusteringRecords.add(new ClassificationRecordAdapter(classificationRecord));

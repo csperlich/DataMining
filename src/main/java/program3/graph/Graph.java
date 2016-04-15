@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-import program3.data.ClusteringRecord;
+import program3.data.IClusteringRecord;
 
 //Graph basesd clustering class
 public class Graph {
@@ -15,11 +15,11 @@ public class Graph {
 	private int numberAttributes;
 	private double delta;	//neighbor threshold
 
-	private List<ClusteringRecord> records;
+	private List<IClusteringRecord> records;
 	private int[][] matrix; //adjacency matrix
 	private int[] clusters; //clusters of records
 
-	public void load(List<ClusteringRecord> clusteringRecords) throws IOException {
+	public void load(List<IClusteringRecord> clusteringRecords) throws IOException {
 		this.records = clusteringRecords;
 		this.numberRecords = this.records.size();
 		this.numberAttributes = this.records.get(0).getSize();
@@ -76,7 +76,7 @@ public class Graph {
 
 	//method decides whether two records are neighbors or not
 	//method is application specific
-	private int neighbor(ClusteringRecord u, ClusteringRecord v) {
+	private int neighbor(IClusteringRecord u, IClusteringRecord v) {
 		double distance = 0;
 
 		//find Euclidean distance between two records

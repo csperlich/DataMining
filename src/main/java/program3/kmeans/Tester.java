@@ -25,6 +25,6 @@ public class Tester {
 		clustering.cluster();
 
 		//display records and clusters
-		clustering.display("program3_data/example/kmeans/outputfile2");
+		clustering.display("program3_data/example/kmeans/outputfile3");
 	}
 }

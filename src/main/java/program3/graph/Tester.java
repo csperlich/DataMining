@@ -25,6 +25,6 @@ public class Tester {
 		clustering.cluster();
 
 		//display records and clusters
-		clustering.display("program3_data/example/graph/outputfile");
+		clustering.display("program3_data/example/graph/outputfile3");
 	}
 }

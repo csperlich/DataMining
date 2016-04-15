@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import program3.data.ClassificationRecordAdapter;
 import program3.data.ClusteringRecord;
+import program3.data.IClusteringRecord;
 
 public class Kmeans {
 
@@ -17,13 +17,13 @@ public class Kmeans {
 	private int numberAttributes;
 	private int numberClusters;
 
-	private List<ClusteringRecord> records;
-	private List<ClusteringRecord> centroids;
+	private List<IClusteringRecord> records;
+	private List<IClusteringRecord> centroids;
 	private int[] clusters;
 	private Random rand;
 
 	//loads records from input file
-	public void load(List<ClusteringRecord> clusteringRecords) throws FileNotFoundException {
+	public void load(List<IClusteringRecord> clusteringRecords) throws FileNotFoundException {
 		this.records = clusteringRecords;
 		this.numberRecords = this.records.size();
 		this.numberAttributes = this.records.get(0).getSize();
@@ -51,7 +51,7 @@ public class Kmeans {
 
 	//updates centroids of clusters
 	private void updateCentroids() {
-		ArrayList<ClusteringRecord> clusterSum = new ArrayList<>();
+		ArrayList<IClusteringRecord> clusterSum = new ArrayList<>();
 
 		//for each cluster
 		for (int i = 0; i < this.numberClusters; i++) {
@@ -62,7 +62,7 @@ public class Kmeans {
 			}
 
 			//initialize sum to [0 0 . . . 0]
-			clusterSum.add(new ClassificationRecordAdapter(attributes));
+			clusterSum.add(new ClusteringRecord(attributes));
 		}
 
 		//array of cluster sizes
@@ -79,7 +79,7 @@ public class Kmeans {
 			int cluster = this.clusters[i];
 
 			//add record to cluster sum
-			ClusteringRecord sum = this.sum(clusterSum.get(cluster), this.records.get(i));
+			IClusteringRecord sum = this.sum(clusterSum.get(cluster), this.records.get(i));
 			clusterSum.set(cluster, sum);
 
 			//increment cluster size
@@ -89,7 +89,7 @@ public class Kmeans {
 		//for each cluster
 		for (int i = 0; i < this.numberClusters; i++) {
 			//find average by dividing cluster sum by cluster size
-			ClusteringRecord average = this.scale(clusterSum.get(i), 1.0 / clusterSize[i]);
+			IClusteringRecord average = this.scale(clusterSum.get(i), 1.0 / clusterSize[i]);
 			this.centroids.set(i, average);
 		}
 
@@ -118,7 +118,7 @@ public class Kmeans {
 
 		//go through records and assign clusters to them
 		for (int i = 0; i < this.numberRecords; i++) {
-			ClusteringRecord record = this.records.get(i);
+			IClusteringRecord record = this.records.get(i);
 
 			//find distance between record and first centroid
 			double minDistance = this.distance(record, this.centroids.get(0));
@@ -147,7 +147,7 @@ public class Kmeans {
 	}
 
 	//finds Euclidean distance between two records
-	private double distance(ClusteringRecord u, ClusteringRecord v) {
+	private double distance(IClusteringRecord u, IClusteringRecord v) {
 		double sum = 0;
 
 		for (int i = 0; i < u.getSize(); i++) {
@@ -157,25 +157,25 @@ public class Kmeans {
 	}
 
 	//finds sum of two records
-	private ClusteringRecord sum(ClusteringRecord u, ClusteringRecord v) {
+	private IClusteringRecord sum(IClusteringRecord u, IClusteringRecord v) {
 		double[] result = new double[u.getSize()];
 
 		//find sum by adding corresponding attributes of records
 		for (int i = 0; i < u.getSize(); i++) {
 			result[i] = u.getAttributes()[i] + v.getAttributes()[i];
 		}
-		return new ClassificationRecordAdapter(result);
+		return new ClusteringRecord(result);
 	}
 
 	//finds scaler multiple of a record
-	private ClusteringRecord scale(ClusteringRecord u, double k) {
+	private IClusteringRecord scale(IClusteringRecord u, double k) {
 		double[] result = new double[u.getSize()];
 
 		//multiply attributes of record by scaler
 		for (int i = 0; i < u.getSize(); i++) {
 			result[i] = k * u.getAttributes()[i];
 		}
-		return new ClassificationRecordAdapter(result);
+		return new ClusteringRecord(result);
 	}
 
 	public void display(String outputFile) throws IOException {
