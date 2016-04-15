@@ -43,7 +43,7 @@ public class ClusterGrapher {
 
 		int width = 640; /* Width of the image */
 		int height = 480; /* Height of the image */
-		File XYScatterChart = new File("images/" + fileName + ".jpeg");
+		File XYScatterChart = new File(fileName + ".jpeg");
 		ChartUtilities.saveChartAsJPEG(XYScatterChart, xyScatterChart, width, height);
 	}
 

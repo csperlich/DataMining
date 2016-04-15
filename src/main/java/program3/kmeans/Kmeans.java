@@ -57,7 +57,7 @@ public class Kmeans {
 		}
 	}
 
-	private void printCentroids(String message) {
+	public void printCentroids(String message) {
 		System.out.println("\n" + message);
 		for (IClusteringRecord record : this.centroids) {
 			System.out.println(record);
@@ -120,9 +120,13 @@ public class Kmeans {
 			int index = this.rand.nextInt(this.numberRecords);
 			this.centroids.add(this.records.get(index));
 		}
+
+		this.printCentroids("INITIAL CENTROIDS:");
+
 		if (this.traceCentroids) {
-			this.printCentroids("INITIAL CENTROIDS:");
+			System.out.println("\nCENTROID TRACING IS ON...");
 		}
+
 	}
 
 	private int assignClusters() {
