@@ -19,7 +19,6 @@ public class Kmeans {
 
 	private List<IClusteringRecord> records;
 	private List<IClusteringRecord> centroids;
-	private int[] clusters;
 	private Random rand;
 
 	//loads records from input file
@@ -76,7 +75,7 @@ public class Kmeans {
 		//for each record
 		for (int i = 0; i < this.numberRecords; i++) {
 			//find cluster of record
-			int cluster = this.clusters[i];
+			int cluster = this.records.get(i).getCluster();
 
 			//add record to cluster sum
 			IClusteringRecord sum = this.sum(clusterSum.get(cluster), this.records.get(i));
@@ -97,10 +96,8 @@ public class Kmeans {
 
 	//initializes clusters of records
 	private void initializeClusters() {
-		this.clusters = new int[this.numberRecords];
-
 		for (int i = 0; i < this.numberRecords; i++) {
-			this.clusters[i] = -1;
+			this.records.get(i).setCluster(-1);
 		}
 	}
 
@@ -136,9 +133,9 @@ public class Kmeans {
 			}
 
 			//if closest cluster is different from current cluster
-			if (this.clusters[i] != minIndex) {
+			if (this.records.get(i).getCluster() != minIndex) {
 				//change cluster of record
-				this.clusters[i] = minIndex;
+				this.records.get(i).setCluster(minIndex);
 				//keep count of cluster changes
 				clusterChanges++;
 			}
@@ -186,7 +183,7 @@ public class Kmeans {
 			for (int j = 0; j < this.numberAttributes; j++) {
 				outFile.print(this.records.get(i).getAttributes()[j] + " ");
 			}
-			outFile.println(this.clusters[i] + 1);
+			outFile.println(this.records.get(i).getCluster() + 1);
 		}
 		outFile.close();
 	}

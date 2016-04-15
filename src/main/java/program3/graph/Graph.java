@@ -17,7 +17,6 @@ public class Graph {
 
 	private List<IClusteringRecord> records;
 	private int[][] matrix; //adjacency matrix
-	private int[] clusters; //clusters of records
 
 	public void load(List<IClusteringRecord> clusteringRecords) throws IOException {
 		this.records = clusteringRecords;
@@ -48,7 +47,7 @@ public class Graph {
 		//while ther are more records
 		while (index < this.numberRecords) {
 			//if record does not have clustesr name
-			if (this.clusters[index] == -1) {
+			if (this.records.get(index).getCluster() == -1) {
 				//assign cluster name to record and all records connected to it
 				this.assignCluster(index, clusterName);
 
@@ -97,12 +96,9 @@ public class Graph {
 
 	//initializes clusters of records
 	private void initializeClusters() {
-		//create array of cluster labels
-		this.clusters = new int[this.numberRecords];
-
 		//assign cluster -1 to all records
 		for (int i = 0; i < this.numberRecords; i++) {
-			this.clusters[i] = -1;
+			this.records.get(i).setCluster(-1);
 		}
 	}
 
@@ -110,7 +106,7 @@ public class Graph {
 	//connected to it, uses breadth first traversal
 	private void assignCluster(int index, int clusterName) {
 		//assign cluster name to record
-		this.clusters[index] = clusterName;
+		this.records.get(index).setCluster(clusterName);
 
 		//list used in traversal
 		LinkedList<Integer> list = new LinkedList<Integer>();
@@ -125,9 +121,9 @@ public class Graph {
 
 			//find neighbors of record which have no cluster names
 			for (int j = 0; j < this.numberRecords; j++) {
-				if (this.matrix[i][j] == 1 && this.clusters[j] == -1) {
+				if (this.matrix[i][j] == 1 && this.records.get(j).getCluster() == -1) {
 					//assign cluster name to neighbor
-					this.clusters[j] = clusterName;
+					this.records.get(j).setCluster(clusterName);
 
 					//add neighbor to list
 					list.addLast(j);
@@ -147,7 +143,7 @@ public class Graph {
 			}
 
 			//write cluster
-			outFile.println(this.clusters[i] + 1);
+			outFile.println(this.records.get(i).getCluster() + 1);
 		}
 
 		outFile.close();
