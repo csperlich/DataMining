@@ -56,4 +56,9 @@ public class ClassificationRecordAdapter implements IClusteringRecord {
 		return this.classificationRecord.getInputs();
 	}
 
+	@Override
+	public String toString() {
+		return this.toPrettyString();
+	}
+
 }

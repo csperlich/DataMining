@@ -6,6 +6,7 @@ import java.util.List;
 import program2.data.Record;
 import program2.data.RecordReader;
 import program3.data.ClassificationRecordAdapter;
+import program3.visualization.ClusterGrapher;
 
 public class Tester {
 	public static void main(String[] args) throws IOException {
@@ -26,5 +27,8 @@ public class Tester {
 
 		//display records and clusters
 		clustering.display("program3_data/example/kmeans/outputfile3");
+
+		//create graph of clustered data
+		ClusterGrapher.graphClusters(clustering.getRecords(), "example1", "xAxis", "yAxis", "example1");
 	}
 }

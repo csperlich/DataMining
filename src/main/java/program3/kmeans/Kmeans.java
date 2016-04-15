@@ -67,11 +67,6 @@ public class Kmeans {
 		//array of cluster sizes
 		int[] clusterSize = new int[this.numberClusters];
 
-		//initialize cluster sizes to 0
-		for (int i = 0; i < this.numberClusters; i++) {
-			clusterSize[i] = 0;
-		}
-
 		//for each record
 		for (int i = 0; i < this.numberRecords; i++) {
 			//find cluster of record
@@ -186,6 +181,10 @@ public class Kmeans {
 			outFile.println(this.records.get(i).getCluster() + 1);
 		}
 		outFile.close();
+	}
+
+	public List<IClusteringRecord> getRecords() {
+		return this.records;
 	}
 
 }
