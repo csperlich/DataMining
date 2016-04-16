@@ -18,6 +18,7 @@ public abstract class Clusterer {
 
 	protected List<IClusteringRecord> records;
 	protected RecordReader recordReader;
+	protected List<IClusteringRecord> centroids;
 
 	//loads records
 	public void load(List<IClusteringRecord> clusteringRecords) throws FileNotFoundException {
@@ -36,6 +37,25 @@ public abstract class Clusterer {
 		}
 	}
 
+	public int getNumberOfClusters() {
+		return this.centroids.size();
+	}
+
+	public double sumSquaredError() {
+		double sse = 0;
+		for (IClusteringRecord record : this.records) {
+			sse += ClusteringRecord.squaredDistance(record, this.centroids.get(record.getCluster()));
+		}
+		return sse;
+	}
+
+	public void printCentroids(String message) {
+		System.out.println("\n" + message);
+		for (IClusteringRecord record : this.centroids) {
+			System.out.println(record);
+		}
+	}
+
 	public void display(String outputFile) throws IOException {
 		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
 
@@ -48,8 +68,6 @@ public abstract class Clusterer {
 	public List<IClusteringRecord> getRecords() {
 		return this.records;
 	}
-
-	public abstract double sumSquaredError();
 
 	public void displayGrouped(String outputFile) throws IOException {
 		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));

@@ -11,7 +11,6 @@ import program3.data.IClusteringRecord;
 
 public class Kmeans extends Clusterer {
 
-	private List<IClusteringRecord> centroids;
 	private Random rand;
 	private boolean traceCentroids = false;
 	private int numberClusters;
@@ -46,14 +45,6 @@ public class Kmeans extends Clusterer {
 			}
 			stopCondition = clusterChanges == 0;
 		}
-	}
-
-	public void printCentroids(String message) {
-		System.out.println("\n" + message);
-		for (IClusteringRecord record : this.centroids) {
-			System.out.println(record);
-		}
-
 	}
 
 	//updates centroids of clusters
@@ -149,15 +140,6 @@ public class Kmeans extends Clusterer {
 	@Override
 	public List<IClusteringRecord> getRecords() {
 		return this.records;
-	}
-
-	@Override
-	public double sumSquaredError() {
-		double sse = 0;
-		for (IClusteringRecord record : this.records) {
-			sse += ClusteringRecord.squaredDistance(record, this.centroids.get(record.getCluster()));
-		}
-		return sse;
 	}
 
 }

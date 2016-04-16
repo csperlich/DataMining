@@ -9,7 +9,6 @@ import program3.data.ClassificationRecordAdapter;
 
 public class Tester {
 	public static void main(String[] args) throws IOException {
-
 		//load data records
 		RecordReader recordReader = new RecordReader(false);
 		List<Record> classificationRecords = recordReader

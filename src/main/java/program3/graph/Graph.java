@@ -1,9 +1,11 @@
 package program3.graph;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import program2.data.RecordReader;
 import program3.clustering.Clusterer;
+import program3.data.ClusteringRecord;
 import program3.data.IClusteringRecord;
 
 //Graph basesd clustering class
@@ -20,11 +22,14 @@ public class Graph extends Clusterer {
 	public void setParameters(double delta) {
 		//set neighbor threshold
 		this.delta = delta;
+
 	}
 
 	//method performs clustering
 	@Override
 	public void cluster() {
+		this.centroids = new ArrayList<>();
+
 		//create adjaceny matrix of records
 		this.createMatrix();
 
@@ -42,7 +47,7 @@ public class Graph extends Clusterer {
 			//if record does not have clustesr name
 			if (this.records.get(index).getCluster() == -1) {
 				//assign cluster name to record and all records connected to it
-				this.assignCluster(index, clusterName);
+				this.assignClusterAndCreateCentroid(index, clusterName);
 
 				//find next cluster name
 				clusterName = clusterName + 1;
@@ -89,7 +94,8 @@ public class Graph extends Clusterer {
 
 	//method assigns cluster name to a record and all records
 	//connected to it, uses breadth first traversal
-	private void assignCluster(int index, int clusterName) {
+	//it also calculates adds the centroid for the cluster to the centroid list
+	private void assignClusterAndCreateCentroid(int index, int clusterName) {
 		//assign cluster name to record
 		this.records.get(index).setCluster(clusterName);
 
@@ -99,10 +105,21 @@ public class Graph extends Clusterer {
 		//put record into list
 		list.addLast(index);
 
+		IClusteringRecord centroid = null;
+
+		int numRecsInCluster = 0;
+
 		//while list has records
 		while (!list.isEmpty()) {
 			//remove first record from list
 			int i = list.removeFirst();
+
+			numRecsInCluster++;
+			if (centroid == null) {
+				centroid = this.records.get(i);
+			} else {
+				centroid = ClusteringRecord.sum(centroid, this.records.get(i));
+			}
 
 			//find neighbors of record which have no cluster names
 			for (int j = 0; j < this.numberRecords; j++) {
@@ -115,12 +132,8 @@ public class Graph extends Clusterer {
 				}
 			}
 		}
-	}
 
-	@Override
-	public double sumSquaredError() {
-		// TODO Auto-generated method stub
-		return 0;
+		this.centroids.add(ClusteringRecord.scale(centroid, 1.0 / numRecsInCluster));
 	}
 
 }
