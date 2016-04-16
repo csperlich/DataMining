@@ -23,9 +23,6 @@ public class ImageCompressor {
 	private int cols;
 	private int groupingSize;
 	private Kmeans clusterer;
-	private int[][] originalPixelValues;
-	private int[][] compressedCentroidIndices;
-	private BufferedImage originalImage;
 	private int numClusters;
 	private int clusterSeed;
 
@@ -33,52 +30,59 @@ public class ImageCompressor {
 		this.rows = rows;
 		this.cols = cols;
 		this.groupingSize = groupingSize;
-		this.originalPixelValues = new int[rows][cols];
-		this.compressedCentroidIndices = new int[rows][cols / groupingSize];
 		this.clusterer = new Kmeans(null);
 		this.numClusters = numClusters;
 		this.clusterSeed = clusterSeed;
 	}
 
+	public void setNumClusters(int numClusters) {
+		this.numClusters = numClusters;
+	}
+
 	public void compressImage(String inputImage, String outputImage) throws FileNotFoundException {
-		this.readPixelData(inputImage);
-		this.originalImage = this.getImage(this.originalPixelValues);
-		System.out.println(this.getRecordsFromPixels().size());
-		this.clusterer.load(this.getRecordsFromPixels());
+		//read in image
+		int[][] originalPixelValues = this.readUncompressedPixelData(inputImage);
+
+		//perform clustering
+		this.clusterer.load(this.getRecordsFromPixels(originalPixelValues));
 		this.clusterer.setParameters(this.numClusters, this.clusterSeed);
 		this.clusterer.cluster();
 		List<IClusteringRecord> records = this.clusterer.getRecords();
 
+		//compress based on centroids of clusters
 		int recordsIndex = 0;
-		for (int i = 0; i < this.compressedCentroidIndices.length; i++) {
-			for (int j = 0; j < this.compressedCentroidIndices[i].length; j++) {
-				this.compressedCentroidIndices[i][j] = records.get(recordsIndex++).getCluster();
+		int[][] compressedCentroidIndices = new int[this.rows][this.cols / this.groupingSize];
+		for (int i = 0; i < compressedCentroidIndices.length; i++) {
+			for (int j = 0; j < compressedCentroidIndices[i].length; j++) {
+				compressedCentroidIndices[i][j] = records.get(recordsIndex++).getCluster();
 			}
 		}
-		this.writeCompressedImage(outputImage);
+		this.writeCompressedImage(outputImage, compressedCentroidIndices);
 	}
 
-	private void writeCompressedImage(String outputImage) throws FileNotFoundException {
+	// writes each row of compressed centroid image data to one line
+	// writes the centroid values as ints between 0 and 255 to the end of the file
+	private void writeCompressedImage(String outputImage, int[][] compressedCentroidIndices)
+			throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(new File("program3_data/part3/" + outputImage));
-		for (int i = 0; i < this.compressedCentroidIndices.length; i++) {
-			for (int j = 0; j < this.compressedCentroidIndices[i].length; j++) {
-				writer.print(this.compressedCentroidIndices[i][j] + " ");
+		for (int i = 0; i < compressedCentroidIndices.length; i++) {
+			for (int j = 0; j < compressedCentroidIndices[i].length; j++) {
+				writer.print(compressedCentroidIndices[i][j] + " ");
 			}
 			writer.println();
 		}
 
 		List<IClusteringRecord> centroids = this.clusterer.getCentroids();
-		System.out.println(centroids.size());
 		for (int i = 0; i < this.numClusters; i++) {
 			double[] clusterAttributes = centroids.get(i).getAttributes();
 			for (int j = 0; j < clusterAttributes.length; j++) {
-				System.out.println(clusterAttributes[j]);
 				writer.print(this.convertToGrayscaleInt(clusterAttributes[j]) + " ");
 			}
 		}
 		writer.close();
 	}
 
+	//bounds a double value to a 0 to 255 int grayscale value
 	private int convertToGrayscaleInt(double d) {
 		if (d < 0) {
 			return 0;
@@ -89,17 +93,17 @@ public class ImageCompressor {
 		}
 	}
 
-	public void showOriginalImage() throws FileNotFoundException {
+	//reads and displays an uncompressed image
+	public void showUncompressedImage(String fileName) throws FileNotFoundException {
 
-		JFrame frame = new JFrame();
-		frame.getContentPane().setLayout(new FlowLayout());
-		frame.getContentPane().add(new JLabel(new ImageIcon(this.originalImage)));
-		frame.pack();
-		frame.setVisible(true);
+		int[][] pixelData = this.readUncompressedPixelData(fileName);
+		this.displayImage(this.getImage(pixelData), "original");
 
 	}
 
-	public void showCompressedImage(String fileName) throws FileNotFoundException {
+	//reads a compressed image and returns the centroid group numbers in a 2d array
+	private int[][] readCompressedImage(String fileName) throws FileNotFoundException {
+
 		Scanner reader = new Scanner(new File("program3_data/part3/" + fileName));
 		int[][] centroidIndices = new int[this.rows][this.cols / this.groupingSize];
 
@@ -117,20 +121,35 @@ public class ImageCompressor {
 			}
 			centroids.add(new ClusteringRecord(attributes));
 		}
-
-		int[][] decompressed = this.decompress(centroidIndices, centroids);
-		BufferedImage decompressedImage = this.getImage(decompressed);
-
-		JFrame frame = new JFrame();
-		frame.getContentPane().setLayout(new FlowLayout());
-		frame.getContentPane().add(new JLabel(new ImageIcon(decompressedImage)));
-		frame.pack();
-		frame.setVisible(true);
-
 		reader.close();
 
+		return this.decompress(centroidIndices, centroids);
 	}
 
+	//reads and shows an compressed file
+	public void showCompressedImage(String fileName) throws FileNotFoundException {
+		BufferedImage decompressedImage = this.getImage(this.readCompressedImage(fileName));
+		this.displayImage(decompressedImage,
+				"clusters=" + this.numClusters + ", compFactor=" + this.compressionFactor());
+	}
+
+	private String compressionFactor() {
+		return "2.0";
+	}
+
+	//displays an image in a jframe
+	private void displayImage(BufferedImage image, String label) {
+		JFrame frame = new JFrame();
+		frame.getContentPane().setLayout(new FlowLayout());
+		frame.getContentPane().add(new JLabel(new ImageIcon(image)));
+		frame.setTitle(label);
+		frame.setResizable(false);
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+	//converts centroid group numbers int a 2d array of grayscale values that has the 
+	//original uncompressed dimensions
 	private int[][] decompress(int[][] centroidIndices, List<IClusteringRecord> centroids) {
 		int[][] decompressed = new int[this.rows][this.cols];
 		int decompRow = 0;
@@ -150,13 +169,14 @@ public class ImageCompressor {
 		return decompressed;
 	}
 
-	public List<IClusteringRecord> getRecordsFromPixels() {
+	//converts pixel data into record data for clustering
+	private List<IClusteringRecord> getRecordsFromPixels(int[][] pixelData) {
 		List<IClusteringRecord> records = new ArrayList<>();
-		for (int i = 0; i < this.originalPixelValues.length; i++) {
-			for (int j = 0; j < this.originalPixelValues[i].length; j += this.groupingSize) {
+		for (int i = 0; i < pixelData.length; i++) {
+			for (int j = 0; j < pixelData[i].length; j += this.groupingSize) {
 				double[] attributes = new double[this.groupingSize];
 				for (int k = 0; k < attributes.length; k++) {
-					attributes[k] = this.originalPixelValues[i][j + k];
+					attributes[k] = pixelData[i][j + k];
 				}
 				records.add(new ClusteringRecord(attributes));
 			}
@@ -164,17 +184,21 @@ public class ImageCompressor {
 		return records;
 	}
 
-	public void readPixelData(String fileName) throws FileNotFoundException {
+	//reads uncompressed pixel data and returns a 2d array of the values
+	private int[][] readUncompressedPixelData(String fileName) throws FileNotFoundException {
+		int[][] pixelData = new int[this.rows][this.cols];
 		Scanner reader = new Scanner(new File("program3_data/part3/" + fileName));
 		for (int r = 0; r < this.rows; r++) {
 			for (int c = 0; c < this.cols; c++) {
-				this.originalPixelValues[r][c] = reader.nextInt();
+				pixelData[r][c] = reader.nextInt();
 			}
 		}
 		reader.close();
+		return pixelData;
 	}
 
-	public BufferedImage getImage(int[][] grayscalePixels) {
+	//converts a 2d array of grayscale ints into a buffered image
+	private BufferedImage getImage(int[][] grayscalePixels) {
 		BufferedImage theImage = new BufferedImage(grayscalePixels.length, grayscalePixels[0].length,
 				BufferedImage.TYPE_INT_RGB);
 		for (int y = 0; y < grayscalePixels.length; y++) {
@@ -184,6 +208,23 @@ public class ImageCompressor {
 			}
 		}
 		return theImage;
+	}
+
+	public void compressMultiple(int[] clusterValues, String fileInput, String[] outputFiles)
+			throws FileNotFoundException {
+
+		for (int i = 0; i < outputFiles.length; i++) {
+			this.setNumClusters(clusterValues[i]);
+			this.compressImage(fileInput, outputFiles[i]);
+		}
+
+	}
+
+	public void showMultipleCompressed(int[] clusterValues, String[] compressedFiles) throws FileNotFoundException {
+		for (int i = 0; i < clusterValues.length; i++) {
+			this.setNumClusters(clusterValues[i]);
+			this.showCompressedImage(compressedFiles[i]);
+		}
 	}
 
 }
