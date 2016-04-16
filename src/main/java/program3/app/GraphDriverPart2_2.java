@@ -13,7 +13,7 @@ import program3.graph.Graph;
 public class GraphDriverPart2_2 {
 	public static void main(String[] args) throws IOException {
 		RecordReader recordReader = new RecordReader(false);
-		List<Record> classificationRecords = recordReader.readTrainingRecords("program3_data/part1/part1-2_input");
+		List<Record> classificationRecords = recordReader.readTrainingRecords("program3_data/part2/part2-2_input");
 
 		Graph clustering = new Graph(recordReader);
 
