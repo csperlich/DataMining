@@ -27,6 +27,10 @@ public abstract class Clusterer {
 		this.numberAttributes = this.records.get(0).getSize();
 	}
 
+	public List<IClusteringRecord> getCentroids() {
+		return this.centroids;
+	}
+
 	//performs k-means clustering
 	public abstract void cluster();
 
