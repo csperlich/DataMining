@@ -1,27 +1,19 @@
 package program3.graph;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedList;
-import java.util.List;
 
+import program2.data.RecordReader;
+import program3.clustering.Clusterer;
 import program3.data.IClusteringRecord;
 
 //Graph basesd clustering class
-public class Graph {
+public class Graph extends Clusterer {
 
-	private int numberRecords;
-	private int numberAttributes;
 	private double delta;	//neighbor threshold
-
-	private List<IClusteringRecord> records;
 	private int[][] matrix; //adjacency matrix
 
-	public void load(List<IClusteringRecord> clusteringRecords) throws IOException {
-		this.records = clusteringRecords;
-		this.numberRecords = this.records.size();
-		this.numberAttributes = this.records.get(0).getSize();
+	public Graph(RecordReader recordReader) {
+		this.recordReader = recordReader;
 	}
 
 	//sets parameters of clustering
@@ -31,6 +23,7 @@ public class Graph {
 	}
 
 	//method performs clustering
+	@Override
 	public void cluster() {
 		//create adjaceny matrix of records
 		this.createMatrix();
@@ -94,14 +87,6 @@ public class Graph {
 		}
 	}
 
-	//initializes clusters of records
-	private void initializeClusters() {
-		//assign cluster -1 to all records
-		for (int i = 0; i < this.numberRecords; i++) {
-			this.records.get(i).setCluster(-1);
-		}
-	}
-
 	//method assigns cluster name to a record and all records
 	//connected to it, uses breadth first traversal
 	private void assignCluster(int index, int clusterName) {
@@ -132,21 +117,10 @@ public class Graph {
 		}
 	}
 
-	//writes records and their clusters to output file
-	public void display(String outputFile) throws IOException {
-		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
-
-		for (int i = 0; i < this.numberRecords; i++) {
-			//write attributes of record
-			for (int j = 0; j < this.numberAttributes; j++) {
-				outFile.print(this.records.get(i).getAttributes()[j] + " ");
-			}
-
-			//write cluster
-			outFile.println(this.records.get(i).getCluster() + 1);
-		}
-
-		outFile.close();
+	@Override
+	public double sumSquaredError() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

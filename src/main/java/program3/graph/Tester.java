@@ -9,13 +9,12 @@ import program3.data.ClassificationRecordAdapter;
 
 public class Tester {
 	public static void main(String[] args) throws IOException {
-		//create clustring object
-		Graph clustering = new Graph();
 
 		//load data records
 		RecordReader recordReader = new RecordReader(false);
 		List<Record> classificationRecords = recordReader
 				.readTrainingRecords("program3_data/example/graph/part2-2_input2");
+		Graph clustering = new Graph(recordReader);
 		clustering.load(ClassificationRecordAdapter.adaptList(classificationRecords));
 
 		//set parameters

@@ -1,39 +1,23 @@
 package program3.kmeans;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import program2.data.RecordReader;
+import program3.clustering.Clusterer;
 import program3.data.ClusteringRecord;
 import program3.data.IClusteringRecord;
 
-public class Kmeans {
+public class Kmeans extends Clusterer {
 
-	private int numberRecords;
-	private int numberAttributes;
-	private int numberClusters;
-
-	private List<IClusteringRecord> records;
 	private List<IClusteringRecord> centroids;
 	private Random rand;
 	private boolean traceCentroids = false;
-	private RecordReader recordReader;
+	private int numberClusters;
 
 	public Kmeans(RecordReader recordReader) {
 		this.recordReader = recordReader;
-	}
-
-	//loads records
-	public void load(List<IClusteringRecord> clusteringRecords) throws FileNotFoundException {
-		this.records = clusteringRecords;
-		this.numberRecords = this.records.size();
-		this.numberAttributes = this.records.get(0).getSize();
 	}
 
 	public void setTrace(boolean traceCentroids) {
@@ -47,6 +31,7 @@ public class Kmeans {
 	}
 
 	//performs k-means clustering
+	@Override
 	public void cluster() {
 		this.initializeClusters();
 		this.initializeCentroids();
@@ -112,13 +97,6 @@ public class Kmeans {
 
 	}
 
-	//initializes clusters of records
-	private void initializeClusters() {
-		for (int i = 0; i < this.numberRecords; i++) {
-			this.records.get(i).setCluster(-1);
-		}
-	}
-
 	private void initializeCentroids() {
 		this.centroids = new ArrayList<>();
 
@@ -168,47 +146,18 @@ public class Kmeans {
 		return clusterChanges;
 	}
 
-	public void display(String outputFile) throws IOException {
-		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
-
-		for (int i = 0; i < this.numberRecords; i++) {
-			outFile.println(this.convert(this.records.get(i)));
-		}
-		outFile.close();
-	}
-
+	@Override
 	public List<IClusteringRecord> getRecords() {
 		return this.records;
 	}
 
+	@Override
 	public double sumSquaredError() {
 		double sse = 0;
 		for (IClusteringRecord record : this.records) {
 			sse += ClusteringRecord.squaredDistance(record, this.centroids.get(record.getCluster()));
 		}
 		return sse;
-	}
-
-	public void displayGrouped(String outputFile) throws IOException {
-		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
-
-		Map<Integer, List<IClusteringRecord>> groups = ClusteringRecord.sortRecordsByCluster(this.records);
-
-		for (Map.Entry<Integer, List<IClusteringRecord>> group : groups.entrySet()) {
-			for (IClusteringRecord record : group.getValue()) {
-				outFile.println(this.convert(record));
-			}
-		}
-		outFile.close();
-	}
-
-	private String convert(IClusteringRecord record) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < record.getAttributes().length; i++) {
-			sb.append(this.recordReader.convert(i, record.getAttributes()[i]) + " ");
-		}
-		sb.append(record.getCluster() + 1);
-		return sb.toString();
 	}
 
 }
