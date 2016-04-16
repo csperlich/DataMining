@@ -1,10 +1,9 @@
-package program3.graph;
+package program3.clustering;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import program2.data.RecordReader;
-import program3.clustering.Clusterer;
 import program3.data.ClusteringRecord;
 import program3.data.IClusteringRecord;
 

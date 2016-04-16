@@ -15,9 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import program3.clustering.Kmeans;
 import program3.data.ClusteringRecord;
 import program3.data.IClusteringRecord;
-import program3.kmeans.Kmeans;
 
 public class ImageCompressor {
 

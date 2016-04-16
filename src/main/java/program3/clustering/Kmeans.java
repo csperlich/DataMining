@@ -1,11 +1,10 @@
-package program3.kmeans;
+package program3.clustering;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import program2.data.RecordReader;
-import program3.clustering.Clusterer;
 import program3.data.ClusteringRecord;
 import program3.data.IClusteringRecord;
 

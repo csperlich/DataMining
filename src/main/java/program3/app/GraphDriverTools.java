@@ -2,7 +2,7 @@ package program3.app;
 
 import java.io.IOException;
 
-import program3.graph.Graph;
+import program3.clustering.Graph;
 import program3.visualization.ClusterGrapher;
 
 public class GraphDriverTools {

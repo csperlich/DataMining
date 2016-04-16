@@ -2,7 +2,7 @@ package program3.app;
 
 import java.io.IOException;
 
-import program3.kmeans.Kmeans;
+import program3.clustering.Kmeans;
 import program3.visualization.ClusterGrapher;
 
 public class KMeansDriverTools {

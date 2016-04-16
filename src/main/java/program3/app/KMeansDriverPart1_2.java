@@ -7,8 +7,8 @@ import java.util.List;
 
 import program2.data.Record;
 import program2.data.RecordReader;
+import program3.clustering.Kmeans;
 import program3.data.ClassificationRecordAdapter;
-import program3.kmeans.Kmeans;
 
 public class KMeansDriverPart1_2 {
 	public static void main(String[] args) throws IOException {

@@ -7,8 +7,8 @@ import java.util.List;
 
 import program2.data.Record;
 import program2.data.RecordReader;
+import program3.clustering.Graph;
 import program3.data.ClassificationRecordAdapter;
-import program3.graph.Graph;
 
 public class GraphDriverPart2_2 {
 	public static void main(String[] args) throws IOException {
