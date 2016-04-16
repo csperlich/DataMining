@@ -1,4 +1,4 @@
-package program3.app;
+package program3.compression;
 
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;

@@ -1,6 +1,6 @@
-package program3.app;
+package program3.app.graph;
 
-import static program3.app.GraphDriverTools.runTest;
+import static program3.app.graph.GraphDriverTools.runTest;
 
 import java.io.IOException;
 import java.util.List;

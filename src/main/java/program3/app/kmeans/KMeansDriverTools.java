@@ -1,4 +1,4 @@
-package program3.app;
+package program3.app.kmeans;
 
 import java.io.IOException;
 

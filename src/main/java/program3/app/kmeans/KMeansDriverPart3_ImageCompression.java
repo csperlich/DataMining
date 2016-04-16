@@ -1,7 +1,9 @@
-package program3.app;
+package program3.app.kmeans;
 
 import java.io.File;
 import java.io.IOException;
+
+import program3.compression.ImageCompressor;
 
 public class KMeansDriverPart3_ImageCompression {
 	public static void main(String[] args) throws IOException {

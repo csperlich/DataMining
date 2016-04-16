@@ -1,4 +1,4 @@
-package program3.app;
+package program3.app.graph;
 
 import java.io.IOException;
 

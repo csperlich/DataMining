@@ -1,4 +1,4 @@
-package program3.app;
+package program3.util;
 
 import java.io.File;
 import java.io.FileInputStream;

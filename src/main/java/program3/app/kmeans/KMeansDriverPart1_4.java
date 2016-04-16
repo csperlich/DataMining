@@ -1,6 +1,6 @@
-package program3.app;
+package program3.app.kmeans;
 
-import static program3.app.KMeansDriverTools.runTest;
+import static program3.app.kmeans.KMeansDriverTools.runTest;
 
 import java.io.IOException;
 import java.util.List;
