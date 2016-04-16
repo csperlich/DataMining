@@ -53,13 +53,27 @@ public class IntToByteFileConverter {
 		pw.close();
 	}
 
+	public static void displayByteFileAsInts(String inputfile) throws IOException {
+		FileInputStream fis = new FileInputStream(new File(inputfile));
+		int c;
+		int count = 0;
+		while ((c = fis.read()) != -1) {
+			System.out.print(c + " ");
+			if (++count % 512 == 0) {
+				System.out.println();
+			}
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
-		String inputFile = "program3_data/part3/imagefile";
+		/*String inputFile = "program3_data/part3/imagefile";
 		String outputFile = "program3_data/part3/imagefile_bytes";
 		convertIntFileToByteFile(inputFile, outputFile);
-
+		
 		inputFile = outputFile;
 		outputFile = "program3_data/part3/imagefile_ints";
 		convertByteFileToIntFile(inputFile, outputFile);
+		*/
+		displayByteFileAsInts("program3_data/part3/imagefile_bytes");
 	}
 }
