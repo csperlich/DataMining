@@ -11,9 +11,9 @@ import program3.visualization.ClusterGrapher;
 public class Tester {
 	public static void main(String[] args) throws IOException {
 		//create clustering object
-		Kmeans clustering = new Kmeans();
 
 		RecordReader recordReader = new RecordReader(false);
+		Kmeans clustering = new Kmeans(recordReader);
 		List<Record> classificationRecords = recordReader
 				.readTrainingRecords("program3_data/example/kmeans/part1-2_input2");
 		//load data records

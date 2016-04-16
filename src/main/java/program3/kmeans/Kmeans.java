@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import program2.data.RecordReader;
 import program3.data.ClusteringRecord;
 import program3.data.IClusteringRecord;
 
@@ -22,6 +23,11 @@ public class Kmeans {
 	private List<IClusteringRecord> centroids;
 	private Random rand;
 	private boolean traceCentroids = false;
+	private RecordReader recordReader;
+
+	public Kmeans(RecordReader recordReader) {
+		this.recordReader = recordReader;
+	}
 
 	//loads records
 	public void load(List<IClusteringRecord> clusteringRecords) throws FileNotFoundException {
@@ -166,7 +172,7 @@ public class Kmeans {
 		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
 
 		for (int i = 0; i < this.numberRecords; i++) {
-			outFile.println(this.records.get(i));
+			outFile.println(this.convert(this.records.get(i)));
 		}
 		outFile.close();
 	}
@@ -190,10 +196,19 @@ public class Kmeans {
 
 		for (Map.Entry<Integer, List<IClusteringRecord>> group : groups.entrySet()) {
 			for (IClusteringRecord record : group.getValue()) {
-				outFile.println(record);
+				outFile.println(this.convert(record));
 			}
 		}
 		outFile.close();
+	}
+
+	private String convert(IClusteringRecord record) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < record.getAttributes().length; i++) {
+			sb.append(this.recordReader.convert(i, record.getAttributes()[i]) + " ");
+		}
+		sb.append(record.getCluster() + 1);
+		return sb.toString();
 	}
 
 }

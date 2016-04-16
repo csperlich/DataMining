@@ -12,10 +12,11 @@ import program3.kmeans.Kmeans;
 
 public class KMeansDriverPart1_4 {
 	public static void main(String[] args) throws IOException {
-		Kmeans clustering = new Kmeans();
 
 		RecordReader recordReader = new RecordReader(true);
 		List<Record> classificationRecords = recordReader.readTrainingRecords("program3_data/part1/part1-4_input");
+
+		Kmeans clustering = new Kmeans(recordReader);
 
 		//load data records
 		clustering.load(ClassificationRecordAdapter.adaptList(classificationRecords));
