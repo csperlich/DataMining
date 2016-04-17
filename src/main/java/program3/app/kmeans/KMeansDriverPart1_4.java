@@ -51,3 +51,24 @@ public class KMeansDriverPart1_4 {
 		runTest(clustering, numClusters, clusterSeed, outputFolder, outputFileBaseName, false);
 	}
 }
+
+/*
+SAMPLE OUTPUT
+=============
+
+BEST NUMBER OF CLUSTERS IS 3
+
+------------------------------------------------------------
+
+RUNNING KMEANS CLUSTERING ON PART1-2 DATA WITH CLUSTERS= 3 AND CLUSTER SEED=4536
+
+FINAL CENTROIDS:
+0.448  0.750  0.688  1
+0.740  0.067  0.323  1
+0.106  0.366  0.063  1
+
+SUM SQUARED ERROR IS = 1.3142041053921572
+
+WRITING RESULTS TO: program3_data/part1/part1-4_output_3clusters_4536clusterSeed
+
+*/

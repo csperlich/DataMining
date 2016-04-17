@@ -53,3 +53,20 @@ public class GraphDriverPart2_4 {
 		runTest(clustering, delta, outputFolder, outputFileBaseName, false);
 	}
 }
+
+/*
+SAMPLE OUTPUT
+=============
+
+THE BEST DELTA VALUE IS 0.08449999999999919
+THE NUMBER OF CLUSTERS IS 4
+
+------------------------------------------------------------
+
+RUNNING KMEANS CLUSTERING ON PART2-2 DATA WITH DELTA=0.08449999999999919
+
+SUM SQUARED ERROR = 0.7968769999999996
+NUMBER OF CLUSTERS = 4
+
+WRITING RESULTS TO: program3_data/part2/part2-4_output_0.08449999999999919delta
+*/

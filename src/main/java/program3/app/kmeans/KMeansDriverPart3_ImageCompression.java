@@ -41,3 +41,22 @@ public class KMeansDriverPart3_ImageCompression {
 	}
 
 }
+/*
+SAMPLE OUTPUT
+=============
+
+COMPRESSING FILE program3_data/part3/imagefile USING GROUP SIZE OF 2 AND VARIOUS CLUSTER NUMBERS...
+
+WRITING COMPRESSED FILES TO:
+program3_data/part3/imagefile_output_8clusters
+program3_data/part3/imagefile_output_16clusters
+program3_data/part3/imagefile_output_32clusters
+program3_data/part3/imagefile_output_64clusters
+program3_data/part3/imagefile_output_128clusters
+
+ALSO SAVING .png files for uncompressed and rendered files
+
+ORIGINAL FILE SIZE = 973488.0 bytes
+COMPRESSED FILE SIZE = 131088.0 bytes
+COMPRESSION FACTOR = 0.1346580543365712
+ */
