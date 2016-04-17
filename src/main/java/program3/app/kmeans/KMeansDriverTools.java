@@ -11,13 +11,12 @@ public class KMeansDriverTools {
 
 		String outputFileNameWithParams = outputFileName + "_" + numClusters + "clusters_" + clusterSeed
 				+ "clusterSeed";
-
+		System.out.println("\n------------------------------------------------------------\n");
 		System.out.println("RUNNING KMEANS CLUSTERING ON PART1-2 DATA WITH CLUSTERS= " + numClusters
 				+ " AND CLUSTER SEED=" + clusterSeed);
-		//set parameters
+
 		clustering.setParameters(numClusters, clusterSeed);
 
-		//perform clustering
 		clustering.cluster();
 
 		clustering.printCentroids("FINAL CENTROIDS:");

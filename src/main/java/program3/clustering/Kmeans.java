@@ -95,10 +95,9 @@ public class Kmeans extends Clusterer {
 			this.centroids.add(this.records.get(index));
 		}
 
-		this.printCentroids("INITIAL CENTROIDS:");
-
 		if (this.traceCentroids) {
 			System.out.println("\nCENTROID TRACING IS ON...");
+			this.printCentroids("INITIAL CENTROIDS:");
 		}
 
 	}

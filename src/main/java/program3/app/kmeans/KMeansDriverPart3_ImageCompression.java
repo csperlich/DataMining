@@ -16,11 +16,11 @@ public class KMeansDriverPart3_ImageCompression {
 				"program3_data/part3/imagefile_output_64clusters", "program3_data/part3/imagefile_output_128clusters" };
 
 		System.out.println("COMPRESSING FILE " + inputFile + " USING GROUP SIZE OF 2 AND VARIOUS CLUSTER NUMBERS...");
-		System.out.println("WRITING COMPRESSED FILES TO:");
+		System.out.println("\nWRITING COMPRESSED FILES TO:");
 		for (int i = 0; i < outputFiles.length; i++) {
 			System.out.println(outputFiles[i]);
 		}
-		System.out.println("ALSO SAVING .png files for uncompressed and rendered files");
+		System.out.println("\nALSO SAVING .png files for uncompressed and rendered files");
 		compressor.compressMultiple(numClusters, inputFile, outputFiles);
 		compressor.showMultipleCompressed(numClusters, outputFiles);
 		compressor.showUncompressedImage(inputFile);
@@ -32,8 +32,8 @@ public class KMeansDriverPart3_ImageCompression {
 		File compressedFile = new File(outputFiles[0]);
 		double compressedSizeInBytes = compressedFile.length();
 
-		System.out.println("ORIGINAL FILE SIZE = " + originalSizeInBytes);
-		System.out.println("COMPRESSED FILE SIZE = " + compressedSizeInBytes);
+		System.out.println("\nORIGINAL FILE SIZE = " + originalSizeInBytes + " bytes");
+		System.out.println("COMPRESSED FILE SIZE = " + compressedSizeInBytes + " bytes");
 		System.out.println("COMPRESSION FACTOR = " + compressedSizeInBytes / originalSizeInBytes);
 	}
 

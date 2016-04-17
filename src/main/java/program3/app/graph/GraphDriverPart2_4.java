@@ -33,14 +33,11 @@ public class GraphDriverPart2_4 {
 			clustering.cluster();
 			int newNumClusters = clustering.getNumberOfClusters();
 			if (newNumClusters > prevNumClusters) {
-				//System.out.println(newNumClusters);
 				prevNumClusters = newNumClusters;
 
 				double newSumSquareError = clustering.sumSquaredError();
 				percentageChange = (previousSumSquareError - newSumSquareError) / previousSumSquareError;
 				previousSumSquareError = newSumSquareError;
-
-				//System.out.println(percentageChange);
 			}
 		} while (percentageChange > percentageChangeThreshold);
 
