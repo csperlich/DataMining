@@ -5,6 +5,11 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Record class for use in clustering algorithms.
+ * @author cade
+ *
+ */
 public class ClusteringRecord implements IClusteringRecord {
 
 	private double[] attributes;

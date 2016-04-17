@@ -12,10 +12,9 @@ public class GraphDriverTools {
 		String outputFileNameWithParams = outputFileName + "_" + delta + "delta";
 		System.out.println("\n------------------------------------------------------------\n");
 		System.out.println("RUNNING KMEANS CLUSTERING ON PART2-2 DATA WITH DELTA=" + delta);
-		//set parameters
+
 		clustering.setParameters(delta);
 
-		//perform clustering
 		clustering.cluster();
 
 		System.out.println("\nSUM SQUARED ERROR = " + clustering.sumSquaredError());

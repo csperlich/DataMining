@@ -1,7 +1,6 @@
 package program3.clustering;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import program2.data.RecordReader;
@@ -11,7 +10,7 @@ import program3.data.IClusteringRecord;
 public class Kmeans extends Clusterer {
 
 	private Random rand;
-	private boolean traceCentroids = false;
+	private boolean traceCentroids = false; //to turn centroid update tracing on/off
 	private int numberClusters;
 
 	public Kmeans(RecordReader recordReader) {
@@ -133,11 +132,6 @@ public class Kmeans extends Clusterer {
 			}
 		}
 		return clusterChanges;
-	}
-
-	@Override
-	public List<IClusteringRecord> getRecords() {
-		return this.records;
 	}
 
 }

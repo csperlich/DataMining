@@ -18,10 +18,8 @@ public class KMeansDriverPart1_2 {
 
 		Kmeans clustering = new Kmeans(recordReader);
 
-		//load data records
 		clustering.load(ClassificationRecordAdapter.adaptList(classificationRecords));
 
-		//turn tracing on
 		clustering.setTrace(true);
 
 		runPart1_2Test(clustering, 3, 4539);

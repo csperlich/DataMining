@@ -15,10 +15,14 @@ import org.jfree.data.xy.XYSeriesCollection;
 import program3.data.ClusteringRecord;
 import program3.data.IClusteringRecord;
 
+/**
+ * Class used to create scatter charts of clustered records.
+ * @author cade
+ */
 public class ClusterGrapher {
 
-	/*creates scatter chart of clustered data
-	 *RECORDS MUST HAVE 2 ATTRIBUTES; no more, no less 
+	/* Creates scatter chart of clustered data.
+	 * RECORDS MUST HAVE 2 ATTRIBUTES; no more, no less.
 	 */
 	public static void graphClusters(List<IClusteringRecord> allRecords, String title, String xAxisLabel,
 			String yAxisLabel, String fileName) throws IOException {

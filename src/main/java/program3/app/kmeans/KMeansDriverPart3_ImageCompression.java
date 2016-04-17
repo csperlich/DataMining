@@ -20,12 +20,15 @@ public class KMeansDriverPart3_ImageCompression {
 		for (int i = 0; i < outputFiles.length; i++) {
 			System.out.println(outputFiles[i]);
 		}
+
 		System.out.println("\nALSO SAVING .png files for uncompressed and rendered files");
+
 		compressor.compressMultiple(numClusters, inputFile, outputFiles);
 		compressor.showMultipleCompressed(numClusters, outputFiles);
 		compressor.showUncompressedImage(inputFile);
 		compressor.uncompressAndSaveAsPNGMultiple(numClusters, outputFiles);
 
+		//calculate compression factor
 		File originalFile = new File(inputFile);
 		double originalSizeInBytes = originalFile.length();
 

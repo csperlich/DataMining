@@ -21,11 +21,11 @@ import program3.data.IClusteringRecord;
 
 public class ImageCompressor {
 
-	private int rows;
-	private int cols;
-	private int groupingSize;
+	private int rows;	//row dim of image
+	private int cols;	//col dim of image
+	private int groupingSize; //number of values to group together for cluster compression
 	private Kmeans clusterer;
-	private int numClusters;
+	private int numClusters;  //num clusters to use in cluster compression
 	private int clusterSeed;
 
 	public ImageCompressor(int rows, int cols, int groupingSize, int numClusters, int clusterSeed) {
@@ -41,6 +41,9 @@ public class ImageCompressor {
 		this.numClusters = numClusters;
 	}
 
+	//reads an uncompressed image stored as grayscale byte values and 
+	//outputs writes a compressed image whose values are bytes corresponding to
+	//which centroid (cluster) the grouped values belong to
 	public void compressImage(String inputImage, String outputImage) throws IOException {
 		//read in image
 		int[][] originalPixelValues = this.readUncompressedPixelData(inputImage);
@@ -69,22 +72,18 @@ public class ImageCompressor {
 		FileOutputStream fos = new FileOutputStream(new File(outputImage));
 		for (int i = 0; i < compressedCentroidIndices.length; i++) {
 			for (int j = 0; j < compressedCentroidIndices[i].length; j++) {
-				//writer.print(compressedCentroidIndices[i][j] + " ");
 				fos.write(compressedCentroidIndices[i][j]);
 			}
-			//writer.println();
 		}
 
 		List<IClusteringRecord> centroids = this.clusterer.getCentroids();
 		for (int i = 0; i < this.numClusters; i++) {
 			double[] clusterAttributes = centroids.get(i).getAttributes();
 			for (int j = 0; j < clusterAttributes.length; j++) {
-				//writer.print(this.convertToGrayscaleInt(clusterAttributes[j]) + " ");
 				fos.write(this.convertToGrayscaleInt(clusterAttributes[j]));
 			}
 		}
 		fos.close();
-		//writer.close();
 	}
 
 	//bounds a double value to a 0 to 255 int grayscale value
@@ -114,7 +113,6 @@ public class ImageCompressor {
 
 		for (int i = 0; i < centroidIndices.length; i++) {
 			for (int j = 0; j < centroidIndices[i].length; j++) {
-				//centroidIndices[i][j] = reader.nextInt();
 				centroidIndices[i][j] = fis.read();
 			}
 		}
@@ -123,23 +121,14 @@ public class ImageCompressor {
 		for (int i = 0; i < this.numClusters; i++) {
 			double[] attributes = new double[this.groupingSize];
 			for (int j = 0; j < attributes.length; j++) {
-				//attributes[j] = reader.nextDouble();
 				int attribute = fis.read();
 				attributes[j] = attribute;
 			}
 			centroids.add(new ClusteringRecord(attributes));
 		}
 		fis.close();
-		//reader.close();
 
-		int[][] decompressed = this.decompress(centroidIndices, centroids);
-		/*for (int i = 0; i < decompressed.length; i++) {
-			for (int j = 0; j < decompressed.length; j++) {
-				System.out.print(decompressed[i][j] + " ");
-			}
-			System.out.println();
-		}*/
-		return decompressed;
+		return this.decompress(centroidIndices, centroids);
 	}
 
 	//reads and shows an compressed file
@@ -202,14 +191,10 @@ public class ImageCompressor {
 		for (int r = 0; r < this.rows; r++) {
 			for (int c = 0; c < this.cols; c++) {
 				pixelData[r][c] = reader.nextInt();
-				/*int val = fis.read();
-				pixelData[r][c] = val;//fis.read();
-				System.out.print(val + " ");*/
+
 			}
-			//System.out.println();
 		}
 		reader.close();
-		//fis.close();
 		return pixelData;
 	}
 

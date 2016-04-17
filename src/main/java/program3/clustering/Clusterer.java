@@ -31,7 +31,7 @@ public abstract class Clusterer {
 		return this.centroids;
 	}
 
-	//performs k-means clustering
+	//performs clustering
 	public abstract void cluster();
 
 	//initializes clusters of records
@@ -60,19 +60,11 @@ public abstract class Clusterer {
 		}
 	}
 
-	public void display(String outputFile) throws IOException {
-		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
-
-		for (int i = 0; i < this.numberRecords; i++) {
-			outFile.println(this.convert(this.records.get(i)));
-		}
-		outFile.close();
-	}
-
 	public List<IClusteringRecord> getRecords() {
 		return this.records;
 	}
 
+	//display the records and their clusters but grouped by cluster
 	public void displayGrouped(String outputFile) throws IOException {
 		PrintWriter outFile = new PrintWriter(new FileWriter(outputFile));
 
@@ -86,6 +78,7 @@ public abstract class Clusterer {
 		outFile.close();
 	}
 
+	//uses the record reader to convert normalized values back to original domain
 	private String convert(IClusteringRecord record) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < record.getAttributes().length; i++) {

@@ -16,11 +16,9 @@ public class KMeansDriverTools {
 				+ " AND CLUSTER SEED=" + clusterSeed);
 
 		clustering.setParameters(numClusters, clusterSeed);
-
 		clustering.cluster();
 
 		clustering.printCentroids("FINAL CENTROIDS:");
-
 		System.out.println("\nSUM SQUARED ERROR IS = " + clustering.sumSquaredError());
 
 		System.out.println("\nWRITING RESULTS TO: " + outputFolder + outputFileNameWithParams);

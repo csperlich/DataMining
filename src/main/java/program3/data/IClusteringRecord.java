@@ -1,5 +1,9 @@
 package program3.data;
 
+/**
+ * Record class for use in clustering algorithms.
+ * @author cade
+ */
 public interface IClusteringRecord {
 	public int getCluster();
 

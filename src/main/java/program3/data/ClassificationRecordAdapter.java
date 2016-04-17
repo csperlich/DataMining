@@ -5,6 +5,12 @@ import java.util.List;
 
 import program2.data.Record;
 
+/**
+ * This class is used to adapt program2.data.Record class to IClusteringRecord.
+ * This way the program2.data.RecordReader class may be used for program3 clustering data
+ * @author cade
+ *
+ */
 public class ClassificationRecordAdapter implements IClusteringRecord {
 
 	private Record classificationRecord;

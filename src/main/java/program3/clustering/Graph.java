@@ -76,11 +76,7 @@ public class Graph extends Clusterer {
 		double distance = 0;
 
 		//find Euclidean distance between two records
-		for (int i = 0; i < u.getSize(); i++) {
-			distance += (u.getAttributes()[i] - v.getAttributes()[i]) * (u.getAttributes()[i] - v.getAttributes()[i]);
-		}
-
-		distance = Math.sqrt(distance);
+		distance = Math.sqrt(ClusteringRecord.squaredDistance(u, v));
 
 		//if distance is less than neighbor threshold recorsd are neighbors,
 		//otherwise records are not neighbors
