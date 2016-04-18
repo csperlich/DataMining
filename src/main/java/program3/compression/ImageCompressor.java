@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -187,14 +186,13 @@ public class ImageCompressor {
 	//reads uncompressed pixel data and returns a 2d array of the values
 	private int[][] readUncompressedPixelData(String fileName) throws IOException {
 		int[][] pixelData = new int[this.rows][this.cols];
-		Scanner reader = new Scanner(new File(fileName));
+		FileInputStream fis = new FileInputStream(new File(fileName));
 		for (int r = 0; r < this.rows; r++) {
 			for (int c = 0; c < this.cols; c++) {
-				pixelData[r][c] = reader.nextInt();
-
+				pixelData[r][c] = fis.read();
 			}
 		}
-		reader.close();
+		fis.close();
 		return pixelData;
 	}
 
